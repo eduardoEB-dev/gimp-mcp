@@ -3,6 +3,7 @@
 # Starts a socket server inside GIMP so gimp_mcp_client.py (the MCP server) can drive GIMP.
 #
 # Protocol: newline-delimited JSON over TCP 127.0.0.1:9876.
+#   first line:  {"auth": "<token>"}\n  -- token is written to ~/.gimp_mcp_token on start
 #   request:  {"type": "...", "params": {...}}\n
 #   response: {"status": "success"|"error", ...}\n
 # Object refs: images are {"__image__": id}, items (layers, channels, ...) are {"__item__": id}.
@@ -13,14 +14,19 @@ from gi.repository import Gimp
 from gi.repository import GLib
 from gi.repository import Gio
 import io
+import hmac
 import json
+import os
+import secrets
 import socket
 import sys
 import traceback
 from contextlib import redirect_stdout
+from pathlib import Path
 
 HOST = '127.0.0.1'
 PORT = 9876
+TOKEN_FILE = Path.home() / '.gimp_mcp_token'
 
 
 def N_(message): return message
@@ -94,6 +100,12 @@ class MCPPlugin(Gimp.PlugIn):
         return procedure.new_return_values(Gimp.PDBStatusType.SUCCESS, GLib.Error())
 
     def serve(self):
+        # A fresh random token per session; only processes that can read the user's
+        # home dir (i.e. the bridge) can authenticate. Blocks browsers / other users.
+        self.token = secrets.token_hex(32)
+        fd = os.open(TOKEN_FILE, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+        with os.fdopen(fd, 'w') as tf:
+            tf.write(self.token)
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         sock.bind((HOST, PORT))
@@ -105,22 +117,45 @@ class MCPPlugin(Gimp.PlugIn):
                 client, addr = sock.accept()
                 print(f"MCP client connected: {addr}")
                 with client:
-                    self.handle_client(client)
+                    try:
+                        self.handle_client(client)
+                    except OSError as e:  # timeout, reset, etc. -- keep serving
+                        print(f"MCP client error: {e}")
         finally:
             sock.close()
+            try:
+                TOKEN_FILE.unlink()
+            except OSError:
+                pass
             print("MCP server stopped")
 
     def handle_client(self, client):
+        client.settimeout(10)  # must authenticate promptly
         f = client.makefile('rwb')
+        authed = False
         for line in f:
             line = line.strip()
             if not line:
                 continue
+            # Hang up on anything that isn't a JSON object (e.g. an HTTP request from a web page).
             try:
                 command = json.loads(line.decode('utf-8'))
+            except (ValueError, UnicodeDecodeError):
+                print("MCP: rejected non-JSON input, closing connection")
+                return
+            if not isinstance(command, dict):
+                return
+            if not authed:
+                if not hmac.compare_digest(str(command.get("auth", "")).encode(), self.token.encode()):
+                    print("MCP: authentication failed, closing connection")
+                    f.write(b'{"status": "error", "message": "authentication failed"}\n')
+                    f.flush()
+                    return
+                authed = True
+                client.settimeout(None)
+                response = {"status": "success", "result": "authenticated"}
+            else:
                 response = self.execute_command(command)
-            except Exception as e:
-                response = {"status": "error", "message": str(e), "traceback": traceback.format_exc()}
             f.write(json.dumps(response).encode('utf-8') + b'\n')
             f.flush()
             if not self.running:

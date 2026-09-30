@@ -11,6 +11,7 @@ import json
 import logging
 import socket
 import sys
+from pathlib import Path
 from typing import Any
 
 from mcp.server.fastmcp import FastMCP
@@ -19,6 +20,8 @@ from mcp.server.fastmcp import FastMCP
 logging.basicConfig(level=logging.INFO, stream=sys.stderr,
                     format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("GimpMCPServer")
+
+TOKEN_FILE = Path.home() / '.gimp_mcp_token'
 
 
 class GimpConnection:
@@ -35,12 +38,24 @@ class GimpConnection:
         try:
             self.sock = socket.create_connection((self.host, self.port), timeout=self.timeout)
             self.file = self.sock.makefile('rwb')
+            self._authenticate()
             logger.info(f"Connected to GIMP at {self.host}:{self.port}")
         except OSError as e:
             self.close()
             raise ConnectionError(
                 "Could not connect to GIMP. Open GIMP and run Filters > Development > Start MCP Server."
             ) from e
+
+    def _authenticate(self):
+        try:
+            token = TOKEN_FILE.read_text().strip()
+        except OSError:
+            token = ""
+        self.file.write(json.dumps({"auth": token}).encode('utf-8') + b'\n')
+        self.file.flush()
+        reply = json.loads(self.file.readline() or b'{}')
+        if reply.get("status") != "success":
+            raise OSError(f"GIMP rejected authentication ({TOKEN_FILE}): {reply.get('message', 'no reply')}")
 
     def close(self):
         for obj in (self.file, self.sock):

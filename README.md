@@ -62,7 +62,10 @@ Example prompts: "list my open images", "blur image 1 with radius 8 and save it 
 
 ## Security
 
-The plug-in listens on `127.0.0.1` only, but `exec_python` / `call_api` run arbitrary code in GIMP. Only start the server when you need it.
+- Listens on `127.0.0.1` only.
+- Each session writes a random token to `~/.gimp_mcp_token`; clients must send it first or get disconnected. Blocks web pages and other users.
+- Any non-JSON input (e.g. an HTTP request) closes the connection immediately.
+- `exec_python` / `call_api` still run arbitrary code in GIMP, so don't auto-approve them in your MCP client, and only start the server when you need it.
 
 ## License
 
