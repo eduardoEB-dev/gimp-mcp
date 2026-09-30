@@ -1,139 +1,149 @@
 #!/usr/bin/env python3
-# GIMP MCP Server Script
-# Provides an MCP interface to control GIMP via a socket connection.
+# /// script
+# requires-python = ">=3.10"
+# dependencies = ["mcp>=1.2,<2"]
+# ///
+# GIMP MCP bridge: an MCP server (stdio) that forwards tool calls to the
+# gimp_mcp_server.py plug-in running inside GIMP on 127.0.0.1:9876.
+# Run with: uv run gimp_mcp_client.py
 
-from mcp.server.fastmcp import FastMCP, Context  # Adjust based on your MCP library
-import socket
 import json
 import logging
+import socket
+import sys
+from typing import Any
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+from mcp.server.fastmcp import FastMCP
+
+# stdout is the MCP stdio channel, so logs must go to stderr.
+logging.basicConfig(level=logging.INFO, stream=sys.stderr,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger("GimpMCPServer")
 
+
 class GimpConnection:
-    def __init__(self, host='localhost', port=9876):
+    def __init__(self, host='127.0.0.1', port=9876, timeout=120):
         self.host = host
         self.port = port
+        self.timeout = timeout
         self.sock = None
+        self.file = None
 
     def connect(self):
         if self.sock:
             return
         try:
-            self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            self.sock.connect((self.host, self.port))
+            self.sock = socket.create_connection((self.host, self.port), timeout=self.timeout)
+            self.file = self.sock.makefile('rwb')
             logger.info(f"Connected to GIMP at {self.host}:{self.port}")
-        except Exception as e:
-            logger.error(f"Failed to connect: {e}")
-            raise ConnectionError("Could not connect to GIMP. Ensure the MCP Server plugin is running.")
+        except OSError as e:
+            self.close()
+            raise ConnectionError(
+                "Could not connect to GIMP. Open GIMP and run Filters > Development > Start MCP Server."
+            ) from e
+
+    def close(self):
+        for obj in (self.file, self.sock):
+            try:
+                if obj:
+                    obj.close()
+            except OSError:
+                pass
+        self.sock = None
+        self.file = None
 
     def send_command(self, command_type, params=None):
-        if not self.sock:
+        # One retry so a GIMP restart doesn't require restarting the MCP server.
+        for attempt in (1, 2):
             self.connect()
-        command = {"type": command_type, "params": params or {}}
-        try:
-            self.sock.sendall(json.dumps(command).encode('utf-8'))
-            response = self.sock.recv(1024)
-            return json.loads(response.decode('utf-8'))
-        except Exception as e:
-            logger.error(f"Communication error: {e}")
-            self.sock = None
-            raise Exception(f"Error communicating with GIMP: {e}")
+            try:
+                self.file.write(json.dumps({"type": command_type, "params": params or {}}).encode('utf-8') + b'\n')
+                self.file.flush()
+                line = self.file.readline()
+                if not line:
+                    raise ConnectionError("GIMP closed the connection")
+                return json.loads(line.decode('utf-8'))
+            except (OSError, ConnectionError) as e:
+                logger.error(f"Communication error: {e}")
+                self.close()
+                if attempt == 2:
+                    raise ConnectionError(f"Error communicating with GIMP: {e}") from e
 
-# Global connection
-_gimp_connection = None
 
-def get_gimp_connection():
-    global _gimp_connection
-    if _gimp_connection is None:
-        _gimp_connection = GimpConnection()
-        _gimp_connection.connect()
-    return _gimp_connection
+_gimp_connection = GimpConnection()
 
-# MCP server
-mcp = FastMCP("GimpMCP", description="GIMP integration through MCP")
 
-@mcp.tool()
-def call_api(ctx: Context, api_path: str, args: list = [], kwargs: dict = {}) -> str:
-    """Call any GIMP API method dynamically.
-
-    Parameters:
-    - api_path: The path to the API method (e.g., "Gimp.Image.get_by_id")
-    - args: List of positional arguments
-    - kwargs: Dictionary of keyword arguments
-
-    Returns:
-    - JSON string of the result or error message
-    """
+def gimp(command_type: str, **params) -> str:
     try:
-        conn = get_gimp_connection()
-        result = conn.send_command("call_api", {"api_path": api_path, "args": args, "kwargs": kwargs})
-        if result["status"] == "success":
-            return json.dumps(result["result"])
-        else:
-            return f"Error: {result['message']}"
+        result = _gimp_connection.send_command(command_type, params)
     except Exception as e:
         return f"Error: {e}"
+    if result.get("status") == "success":
+        return json.dumps(result.get("result"), indent=2)
+    return f"Error: {result.get('message')}\n{result.get('traceback', '')}".rstrip()
 
-# Specific tools for common operations
-@mcp.tool()
-def list_images(ctx: Context) -> str:
-    """List all open images in GIMP.
 
-    Returns:
-    - JSON string of image IDs and names
-    """
-    return call_api(ctx, "Gimp.list_images")
+mcp = FastMCP("GimpMCP", instructions=(
+    "Controls a running GIMP 3 instance. Image IDs come from list_images. "
+    "Prefer the specific tools; use exec_python for anything else (GIMP 3 PyGObject API, `Gimp` in scope)."
+))
 
-@mcp.tool()
-def get_image_info(ctx: Context, image_id: int) -> str:
-    """Get information about a specific image.
-
-    Parameters:
-    - image_id: The ID of the image
-
-    Returns:
-    - JSON string of image details
-    """
-    image = call_api(ctx, "Gimp.Image.get_by_id", args=[image_id])
-    if "Error" in image:
-        return image
-    image_obj = json.loads(image)
-    info = {
-        "width": call_api(ctx, "Gimp.Image.get_width", args=[image_obj["id"]]),
-        "height": call_api(ctx, "Gimp.Image.get_height", args=[image_obj["id"]]),
-        "layers": call_api(ctx, "Gimp.Image.get_layers", args=[image_obj["id"]])
-    }
-    return json.dumps(info)
 
 @mcp.tool()
-def apply_gaussian_blur(ctx: Context, image_id: int, radius: float = 5.0) -> str:
-    """Apply Gaussian blur to an image.
+def list_images() -> str:
+    """List all open images in GIMP (id, name, width, height)."""
+    return gimp("list_images")
 
-    Parameters:
-    - image_id: The ID of the image
-    - radius: Blur radius
 
-    Returns:
-    - Success message or error
+@mcp.tool()
+def get_image_info(image_id: int) -> str:
+    """Get details (size, file, layers, selected layers) of an open image."""
+    return gimp("get_image_info", image_id=image_id)
+
+
+@mcp.tool()
+def open_image(path: str) -> str:
+    """Open an image file in GIMP and show it in a new display. Returns its id."""
+    return gimp("open_image", path=path)
+
+
+@mcp.tool()
+def save_image(image_id: int, path: str) -> str:
+    """Save/export an image to a file. Format is chosen by extension (.png, .jpg, .xcf, ...)."""
+    return gimp("save_image", image_id=image_id, path=path)
+
+
+@mcp.tool()
+def apply_gaussian_blur(image_id: int, radius: float = 5.0) -> str:
+    """Apply a Gaussian blur to the selected layer(s) of an image."""
+    return gimp("apply_gaussian_blur", image_id=image_id, radius=radius)
+
+
+@mcp.tool()
+def call_api(api_path: str, args: list[Any] | None = None, kwargs: dict[str, Any] | None = None) -> str:
+    """Call any GIMP 3 API function: Gimp.<api_path>(*args, **kwargs).
+
+    Pass images as {"__image__": id} and layers/items as {"__item__": id};
+    results use the same form. Examples:
+    - api_path="get_images"
+    - api_path="Image.get_width", args=[{"__image__": 1}]
+    - api_path="Item.set_visible", args=[{"__item__": 2}, false]
     """
-    image = call_api(ctx, "Gimp.Image.get_by_id", args=[image_id])
-    if "Error" in image:
-        return image
-    image_obj = json.loads(image)
-    drawable = call_api(ctx, "Gimp.Image.get_active_layer", args=[image_obj["id"]])
-    if "Error" in drawable:
-        return drawable
-    drawable_obj = json.loads(drawable)
-    result = call_api(ctx, "Gimp.get_pdb.run_procedure", 
-                     args=["plug-in-gauss", image_obj["id"], drawable_obj["id"], radius, radius, 0])
-    if "Error" in result:
-        return result
-    call_api(ctx, "Gimp.displays_flush")
-    return "Applied Gaussian blur successfully"
+    return gimp("call_api", api_path=api_path, args=args or [], kwargs=kwargs or {})
+
+
+@mcp.tool()
+def exec_python(code: str) -> str:
+    """Execute Python code inside GIMP (GIMP 3 PyGObject API). `Gimp`, `GLib` are in scope.
+    Assign to `result` to return a value; print() output is returned too.
+    Example: result = [i.get_name() for i in Gimp.get_images()]
+    """
+    return gimp("exec_python", code=code)
+
 
 def main():
     mcp.run()
+
 
 if __name__ == "__main__":
     main()
