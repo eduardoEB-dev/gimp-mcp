@@ -12,3 +12,43 @@ __pycache__/
 
 # Generated render video (exact file)
 /Projects/SnoopyCandle/Video/SnoopyBuild_logo.mp4
+
+# Non-code assets outside workflow folders stay local
+/Projects/**/*.png
+/Projects/**/*.jpg
+/Projects/**/*.jpeg
+/Projects/**/*.webp
+/Projects/**/*.gif
+/Projects/**/*.ico
+/Projects/**/*.svg
+/Projects/**/*.pdf
+/Projects/**/*.docx
+/Projects/**/*.zip
+/Projects/**/*.mp4
+/Projects/Blender Manual/Cheat Sheet.txt
+/Projects/**/*_log.txt
+
+# Generated outputs outside workflow folders (pipeline Work/Renders data, layer manifests)
+/Projects/**/Work/**/*.json
+/Projects/**/Renders/**/*.json
+/Projects/**/renders/**/*.json
+/Projects/**/layers.json
+/Projects/Blender Manual/Manual Doc/manual.json
+
+# Workflow folders: tracked in full (docs, examples, templates, configs, images)
+!/Projects/Workflow/**
+
+# Always local, workflow folders included (re-applied after the Workflow exception)
+__pycache__/
+.venv/
+node_modules/
+*.xcf
+*.blend
+*.blend[0-9]*
+*.npz
+*.npy
+*.3mf
+*.stl
+*.obj
+*.fbx
+*.glb

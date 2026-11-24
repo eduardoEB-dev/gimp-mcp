@@ -1,0 +1,1539 @@
+{
+ "name": "Cat in the Hat Hot Air Balloon",
+ "blend": "D:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\Blender Files\\CanInHatCouch.blend",
+ "3mf": "D:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\STL\\FinalSTL\\Cat in the Hat Hot Air Balloon A1 mini Final.3mf",
+ "exclude_collections": [
+  "PopcornBucket",
+  "PopcornBucket_X2D"
+ ],
+ "assign": {
+  "String_": 3,
+  "Rod_": 3,
+  "Knob_R1_Silver": 4,
+  "Knob_R3_Silver": 4,
+  "Knob_Shifter_Silver": 4
+ },
+ "render": {
+  "all_parts": [
+   "BaseCloud",
+   "Couch_Red",
+   "Knob_",
+   "Lever_",
+   "Pedal_",
+   "Rod_",
+   "Wheel_",
+   "MidCloud",
+   "TopCloud",
+   "Bracket_",
+   "String_",
+   "Brim_",
+   "Ring"
+  ],
+  "rod_extruder": 3,
+  "shots": [
+   {
+    "name": "s1a_brim_ring5",
+    "parts": [
+     "Brim_",
+     "Ring5"
+    ],
+    "move": {
+     "Ring5": [
+      0,
+      0,
+      40
+     ]
+    },
+    "az": 160,
+    "el": 38,
+    "labels": [
+     {
+      "text": "Key block (back)",
+      "p": [
+       0,
+       45.3,
+       126
+      ],
+      "dx": -0.28,
+      "dy": 0.12
+     },
+     {
+      "text": "Gap in Ring 5 bead",
+      "p": [
+       0,
+       44,
+       125
+      ],
+      "part": "Ring5_Red",
+      "dx": 0.26,
+      "dy": -0.14
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       0,
+       -46,
+       140
+      ],
+      "b": [
+       0,
+       -46,
+       128
+      ],
+      "part_a": "Ring5_Red"
+     }
+    ]
+   },
+   {
+    "name": "s1b_ring_stack",
+    "parts": [
+     "Brim_",
+     "Ring"
+    ],
+    "move": {
+     "Ring5": [
+      0,
+      0,
+      25
+     ],
+     "Ring4": [
+      0,
+      0,
+      50
+     ],
+     "Ring3": [
+      0,
+      0,
+      75
+     ],
+     "Ring2": [
+      0,
+      0,
+      100
+     ],
+     "Ring1": [
+      0,
+      0,
+      125
+     ]
+    },
+    "az": 150,
+    "el": 12,
+    "labels": [
+     {
+      "text": "Top Cap",
+      "p": [
+       -60,
+       0,
+       330
+      ],
+      "part": "Ring1_TopCap_Red",
+      "dx": -0.2,
+      "dy": 0
+     },
+     {
+      "text": "Ring 2",
+      "p": [
+       -60,
+       0,
+       280
+      ],
+      "part": "Ring2_White",
+      "dx": -0.2,
+      "dy": 0
+     },
+     {
+      "text": "Ring 3",
+      "p": [
+       -56,
+       0,
+       232
+      ],
+      "part": "Ring3_Red",
+      "dx": -0.2,
+      "dy": 0
+     },
+     {
+      "text": "Ring 4",
+      "p": [
+       -50,
+       0,
+       190
+      ],
+      "part": "Ring4_White",
+      "dx": -0.2,
+      "dy": 0
+     },
+     {
+      "text": "Ring 5",
+      "p": [
+       -46,
+       0,
+       148
+      ],
+      "part": "Ring5_Red",
+      "dx": -0.2,
+      "dy": 0
+     },
+     {
+      "text": "Brim",
+      "p": [
+       -62,
+       0,
+       124
+      ],
+      "dx": -0.2,
+      "dy": 0.03
+     },
+     {
+      "text": "Ring 4 nub faces BACK",
+      "p": [
+       0,
+       52.7,
+       180
+      ],
+      "part": "Ring4_White",
+      "dx": 0.24,
+      "dy": 0.04
+     }
+    ]
+   },
+   {
+    "name": "s2_couch",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red"
+    ],
+    "move": {
+     "Couch_Red": [
+      0,
+      0,
+      45
+     ]
+    },
+    "az": -30,
+    "el": 28,
+    "labels": [
+     {
+      "text": "Couch faces FRONT",
+      "p": [
+       0,
+       -20,
+       40
+      ],
+      "part": "Couch_Red",
+      "dx": -0.25,
+      "dy": -0.12
+     },
+     {
+      "text": "Pocket in base cloud",
+      "p": [
+       0,
+       0,
+       10
+      ],
+      "dx": 0.26,
+      "dy": 0.16
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       38,
+       0,
+       30
+      ],
+      "b": [
+       38,
+       0,
+       12
+      ],
+      "part_a": "Couch_Red"
+     }
+    ]
+   },
+   {
+    "name": "s3_levers",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Lever_"
+    ],
+    "move": {
+     "Lever_": [
+      0,
+      -16,
+      0
+     ]
+    },
+    "target_mm": [
+     3,
+     -22,
+     26
+    ],
+    "frame_mm": 75,
+    "az": -18,
+    "el": 18,
+    "labels": [
+     {
+      "text": "Left lever (17)",
+      "p": [
+       -9.5,
+       -21,
+       25
+      ],
+      "part": "Lever_L_Brass",
+      "dx": -0.2,
+      "dy": -0.15
+     },
+     {
+      "text": "Right lever (16)",
+      "p": [
+       14,
+       -21,
+       25
+      ],
+      "part": "Lever_R_Brass",
+      "dx": 0.2,
+      "dy": -0.15
+     },
+     {
+      "text": "Slits",
+      "p": [
+       0,
+       -16,
+       22.5
+      ],
+      "dx": 0.0,
+      "dy": 0.2
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       -9.5,
+       -15,
+       21
+      ],
+      "b": [
+       -9.5,
+       -15,
+       21
+      ],
+      "part_a": "Lever_L_Brass"
+     },
+     {
+      "a": [
+       10,
+       -15,
+       21
+      ],
+      "b": [
+       10,
+       -15,
+       21
+      ],
+      "part_a": "Lever_R_Brass"
+     }
+    ]
+   },
+   {
+    "name": "s4a_controls",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Knob_",
+     "Lever_",
+     "Pedal_",
+     "Rod_",
+     "Wheel_"
+    ],
+    "target_mm": [
+     0,
+     -27,
+     28
+    ],
+    "frame_mm": 70,
+    "az": -22,
+    "el": 16,
+    "labels": [
+     {
+      "text": "Steering wheel (15)",
+      "p": [
+       4,
+       -30,
+       46
+      ],
+      "dx": 0.2,
+      "dy": -0.14
+     },
+     {
+      "text": "Shifter knob (18)",
+      "p": [
+       -13.5,
+       -33.5,
+       41
+      ],
+      "dx": -0.18,
+      "dy": -0.14
+     },
+     {
+      "text": "R1 / R2 / R3",
+      "p": [
+       11,
+       -21.5,
+       40
+      ],
+      "dx": 0.24,
+      "dy": 0.0
+     },
+     {
+      "text": "Left lever knob",
+      "p": [
+       -9.5,
+       -21.5,
+       34
+      ],
+      "dx": -0.22,
+      "dy": 0.04
+     },
+     {
+      "text": "Square pedal",
+      "p": [
+       -5.5,
+       -31.6,
+       21
+      ],
+      "dx": -0.22,
+      "dy": 0.18
+     },
+     {
+      "text": "Round pedal",
+      "p": [
+       4.5,
+       -31.5,
+       21.5
+      ],
+      "dx": 0.22,
+      "dy": 0.18
+     }
+    ]
+   },
+   {
+    "name": "s4b_controls_exploded",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Knob_",
+     "Lever_",
+     "Pedal_",
+     "Rod_",
+     "Wheel_"
+    ],
+    "move": {
+     "Knob_": [
+      0,
+      0,
+      10
+     ],
+     "Wheel_": [
+      0,
+      0,
+      12
+     ],
+     "Pedal_": [
+      0,
+      0,
+      10
+     ]
+    },
+    "target_mm": [
+     0,
+     -27,
+     32
+    ],
+    "frame_mm": 80,
+    "az": -22,
+    "el": 14,
+    "labels": [
+     {
+      "text": "Gold filament shafts",
+      "p": [
+       -13.4,
+       -33.8,
+       30
+      ],
+      "dx": -0.22,
+      "dy": 0.1
+     },
+     {
+      "text": "Knobs glue on top",
+      "p": [
+       10,
+       -21.5,
+       48
+      ],
+      "dx": 0.22,
+      "dy": -0.1
+     }
+    ]
+   },
+   {
+    "name": "s5a_clouds",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Knob_",
+     "Lever_",
+     "Pedal_",
+     "Rod_",
+     "Wheel_",
+     "MidCloud",
+     "TopCloud"
+    ],
+    "move": {
+     "MidCloud": [
+      0,
+      0,
+      28
+     ],
+     "TopCloud": [
+      0,
+      0,
+      56
+     ]
+    },
+    "az": -40,
+    "el": 14,
+    "labels": [
+     {
+      "text": "Nub on base cloud",
+      "p": [
+       12.8,
+       52.2,
+       72.8
+      ],
+      "dx": 0.24,
+      "dy": 0.05
+     },
+     {
+      "text": "Nub on mid cloud",
+      "p": [
+       -2,
+       75.5,
+       136.6
+      ],
+      "part": "MidCloud",
+      "dx": 0.24,
+      "dy": 0.02
+     },
+     {
+      "text": "Mid cloud",
+      "p": [
+       -40,
+       55,
+       95
+      ],
+      "part": "MidCloud",
+      "dx": -0.22,
+      "dy": 0
+     },
+     {
+      "text": "Top cloud",
+      "p": [
+       -35,
+       65,
+       165
+      ],
+      "part": "TopCloud",
+      "dx": -0.22,
+      "dy": 0
+     }
+    ],
+    "zoom": 0.9
+   },
+   {
+    "name": "s5b_lay_back",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Knob_",
+     "Lever_",
+     "Pedal_",
+     "Rod_",
+     "Wheel_",
+     "MidCloud",
+     "TopCloud"
+    ],
+    "rot": [
+     -90,
+     0,
+     0
+    ],
+    "az": -90,
+    "el": 14,
+    "zoom": 0.95,
+    "labels": [
+     {
+      "text": "Couch can stay on",
+      "p": [
+       0,
+       -20,
+       40
+      ],
+      "dx": -0.22,
+      "dy": -0.14
+     },
+     {
+      "text": "Let glue cure lying on its BACK",
+      "p": [
+       0,
+       85,
+       170
+      ],
+      "dx": 0.0,
+      "dy": 0.2
+     }
+    ]
+   },
+   {
+    "name": "s6_hat",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Knob_",
+     "Lever_",
+     "Pedal_",
+     "Rod_",
+     "Wheel_",
+     "MidCloud",
+     "TopCloud",
+     "Bracket_",
+     "String_",
+     "Brim_",
+     "Ring"
+    ],
+    "drop": [
+     "String_",
+     "Bracket_"
+    ],
+    "move": {
+     "Brim_": [
+      0,
+      -50,
+      0
+     ],
+     "Ring": [
+      0,
+      -50,
+      0
+     ]
+    },
+    "az": -95,
+    "el": 8,
+    "labels": [
+     {
+      "text": "Brim back edge -> mid cloud groove",
+      "p": [
+       0,
+       62,
+       124
+      ],
+      "dx": 0.05,
+      "dy": 0.2
+     },
+     {
+      "text": "Ring 4 nub -> top cloud dimple",
+      "p": [
+       0,
+       52.7,
+       180
+      ],
+      "part": "Ring4_White",
+      "dx": 0.18,
+      "dy": -0.22
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       0,
+       62,
+       200
+      ],
+      "b": [
+       0,
+       62,
+       200
+      ],
+      "part_a": "Ring4_White"
+     }
+    ],
+    "zoom": 0.92
+   },
+   {
+    "name": "s7a_lower_strings",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Knob_",
+     "Lever_",
+     "Pedal_",
+     "Rod_",
+     "Wheel_",
+     "Bracket_",
+     "String_Lower"
+    ],
+    "target_mm": [
+     0,
+     0,
+     58
+    ],
+    "frame_mm": 105,
+    "az": -28,
+    "el": 14,
+    "labels": [
+     {
+      "text": "Bracket (11)",
+      "p": [
+       17,
+       0,
+       87
+      ],
+      "dx": 0.2,
+      "dy": -0.1
+     },
+     {
+      "text": "L1",
+      "p": [
+       -19,
+       -11.5,
+       61
+      ],
+      "dx": -0.14,
+      "dy": 0
+     },
+     {
+      "text": "L2",
+      "p": [
+       -15.8,
+       10.8,
+       64
+      ],
+      "dx": -0.16,
+      "dy": -0.08
+     },
+     {
+      "text": "L3",
+      "p": [
+       19,
+       -11.5,
+       61
+      ],
+      "dx": 0.14,
+      "dy": 0.04
+     },
+     {
+      "text": "L4",
+      "p": [
+       15.8,
+       10.8,
+       64
+      ],
+      "dx": 0.16,
+      "dy": -0.06
+     }
+    ]
+   },
+   {
+    "name": "s7b_upper_tuck",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Knob_",
+     "Lever_",
+     "Pedal_",
+     "Rod_",
+     "Wheel_",
+     "MidCloud",
+     "TopCloud",
+     "Bracket_",
+     "String_",
+     "Brim_",
+     "Ring"
+    ],
+    "drop": [
+     "String_Upper"
+    ],
+    "rods": [
+     [
+      [
+       -12.3,
+       -5.0,
+       84.4
+      ],
+      [
+       -32.04186388334518,
+       -18.50186365967438,
+       130
+      ]
+     ],
+     [
+      [
+       -11.9,
+       -0.1,
+       84.4
+      ],
+      [
+       -36.99990444251895,
+       0.08409069191481579,
+       130
+      ]
+     ],
+     [
+      [
+       -12.4,
+       4.8,
+       84.4
+      ],
+      [
+       -31.984214000002645,
+       18.601345510527857,
+       130
+      ]
+     ],
+     [
+      [
+       12.4,
+       -4.8,
+       84.4
+      ],
+      [
+       32.02651104474023,
+       -18.528426546826154,
+       130
+      ]
+     ],
+     [
+      [
+       11.9,
+       0.1,
+       84.4
+      ],
+      [
+       36.99990530533272,
+       -0.08371019299849031,
+       130
+      ]
+     ],
+     [
+      [
+       12.3,
+       5.0,
+       84.4
+      ],
+      [
+       32.08367487781684,
+       18.429264942871292,
+       130
+      ]
+     ]
+    ],
+    "target_mm": [
+     -26,
+     -6,
+     112
+    ],
+    "frame_mm": 78,
+    "az": -40,
+    "el": -12,
+    "labels": [
+     {
+      "text": "String ends rest inside the open center",
+      "p": [
+       -30.2,
+       -17.5,
+       128
+      ],
+      "dx": 0.05,
+      "dy": -0.3
+     }
+    ]
+   },
+   {
+    "name": "s7c_upper_holes",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Knob_",
+     "Lever_",
+     "Pedal_",
+     "Rod_",
+     "Wheel_",
+     "MidCloud",
+     "TopCloud",
+     "Bracket_",
+     "String_",
+     "Brim_",
+     "Ring"
+    ],
+    "target_mm": [
+     -26,
+     -6,
+     112
+    ],
+    "frame_mm": 78,
+    "az": -40,
+    "el": -12,
+    "labels": [
+     {
+      "text": "Small holes under the brim",
+      "p": [
+       -38.1,
+       -22,
+       124.1
+      ],
+      "dx": 0.05,
+      "dy": -0.3
+     }
+    ]
+   },
+   {
+    "name": "s8_final",
+    "parts": [
+     "BaseCloud",
+     "Couch_Red",
+     "Knob_",
+     "Lever_",
+     "Pedal_",
+     "Rod_",
+     "Wheel_",
+     "MidCloud",
+     "TopCloud",
+     "Bracket_",
+     "String_",
+     "Brim_",
+     "Ring"
+    ],
+    "drop": [
+     "String_Upper"
+    ],
+    "rods": [
+     [
+      [
+       -12.3,
+       -5.0,
+       84.4
+      ],
+      [
+       -32.04186388334518,
+       -18.50186365967438,
+       130
+      ]
+     ],
+     [
+      [
+       -11.9,
+       -0.1,
+       84.4
+      ],
+      [
+       -36.99990444251895,
+       0.08409069191481579,
+       130
+      ]
+     ],
+     [
+      [
+       -12.4,
+       4.8,
+       84.4
+      ],
+      [
+       -31.984214000002645,
+       18.601345510527857,
+       130
+      ]
+     ],
+     [
+      [
+       12.4,
+       -4.8,
+       84.4
+      ],
+      [
+       32.02651104474023,
+       -18.528426546826154,
+       130
+      ]
+     ],
+     [
+      [
+       11.9,
+       0.1,
+       84.4
+      ],
+      [
+       36.99990530533272,
+       -0.08371019299849031,
+       130
+      ]
+     ],
+     [
+      [
+       12.3,
+       5.0,
+       84.4
+      ],
+      [
+       32.08367487781684,
+       18.429264942871292,
+       130
+      ]
+     ]
+    ],
+    "az": -30,
+    "el": 12,
+    "zoom": 0.9
+   }
+  ]
+ },
+ "doc": {
+  "source_notes": "D:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\STL\\FinalSTL\\Cat in the Hat Hot Air Balloon - Assembly Instructions.txt",
+  "cover": {
+   "image": "D:\\gimp-mcp\\Projects\\CatInHat\\Drafts\\RealImages\\Better Pictures\\20261029_105731_logo.png",
+   "title": "CAT IN THE HAT",
+   "subtitle": "Hot Air Balloon"
+  },
+  "blocks": [
+   {
+    "h1": "Before You Start"
+   },
+   {
+    "p": "A striped-hat hot air balloon with the red flying couch hanging below it, held up by three clouds behind it. Every part prints separately and is glued together. The clouds carry all the weight. The strings are only for looks."
+   },
+   {
+    "callout": {
+     "title": "Left / right",
+     "lines": [
+      "in these instructions = as seen from the FRONT of the couch."
+     ],
+     "style": "info"
+    }
+   },
+   {
+    "callout": {
+     "title": "Before you glue:",
+     "lines": [
+      "Dry fit every joint first. Super glue grabs fast, so make sure each part goes in the right way before any glue goes on."
+     ],
+     "style": "info"
+    }
+   },
+   {
+    "h2": "What you need"
+   },
+   {
+    "bullets": [
+     "The printed parts (see Printing below)",
+     "Gold PLA filament, 1.75 mm (the same gold used for the levers and bracket), for the strings and control shafts. ~~Optional: 1/16 in brass rod instead of filament for the control shafts (Hobby Lobby carries it). Brass is NOT required. Gold filament looks great and is what the parts are designed around.~~",
+     "Super glue (CA glue)",
+     "Flush cutters or a hobby knife, a ruler with mm markings",
+     "Hair dryer or heat gun on low (to bend the steering column)"
+    ]
+   },
+   {
+    "h2": "Printing"
+   },
+   {
+    "p": "Plates in the 3MF (Bambu PLA Basic, 0.4 nozzle unless noted):"
+   },
+   {
+    "table": {
+     "head": [
+      "Plate",
+      "Part",
+      "Color"
+     ],
+     "rows": [
+      [
+       1,
+       "06 Ring 5 (bottom stripe)",
+       "Red"
+      ],
+      [
+       2,
+       "07 Ring 4",
+       "White"
+      ],
+      [
+       3,
+       "08 Ring 3",
+       "Red"
+      ],
+      [
+       4,
+       "09 Ring 2",
+       "White"
+      ],
+      [
+       5,
+       "10 Top Cap (prints upside down)",
+       "Red"
+      ],
+      [
+       6,
+       "05 Brim (prints upside down)",
+       "White"
+      ],
+      [
+       7,
+       "02 Couch",
+       "Red"
+      ],
+      [
+       8,
+       "11 Bracket",
+       "Gold"
+      ],
+      [
+       9,
+       "01 Base Cloud",
+       "White"
+      ],
+      [
+       10,
+       "03 Mid Cloud + 04 Top Cloud",
+       "White"
+      ],
+      [
+       11,
+       "Wheel, levers, pedals, knobs",
+       "Gold + Silver"
+      ],
+      [
+       12,
+       "2 dark knobs",
+       "Dark brown"
+      ]
+     ],
+     "widths": [
+      1100,
+      5560,
+      2700
+     ]
+    }
+   },
+   {
+    "callout": {
+     "title": "IMPORTANT:",
+     "lines": [
+      "Plates 11 and 12 are labeled “Print with .2 Nozzle”. These parts are tiny. Switch to a 0.2 mm nozzle in Bambu Studio (and on the printer) before slicing those two plates, or they will not print cleanly."
+     ],
+     "style": "warn"
+    }
+   },
+   {
+    "p": "All settings (seams, layer heights, supports, brims) are already saved per part in the 3MF. Just slice and print."
+   },
+   {
+    "h1": "Step 1 – Build the Hat"
+   },
+   {
+    "steps": [
+     "**Brim + Ring 5: **The brim has a groove on top with a solid key block at the back. Ring 5 has a bead on its bottom with a gap in it. Line the gap up with the key block and press Ring 5 into the groove. It is a press fit; glue is optional.",
+     "**Stack the rings in order: **Ring 5 → Ring 4 → Ring 3 → Ring 2 → Top Cap. Each lower ring has a lip that slides up inside the ring above it. A key rib at the back fits a notch, so each ring only goes on one way. Ring 4 has a small nub on the outside. It must face the **BACK** (it lines up with the top cloud later).",
+     "**Glue **each ring joint once the stack fits. Keep the key ribs lined up so the stripes stay straight."
+    ]
+   },
+   {
+    "gap": true
+   },
+   {
+    "pair": [
+     {
+      "shot": "s1a_brim_ring5",
+      "caption": "Ring 5 into the brim (gap over key block)"
+     },
+     {
+      "shot": "s1b_ring_stack",
+      "caption": "Stacking order; Ring 4 nub faces BACK"
+     }
+    ]
+   },
+   {
+    "h1": "Step 2 – Couch onto the Base Cloud"
+   },
+   {
+    "img": "s2_couch",
+    "width": 3.1
+   },
+   {
+    "steps": [
+     "Set the couch into the pocket in the base cloud (couch facing the front, away from the tall part of the cloud).",
+     "Glue it in place."
+    ]
+   },
+   {
+    "h2": "Step 3 – Levers on the Front of the Couch"
+   },
+   {
+    "img": "s3_levers",
+    "width": 3.1
+   },
+   {
+    "steps": [
+     "The couch has a thin slit in the crease between the seat cushion and the base, on each side of the front.",
+     "Slide the flat tongue of the **RIGHT** lever (16, three sockets) into the right slit, and the **LEFT** lever (17, one socket) into the left slit. Glue."
+    ]
+   },
+   {
+    "h1": "Step 4 – Control Shafts"
+   },
+   {
+    "p": "Wheel, shifter, pedals and lever knobs. Cut these from 1.75 mm gold filament (or 1/16 in brass rod). Cut length includes the part that goes into each hole. Cut about 0.5 mm long and trim on the dry fit if unsure. All holes are 2.4 mm, so a little glue fills the gap."
+   },
+   {
+    "img": "s4a_controls",
+    "width": 3.6,
+    "caption": "Finished controls."
+   },
+   {
+    "table": {
+     "head": [
+      "Shaft",
+      "From → To",
+      "Visible",
+      "Cut"
+     ],
+     "rows": [
+      [
+       "Steering column",
+       "base cloud center hole → steering wheel (15), bent 60°",
+       "29.7",
+       "37.3 mm"
+      ],
+      [
+       "Shifter",
+       "base cloud hole far left → silver ball knob",
+       "23.7",
+       "30.7 mm"
+      ],
+      [
+       "Pedal, square",
+       "base cloud hole left of column → square pedal",
+       "3.0",
+       "11.6 mm"
+      ],
+      [
+       "Pedal, round",
+       "base cloud hole right of column → round pedal",
+       "3.7",
+       "12.2 mm"
+      ],
+      [
+       "Lever R1",
+       "right lever, left (inner) socket → silver ball",
+       "7.9",
+       "12.1 mm"
+      ],
+      [
+       "Lever R2",
+       "right lever, middle socket → dark ball",
+       "10.9",
+       "15.1 mm"
+      ],
+      [
+       "Lever R3",
+       "right lever, right (outer) socket → silver cap",
+       "14.0",
+       "18.2 mm"
+      ],
+      [
+       "Lever L",
+       "left lever socket → dark ball",
+       "6.4",
+       "10.6 mm"
+      ]
+     ],
+     "widths": [
+      1700,
+      5160,
+      1100,
+      1400
+     ]
+    }
+   },
+   {
+    "gap": true
+   },
+   {
+    "h2": "How deep each end goes in"
+   },
+   {
+    "bullets": [
+     "Base cloud holes: 6.0 mm",
+     "Lever sockets: 3.2 mm",
+     "Knobs and cap: 1.0 mm",
+     "Steering wheel hub: 1.6 mm",
+     "Pedals: 2.6 mm"
+    ]
+   },
+   {
+    "img": "s4b_controls_exploded",
+    "width": 3.6,
+    "caption": "Shafts glue into the holes first, then the knobs, pedals and wheel glue on top."
+   },
+   {
+    "h2": "Steering column bend"
+   },
+   {
+    "bullets": [
+     "Mark the column 33.3 mm from the bottom end (6.0 mm goes into the cloud, 27.3 mm stands above it).",
+     "Bend it 60° at the mark, toward the couch (toward the driver).",
+     "About 4 mm is left past the bend: that end goes into the wheel hub."
+    ]
+   },
+   {
+    "callout": {
+     "title": "Tip:",
+     "lines": [
+      "Filament (especially silk) snaps if bent cold. Warm the bend with a hair dryer or heat gun on low first. Brass bends cold."
+     ],
+     "style": "tip"
+    }
+   },
+   {
+    "h2": "Knob colors"
+   },
+   {
+    "bullets": [
+     "Shifter: silver ball (18)",
+     "Right lever: R1 silver ball (19), R2 dark ball (21), R3 silver cap (20)",
+     "Left lever: dark ball (22)",
+     "Pedals: square pad (23) left, round pad (24) right. Each pad has a socket underneath that slips onto its short shaft; the slanted top faces up toward the driver’s feet."
+    ]
+   },
+   {
+    "p": "Glue each shaft into its hole, then glue the knob, pad, or wheel on top."
+   },
+   {
+    "h1": "Step 5 – Stack the Clouds"
+   },
+   {
+    "img": "s5a_clouds",
+    "width": 2.9
+   },
+   {
+    "steps": [
+     "Mid cloud drops straight down onto the round nub on top of the base cloud’s tall back mound. The flat side of the nub only lets it go on one way.",
+     "Top cloud drops straight down onto the nub on top of the mid cloud.",
+     "Glue both joints."
+    ]
+   },
+   {
+    "callout": {
+     "title": "IMPORTANT – lay it on its back while the glue sets.",
+     "style": "warn",
+     "lines": [
+      "Glue the clouds together with the whole piece lying on its BACK (clouds toward the table) and let the glue cure that way. The couch can already be on.",
+      "If you glue the clouds standing up, the stack slowly leans forward once you sit it up. Cured lying down, it stays set slightly toward the back, so when the hat goes on its weight doesn’t push the clouds forward or tip it. The whole thing stays straight."
+     ]
+    }
+   },
+   {
+    "img": "s5b_lay_back",
+    "width": 2.7,
+    "caption": "Lying on its back while the cloud joints cure."
+   },
+   {
+    "h1": "Step 6 – Attach the Hat"
+   },
+   {
+    "img": "s6_hat",
+    "width": 4.6
+   },
+   {
+    "steps": [
+     "Hold the finished hat level and slide it straight **BACK** toward the clouds:",
+     "The back edge of the brim slides into the curved groove in the mid cloud, and the nub on Ring 4 drops into the small dimple on the top cloud pad.",
+     "Dry fit first, then glue at the brim groove and at the top cloud pad.",
+     "Again, lay it on its **BACK** (clouds toward the table) while the glue sets."
+    ]
+   },
+   {
+    "h1": "Step 7 – Strings (Couch → Bracket → Balloon)"
+   },
+   {
+    "p": "The strings are 1.75 mm gold filament, cut by hand and glued into 2.4 mm holes. They are decoration only and do not hold any weight."
+   },
+   {
+    "p": "**Hole depths: **couch and bracket 4.5 mm (insert 4.0), brim underside 1.6 mm (insert 1.1)."
+   },
+   {
+    "h2": "Lower strings: couch → bracket (cut 4)"
+   },
+   {
+    "img": "s7a_lower_strings",
+    "width": 3.8
+   },
+   {
+    "table": {
+     "head": [
+      "String",
+      "From → To",
+      "Visible",
+      "Cut"
+     ],
+     "rows": [
+      [
+       "L1",
+       "left arm roll top → bracket front bar (left)",
+       "46.7",
+       "54.7 mm"
+      ],
+      [
+       "L2",
+       "left backrest top → bracket back bar (left)",
+       "38.0",
+       "46.0 mm"
+      ],
+      [
+       "L3",
+       "right arm roll top → bracket front bar (right)",
+       "46.7",
+       "54.7 mm"
+      ],
+      [
+       "L4",
+       "right backrest top → bracket back bar (right)",
+       "38.0",
+       "46.0 mm"
+      ]
+     ],
+     "widths": [
+      1100,
+      5760,
+      1100,
+      1400
+     ]
+    }
+   },
+   {
+    "note": "→ Cut 2 at 54.7 mm (front) and 2 at 46.0 mm (back)."
+   },
+   {
+    "p": "Glue the 4 lower strings into the couch, then hang the bracket on them and glue (bracket level, centered over the couch)."
+   },
+   {
+    "h2": "Upper strings: bracket → balloon (cut 6)",
+    "page_break": true
+   },
+   {
+    "table": {
+     "head": [
+      "String",
+      "From → To",
+      "Visible",
+      "Cut"
+     ],
+     "rows": [
+      [
+       "U1",
+       "bracket left bar, front → brim left-front",
+       "45.0",
+       "50.1 mm"
+      ],
+      [
+       "U2",
+       "bracket left bar, middle → brim left",
+       "45.7",
+       "50.8 mm"
+      ],
+      [
+       "U3",
+       "bracket left bar, back → brim left-back",
+       "45.0",
+       "50.1 mm"
+      ],
+      [
+       "U4",
+       "bracket right bar, front → brim right-front",
+       "45.1",
+       "50.2 mm"
+      ],
+      [
+       "U5",
+       "bracket right bar, middle → brim right",
+       "45.8",
+       "50.9 mm"
+      ],
+      [
+       "U6",
+       "bracket right bar, back → brim right-back",
+       "45.1",
+       "50.2 mm"
+      ]
+     ],
+     "widths": [
+      1100,
+      5760,
+      1100,
+      1400
+     ]
+    }
+   },
+   {
+    "note": "→ Easiest: cut all 6 at 50.9 mm, then trim U1, U3, U4, U6 about 0.8 mm on the dry fit."
+   },
+   {
+    "p": "With the hat already on the clouds, glue the 6 upper strings into the bracket. For the top ends you have two choices:"
+   },
+   {
+    "pair": [
+     {
+      "shot": "s7b_upper_tuck",
+      "caption": "Option A – Easy (recommended)",
+      "accent": true
+     },
+     {
+      "shot": "s7c_upper_holes",
+      "caption": "Option B – Optional"
+     }
+    ]
+   },
+   {
+    "callout": {
+     "title": "Option A – Easy:",
+     "style": "info",
+     "lines": [
+      "No glue at the top. Because the strings are glued firmly into the bracket, they hold their position on their own. Just guide each top end up into the open center of the brim, so it rests against the inside edge of the opening. It still looks great, and you skip the fiddly part of gluing each string into the tiny brim holes."
+     ]
+    }
+   },
+   {
+    "callout": {
+     "title": "Option B – Optional:",
+     "style": "muted",
+     "lines": [
+      "Glue each top end into its small hole under the brim (insert 1.1 mm). It looks the same but is more complex, since you have to line up and glue six strings overhead. Totally optional."
+     ]
+    }
+   },
+   {
+    "p": "**Total gold filament: **about 51 cm for strings, plus about 15 cm for the control shafts."
+   },
+   {
+    "h1": "All Done"
+   },
+   {
+    "img": "s8_final",
+    "width": 5.4
+   },
+   {
+    "end": "Enjoy!"
+   }
+  ]
+ }
+}

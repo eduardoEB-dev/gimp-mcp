@@ -1,0 +1,64 @@
+{
+  "theme": "desk",
+  "screen_code": [
+    "D:/Blender/blender-mcp/Projects/13Chime/Scripts/build_clock.py",
+    "D:/Blender/blender-mcp/Projects/13Chime/Scripts/build_nameplate.py"
+  ],
+  "fstop": 1.8,
+  "layer_lines": 0,
+  "assign": {
+    "Clock_e1": 1,
+    "Clock_e2": 2,
+    "Clock_e3": 3,
+    "PlayNamePlate_e1": 1,
+    "PlayNamePlate_e2": 2,
+    "PlayNamePlate_e3": 3,
+    "NamePlate_e1": 1,
+    "NamePlate_e2": 2,
+    "BaseBack": 1,
+    "Bat": 1,
+    "Moon": 2
+  },
+  "skip": [
+    "left",
+    "right",
+    "back_three_q"
+  ],
+  "frame_scale": 1.0,
+  "extra_shots": [
+    {
+      "name": "back_angle",
+      "az": 145,
+      "el": 14,
+      "frame_mm": 171,
+      "tz_mm": 68,
+      "fstop": 4.0
+    },
+    {
+      "name": "clock_detail",
+      "az": -18,
+      "el": 10,
+      "frame_mm": 120,
+      "tz_mm": 80,
+      "center_mm": [
+        0,
+        -5
+      ],
+      "fstop": 5.6,
+      "exposure": -0.2
+    },
+    {
+      "name": "nameplate_detail",
+      "az": -20,
+      "el": 12,
+      "frame_mm": 82,
+      "tz_mm": 18,
+      "center_mm": [
+        0,
+        -18
+      ],
+      "fstop": 5.6,
+      "exposure": -0.2
+    }
+  ]
+}

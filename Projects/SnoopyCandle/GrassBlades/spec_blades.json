@@ -1,0 +1,100 @@
+{
+  "theme": "christmas",
+  "layer_lines": 0,
+  "exposure": -0.4,
+  "fstop": 2.8,
+  "frame_scale": 1.08,
+  "exclude": [
+    "L_Jar",
+    "GlueKey5",
+    "GlueKey6",
+    "GlueKey7",
+    "GlueKey8",
+    "GlueKey9",
+    "GlueKey10"
+  ],
+  "assign": {
+    "RemixHead": 1,
+    "Remix": 1,
+    "EyeL_c": 3,
+    "EyeR_c": 3,
+    "Smile_c": 3,
+    "Arm": 1,
+    "Ear": 3
+  },
+  "extra_shots": [
+    {
+      "name": "bowl_top",
+      "az": -20,
+      "el": 38,
+      "frame_mm": 140,
+      "tz_mm": 195,
+      "center_mm": [
+        0,
+        16
+      ],
+      "fstop": 5.6,
+      "exposure": -0.3
+    },
+    {
+      "name": "face_detail",
+      "az": -18,
+      "el": 8,
+      "frame_mm": 175,
+      "tz_mm": 175,
+      "center_mm": [
+        0,
+        -40
+      ],
+      "fstop": 5.6,
+      "exposure": -0.3
+    },
+    {
+      "name": "base_detail",
+      "az": -28,
+      "el": 20,
+      "frame_mm": 200,
+      "tz_mm": 55,
+      "center_mm": [
+        0,
+        -30
+      ],
+      "fstop": 5.6,
+      "exposure": -0.3
+    }
+  ],
+  "logo": {
+    "hero": [
+      "tr",
+      0.26
+    ],
+    "front": [
+      "tr",
+      0.2
+    ],
+    "left": [
+      "tr",
+      0.26
+    ],
+    "right": [
+      "tl",
+      0.26
+    ],
+    "back_three_q": [
+      "tr",
+      0.26
+    ],
+    "bowl_top": [
+      "tr",
+      0.22
+    ],
+    "face_detail": [
+      "tr",
+      0.22
+    ],
+    "base_detail": [
+      "bl",
+      0.22
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "theme": "christmas",
+  "layer_lines": 0,
+  "exposure": -0.4,
+  "fstop": 2.8,
+  "frame_scale": 1.08,
+  "exclude": [
+    "L_Jar",
+    "GlueKey5",
+    "GlueKey6",
+    "GlueKey7",
+    "GlueKey8",
+    "GlueKey9",
+    "GlueKey10",
+    "Mouth_p"
+  ],
+  "assign": {
+    "RemixHead": 1,
+    "Remix": 1,
+    "EyeL_c": 3,
+    "EyeR_c": 3,
+    "Smile_c": 3,
+    "Arm": 1,
+    "Ear": 3,
+    "EyeL_p": 3,
+    "EyeR_p": 3,
+    "Mouth_bent_preview": 3,
+    "SnowBase": 1
+  },
+  "extra_shots": [],
+  "logo": {
+    "hero": [
+      "tr",
+      0.26
+    ],
+    "front": [
+      "tr",
+      0.2
+    ]
+  }
+}

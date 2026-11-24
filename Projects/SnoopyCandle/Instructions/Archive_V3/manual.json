@@ -1,0 +1,1179 @@
+{
+ "name": "Beagle Dog Bowl Candle Holder",
+ "blend": "D:/Blender/blender-mcp/Projects/SnoopyCandle/Blender/SnoopyCandle_V3.blend",
+ "3mf": "D:/Blender/blender-mcp/Projects/SnoopyCandle/STL/Final/Beagle Dog Bowl Candle Holder (A1 mini) - Final.3mf",
+ "exclude": [],
+ "assign": {
+  "RemixHead": 1,
+  "Remix": 1,
+  "EyeL_c": 3,
+  "EyeR_c": 3,
+  "Smile_c": 3,
+  "Arm": 1,
+  "Ear": 3,
+  "GlueKey": 1,
+  "L_Jar": 1
+ },
+ "render": {
+  "all_parts": [
+   "Remix",
+   "Arm",
+   "RemixHead",
+   "EyeL_c",
+   "EyeR_c",
+   "Smile_c",
+   "Spot",
+   "Collar",
+   "EarL_s",
+   "EarR_s",
+   "Nose",
+   "Bowl",
+   "Paw"
+  ],
+  "exposure": -0.3,
+  "shots": [
+   {
+    "name": "s1_spot",
+    "parts": [
+     "Remix",
+     "Arm",
+     "Spot"
+    ],
+    "drop": [
+     "RemixHead"
+    ],
+    "move": {
+     "Spot": [
+      0,
+      50,
+      20
+     ]
+    },
+    "az": 150,
+    "el": 18,
+    "labels": [
+     {
+      "text": "Back spot",
+      "p": [
+       0,
+       45,
+       46
+      ],
+      "part": "Spot",
+      "dx": -0.25,
+      "dy": -0.12
+     },
+     {
+      "text": "Pocket above tail",
+      "p": [
+       0,
+       40,
+       46
+      ],
+      "dx": 0.25,
+      "dy": 0.2
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       0,
+       45,
+       46
+      ],
+      "b": [
+       0,
+       45,
+       46
+      ],
+      "part_a": "Spot"
+     }
+    ]
+   },
+   {
+    "name": "s2_collar",
+    "parts": [
+     "Remix",
+     "Arm",
+     "Spot",
+     "GlueKey1",
+     "GlueKey2",
+     "Collar"
+    ],
+    "drop": [
+     "RemixHead",
+     "GlueKey10"
+    ],
+    "move": {
+     "GlueKey1": [
+      0,
+      0,
+      22
+     ],
+     "GlueKey2": [
+      0,
+      0,
+      22
+     ],
+     "Collar": [
+      0,
+      0,
+      50
+     ]
+    },
+    "az": -30,
+    "el": 32,
+    "target_mm": [
+     0,
+     0,
+     95
+    ],
+    "frame_mm": 165,
+    "labels": [
+     {
+      "text": "Collar",
+      "p": [
+       -20,
+       0,
+       93
+      ],
+      "part": "Collar",
+      "dx": -0.25,
+      "dy": -0.1
+     },
+     {
+      "text": "Glue keys (2)",
+      "p": [
+       9,
+       0,
+       90
+      ],
+      "part": "GlueKey2",
+      "dx": 0.27,
+      "dy": -0.08
+     },
+     {
+      "text": "Pockets (2)",
+      "p": [
+       9,
+       0,
+       87.4
+      ],
+      "dx": 0.28,
+      "dy": 0.14
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       -9,
+       0,
+       84.5
+      ],
+      "b": [
+       -9,
+       0,
+       87.4
+      ],
+      "part_a": "GlueKey1"
+     }
+    ]
+   },
+   {
+    "name": "s3_ears",
+    "parts": [
+     "RemixHead",
+     "EyeL_c",
+     "EyeR_c",
+     "Smile_c",
+     "EarL_s",
+     "EarR_s",
+     "GlueKey5",
+     "GlueKey6",
+     "GlueKey7",
+     "GlueKey8"
+    ],
+    "move": {
+     "EarR_s": [
+      50,
+      0,
+      0
+     ],
+     "GlueKey5": [
+      22,
+      0,
+      0
+     ],
+     "GlueKey6": [
+      22,
+      0,
+      0
+     ],
+     "EarL_s": [
+      -50,
+      0,
+      0
+     ],
+     "GlueKey7": [
+      -22,
+      0,
+      0
+     ],
+     "GlueKey8": [
+      -22,
+      0,
+      0
+     ]
+    },
+    "az": 25,
+    "el": 14,
+    "zoom": 1.0,
+    "labels": [
+     {
+      "text": "Right ear",
+      "p": [
+       60,
+       30,
+       120
+      ],
+      "part": "EarR_s",
+      "dx": 0.05,
+      "dy": -0.32
+     },
+     {
+      "text": "Left ear",
+      "p": [
+       -60,
+       30,
+       120
+      ],
+      "part": "EarL_s",
+      "dx": -0.05,
+      "dy": -0.32
+     },
+     {
+      "text": "Glue keys (2 per ear)",
+      "p": [
+       46,
+       26,
+       152
+      ],
+      "part": "GlueKey5",
+      "dx": 0.1,
+      "dy": 0.38
+     }
+    ]
+   },
+   {
+    "name": "s3_nose",
+    "parts": [
+     "RemixHead",
+     "EyeL_c",
+     "EyeR_c",
+     "Smile_c",
+     "Nose",
+     "GlueKey9",
+     "GlueKey10"
+    ],
+    "move": {
+     "Nose": [
+      0,
+      -80,
+      0
+     ],
+     "GlueKey9": [
+      0,
+      -30,
+      0
+     ],
+     "GlueKey10": [
+      0,
+      -30,
+      0
+     ]
+    },
+    "az": -52,
+    "el": 14,
+    "target_mm": [
+     0,
+     -120,
+     148
+    ],
+    "frame_mm": 170,
+    "labels": [
+     {
+      "text": "Nose",
+      "p": [
+       0,
+       -108,
+       150
+      ],
+      "part": "Nose",
+      "dx": 0.2,
+      "dy": -0.22
+     },
+     {
+      "text": "Glue keys (2)",
+      "p": [
+       6.5,
+       -100,
+       148
+      ],
+      "part": "GlueKey10",
+      "dx": 0.2,
+      "dy": 0.25
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       0,
+       -97,
+       160
+      ],
+      "b": [
+       0,
+       -97,
+       160
+      ],
+      "part_a": "Nose"
+     }
+    ]
+   },
+   {
+    "name": "s4_head",
+    "parts": [
+     "Remix",
+     "Arm",
+     "RemixHead",
+     "EyeL_c",
+     "EyeR_c",
+     "Smile_c",
+     "Spot",
+     "Collar",
+     "GlueKey3",
+     "GlueKey4",
+     "EarL_s",
+     "EarR_s",
+     "Nose"
+    ],
+    "drop": [
+     "GlueKey10"
+    ],
+    "move": {
+     "RemixHead": [
+      0,
+      0,
+      75
+     ],
+     "EyeL_c": [
+      0,
+      0,
+      75
+     ],
+     "EyeR_c": [
+      0,
+      0,
+      75
+     ],
+     "Smile_c": [
+      0,
+      0,
+      75
+     ],
+     "EarL_s": [
+      0,
+      0,
+      75
+     ],
+     "EarR_s": [
+      0,
+      0,
+      75
+     ],
+     "Nose": [
+      0,
+      0,
+      75
+     ],
+     "GlueKey3": [
+      0,
+      0,
+      28
+     ],
+     "GlueKey4": [
+      0,
+      0,
+      28
+     ]
+    },
+    "az": -35,
+    "el": 8,
+    "labels": [
+     {
+      "text": "Glue keys (2)",
+      "p": [
+       9,
+       0,
+       100
+      ],
+      "part": "GlueKey4",
+      "dx": 0.3,
+      "dy": 0.03
+     },
+     {
+      "text": "Collar",
+      "p": [
+       20,
+       0,
+       93
+      ],
+      "dx": 0.3,
+      "dy": 0.12
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       -25,
+       -10,
+       172
+      ],
+      "b": [
+       -25,
+       -10,
+       106
+      ]
+     }
+    ]
+   },
+   {
+    "name": "s5_paw",
+    "parts": [
+     "Bowl",
+     "Paw"
+    ],
+    "move": {
+     "Paw": [
+      0,
+      -45,
+      0
+     ]
+    },
+    "az": -28,
+    "el": 14,
+    "labels": [
+     {
+      "text": "Paw emblem",
+      "p": [
+       0,
+       -52,
+       208
+      ],
+      "part": "Paw",
+      "dx": -0.2,
+      "dy": -0.2
+     },
+     {
+      "text": "Recess",
+      "p": [
+       0,
+       -46,
+       208
+      ],
+      "dx": 0.3,
+      "dy": -0.25
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       0,
+       -52,
+       208
+      ],
+      "b": [
+       0,
+       -52,
+       208
+      ],
+      "part_a": "Paw"
+     }
+    ]
+   },
+   {
+    "name": "s5_dowel",
+    "parts": [
+     "RemixHead",
+     "EyeL_c",
+     "EyeR_c",
+     "Smile_c",
+     "EarL_s",
+     "EarR_s",
+     "Nose",
+     "Dowel"
+    ],
+    "move": {
+     "Dowel": [
+      0,
+      0,
+      45
+     ]
+    },
+    "az": -20,
+    "el": 42,
+    "target_mm": [
+     0,
+     16,
+     205
+    ],
+    "frame_mm": 130,
+    "labels": [
+     {
+      "text": "Dowel key rib",
+      "p": [
+       0,
+       -1.5,
+       190
+      ],
+      "part": "Dowel",
+      "dx": -0.28,
+      "dy": 0.05
+     },
+     {
+      "text": "Notch toward the nose",
+      "p": [
+       0,
+       -2,
+       190
+      ],
+      "dx": 0.1,
+      "dy": 0.27
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       -0.1,
+       16.5,
+       180
+      ],
+      "b": [
+       -0.1,
+       16.5,
+       190
+      ],
+      "part_a": "Dowel"
+     }
+    ]
+   },
+   {
+    "name": "s5_bowl",
+    "parts": [
+     "RemixHead",
+     "EyeL_c",
+     "EyeR_c",
+     "Smile_c",
+     "EarL_s",
+     "EarR_s",
+     "Nose",
+     "Dowel",
+     "Bowl",
+     "Paw"
+    ],
+    "move": {
+     "Bowl": [
+      0,
+      0,
+      50
+     ],
+     "Paw": [
+      0,
+      0,
+      50
+     ]
+    },
+    "az": -30,
+    "el": -12,
+    "labels": [
+     {
+      "text": "Bowl",
+      "p": [
+       67,
+       16,
+       208
+      ],
+      "part": "Bowl",
+      "dx": 0.14,
+      "dy": -0.12
+     },
+     {
+      "text": "Dowel",
+      "p": [
+       15,
+       16,
+       197
+      ],
+      "dx": 0.28,
+      "dy": -0.02
+     },
+     {
+      "text": "Keyed hole",
+      "p": [
+       0,
+       16.5,
+       190
+      ],
+      "part": "Bowl",
+      "dx": -0.26,
+      "dy": 0.1
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       -58,
+       16,
+       190
+      ],
+      "b": [
+       -58,
+       16,
+       190
+      ],
+      "part_a": "Bowl"
+     }
+    ],
+    "target_mm": [
+     0,
+     16,
+     232
+    ],
+    "frame_mm": 215
+   },
+   {
+    "name": "s6_pocket",
+    "parts": [
+     "GrassBase"
+    ],
+    "az": -20,
+    "el": 52,
+    "labels": [
+     {
+      "text": "Body pocket",
+      "p": [
+       35,
+       -40,
+       0
+      ],
+      "dx": 0.2,
+      "dy": -0.3
+     }
+    ]
+   },
+   {
+    "name": "s6_grass",
+    "parts": [
+     "Remix",
+     "Arm",
+     "RemixHead",
+     "EyeL_c",
+     "EyeR_c",
+     "Smile_c",
+     "Spot",
+     "Collar",
+     "EarL_s",
+     "EarR_s",
+     "Nose",
+     "Bowl",
+     "Paw",
+     "GrassBase"
+    ],
+    "move": {
+     "": [
+      0,
+      0,
+      80
+     ],
+     "GrassBase": [
+      0,
+      0,
+      0
+     ]
+    },
+    "az": -32,
+    "el": 10,
+    "zoom": 1.0,
+    "labels": [
+     {
+      "text": "Grass base (optional)",
+      "p": [
+       60,
+       -40,
+       5
+      ],
+      "dx": 0.15,
+      "dy": 0.08
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       -50,
+       -40,
+       0
+      ],
+      "b": [
+       -50,
+       -40,
+       0
+      ],
+      "part_a": "Remix"
+     }
+    ]
+   },
+   {
+    "name": "s7_jar",
+    "parts": [
+     "Remix",
+     "Arm",
+     "RemixHead",
+     "EyeL_c",
+     "EyeR_c",
+     "Smile_c",
+     "Spot",
+     "Collar",
+     "EarL_s",
+     "EarR_s",
+     "Nose",
+     "Bowl",
+     "Paw",
+     "L_Jar"
+    ],
+    "move": {
+     "L_Jar": [
+      0,
+      0,
+      70
+     ]
+    },
+    "az": -30,
+    "el": 14,
+    "zoom": 1.0,
+    "labels": [
+     {
+      "text": "4 in (102 mm) jar candle",
+      "p": [
+       50,
+       16,
+       262
+      ],
+      "part": "L_Jar",
+      "dx": 0.05,
+      "dy": -0.2
+     },
+     {
+      "text": "Pocket",
+      "p": [
+       50,
+       16,
+       227
+      ],
+      "dx": 0.2,
+      "dy": -0.05
+     }
+    ],
+    "arrows": [
+     {
+      "a": [
+       -40,
+       16,
+       215
+      ],
+      "b": [
+       -40,
+       16,
+       215
+      ],
+      "part_a": "L_Jar"
+     }
+    ]
+   },
+   {
+    "name": "s8_nograss",
+    "parts": [
+     "Remix",
+     "Arm",
+     "RemixHead",
+     "EyeL_c",
+     "EyeR_c",
+     "Smile_c",
+     "Spot",
+     "Collar",
+     "EarL_s",
+     "EarR_s",
+     "Nose",
+     "Bowl",
+     "Paw",
+     "L_Jar"
+    ],
+    "az": -30,
+    "el": 14
+   },
+   {
+    "name": "s8_grass",
+    "parts": [
+     "Remix",
+     "Arm",
+     "RemixHead",
+     "EyeL_c",
+     "EyeR_c",
+     "Smile_c",
+     "Spot",
+     "Collar",
+     "EarL_s",
+     "EarR_s",
+     "Nose",
+     "Bowl",
+     "Paw",
+     "L_Jar",
+     "GrassBase"
+    ],
+    "az": -30,
+    "el": 14
+   }
+  ]
+ },
+ "doc": {
+  "blocks": [
+   {
+    "h1": "Before You Start"
+   },
+   {
+    "p": "This is a sitting beagle that holds a jar candle in the dog bowl on its head. It prints in parts and goes together with glue. The included glue keys join the body, collar, head, ears and nose. The dowel joins the head to the bowl."
+   },
+   {
+    "p": "**Left and right** in these steps are as you look at the beagle's face."
+   },
+   {
+    "callout": {
+     "title": "IMPORTANT:",
+     "lines": [
+      "Dry-fit every joint before you add glue."
+     ],
+     "style": "warn"
+    }
+   },
+   {
+    "h2": "What You Need"
+   },
+   {
+    "bullets": [
+     "All printed parts (see the table below)",
+     "Glue",
+     "A jar candle about 4 in (102 mm) wide. The bowl pocket is 106 mm across and 12 mm deep."
+    ]
+   },
+   {
+    "h2": "Print Plates"
+   },
+   {
+    "table": {
+     "head": [
+      "Plate",
+      "Parts",
+      "Filament"
+     ],
+     "rows": [
+      [
+       "1",
+       "Body, paw emblem",
+       "White matte PLA"
+      ],
+      [
+       "2",
+       "Bowl",
+       "Red PLA"
+      ],
+      [
+       "3",
+       "Collar",
+       "Red PLA"
+      ],
+      [
+       "4",
+       "Left ear, right ear, nose, back spot",
+       "Black PLA"
+      ],
+      [
+       "5",
+       "Head, dowel, 10 glue keys",
+       "White matte PLA, black eyes and smile"
+      ],
+      [
+       "6",
+       "Grass base (optional)",
+       "Green PLA"
+      ]
+     ],
+     "widths": [
+      1000,
+      4680,
+      3680
+     ]
+    }
+   },
+   {
+    "note": "All plates use a 0.4 mm nozzle. Plates 1 and 5 must use matte PLA."
+   },
+   {
+    "callout": {
+     "title": "GRASS BASE IS OPTIONAL:",
+     "lines": [
+      "The grass base helps with tipping, so print it to be safe.",
+      "It only helps if it is glued on. Left unglued, it adds no protection against tipping. See Step 6."
+     ],
+     "style": "info"
+    }
+   },
+   {
+    "h2": "Glue Keys"
+   },
+   {
+    "table": {
+     "head": [
+      "Keys",
+      "Height",
+      "Used for"
+     ],
+     "rows": [
+      [
+       "4",
+       "5.8 mm",
+       "Collar (Steps 2 and 4)"
+      ],
+      [
+       "6",
+       "6.2 mm",
+       "Ears and nose (Step 3)"
+      ]
+     ],
+     "widths": [
+      1400,
+      1800,
+      6160
+     ]
+    }
+   },
+   {
+    "note": "Sort the keys by height before you start."
+   },
+   {
+    "h1": "Step 1 \u2013 Back Spot"
+   },
+   {
+    "steps": [
+     "Find the oval pocket on the beagle's back, just above the tail.",
+     "Add glue to the pocket.",
+     "Press the black back spot into the pocket."
+    ]
+   },
+   {
+    "img": "s1_spot",
+    "width": 5.8
+   },
+   {
+    "h1": "Step 2 \u2013 Collar"
+   },
+   {
+    "steps": [
+     "Glue 2 short (5.8 mm) keys into the 2 pockets on top of the body.",
+     "Add glue around the keys.",
+     "Press the red collar down onto the keys."
+    ]
+   },
+   {
+    "img": "s2_collar",
+    "width": 5.8
+   },
+   {
+    "h1": "Step 3 \u2013 Ears and Nose"
+   },
+   {
+    "h2": "Ears",
+    "page_break": false
+   },
+   {
+    "steps": [
+     "Glue 2 tall (6.2 mm) keys into the pockets on each side of the head.",
+     "Add glue to the flat face of each ear.",
+     "Press each ear onto its 2 keys."
+    ]
+   },
+   {
+    "img": "s3_ears",
+    "width": 5.8
+   },
+   {
+    "h2": "Nose",
+    "page_break": true
+   },
+   {
+    "steps": [
+     "Glue the last 2 tall (6.2 mm) keys into the pockets on the front of the muzzle.",
+     "Add glue to the flat back of the nose.",
+     "Press the nose onto the keys."
+    ]
+   },
+   {
+    "img": "s3_nose",
+    "width": 5.8
+   },
+   {
+    "h1": "Step 4 \u2013 Head"
+   },
+   {
+    "steps": [
+     "Glue the last 2 short (5.8 mm) keys into the 2 pockets on top of the collar.",
+     "Add glue around the keys.",
+     "Lower the head onto the keys. Face it forward, the same way as the feet."
+    ]
+   },
+   {
+    "img": "s4_head",
+    "width": 5.8
+   },
+   {
+    "h1": "Step 5 \u2013 Bowl"
+   },
+   {
+    "h2": "Paw emblem",
+    "page_break": false
+   },
+   {
+    "steps": [
+     "Add glue to the paw-shaped recess on the front of the bowl.",
+     "Press the white paw emblem into the recess."
+    ]
+   },
+   {
+    "img": "s5_paw",
+    "width": 5.8
+   },
+   {
+    "h2": "Dowel",
+    "page_break": true
+   },
+   {
+    "steps": [
+     "Find the notch in the hole on top of the head. It points toward the nose.",
+     "Line up the rib on the dowel with the notch.",
+     "Glue the dowel into the hole."
+    ]
+   },
+   {
+    "img": "s5_dowel",
+    "width": 5.8
+   },
+   {
+    "h2": "Bowl on head",
+    "page_break": true
+   },
+   {
+    "steps": [
+     "Turn the bowl so the paw emblem faces the same way as the nose.",
+     "Add glue to the top of the head and to the dowel.",
+     "Lower the bowl onto the dowel."
+    ]
+   },
+   {
+    "img": "s5_bowl",
+    "width": 5.8
+   },
+   {
+    "h1": "Step 6 \u2013 Grass Base (Optional)"
+   },
+   {
+    "p": "You can skip this step if you didn't print the grass base. It helps with tipping, so print it to be safe."
+   },
+   {
+    "callout": {
+     "title": "IMPORTANT:",
+     "lines": [
+      "Glue the body into the base. Left unglued, the base adds no protection against tipping."
+     ],
+     "style": "warn"
+    }
+   },
+   {
+    "steps": [
+     "Dry-fit the body in the pocket. The feet and the tail each sit in their own part of the pocket.",
+     "Add glue to the pocket.",
+     "Lower the beagle in and press down until it sits flat."
+    ]
+   },
+   {
+    "pair": [
+     {
+      "shot": "s6_pocket",
+      "caption": "The pocket follows the feet and tail"
+     },
+     {
+      "shot": "s6_grass",
+      "caption": "Lower the beagle straight down"
+     }
+    ]
+   },
+   {
+    "h1": "Step 7 \u2013 Add the Candle"
+   },
+   {
+    "steps": [
+     "Let all the glue dry.",
+     "Set the beagle on a stable surface.",
+     "Lower a jar candle into the bowl pocket."
+    ]
+   },
+   {
+    "img": "s7_jar",
+    "width": 5.0
+   },
+   {
+    "callout": {
+     "title": "CANDLE SAFETY:",
+     "lines": [
+      "Use a jar candle only.",
+      "Keep the beagle on a stable surface.",
+      "Never leave a burning candle unattended."
+     ],
+     "style": "warn"
+    }
+   },
+   {
+    "h1": "All Done"
+   },
+   {
+    "pair": [
+     {
+      "shot": "s8_nograss",
+      "caption": "Without the grass base"
+     },
+     {
+      "shot": "s8_grass",
+      "caption": "With the grass base"
+     }
+    ]
+   },
+   {
+    "end": "Enjoy!"
+   }
+  ],
+  "cover": {
+   "image": "D:/gimp-mcp/Projects/SnoopyCandle/Candle/Drafts/hero_logo.png",
+   "title": "BEAGLE DOG BOWL CANDLE HOLDER",
+   "subtitle": "Jar candle holder with optional grass base"
+  },
+  "accent": "D62B1F",
+  "source_notes": "D:/gimp-mcp/Projects/SnoopyCandle/Instructions/notes.txt"
+ }
+}

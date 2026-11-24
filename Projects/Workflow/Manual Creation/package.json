@@ -1,0 +1,1 @@
+{"name":"manual-creation","private":true,"description":"docx builder for Manual Creation","dependencies":{"docx":"^9.15.2"}}

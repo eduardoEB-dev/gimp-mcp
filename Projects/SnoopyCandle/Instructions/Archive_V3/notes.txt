@@ -1,0 +1,5 @@
+Assembly notes (user, 2026-11-03, plus Project.md and 3MF description)
+Grass base is optional. It helps with tipping. Print it to be safe. Must be glued or adds no protection.
+Bowl pocket 106 mm across, for jar candle about 4 in (102 mm) wide, 12 mm deep.
+Plates 1 and 5 use matte PLA. 6 plates. 0.4 nozzle.
+Glue keys: 4 collar, 6 ear and nose. 5.8 mm tall collar keys, 6.2 mm tall ear and nose keys.

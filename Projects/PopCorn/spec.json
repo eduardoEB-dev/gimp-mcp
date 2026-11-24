@@ -1,0 +1,26 @@
+{
+  "theme": "desk",
+  "extra_shots": [
+    {
+      "name": "top_inside",
+      "az": -20,
+      "tz": 0.08,
+      "dist": 0.78,
+      "rigs": [
+        {
+          "cup": "popcornbucket_onepiece",
+          "rot": 0,
+          "handle": 0,
+          "cap": null,
+          "x": 0
+        }
+      ],
+      "el": 48
+    }
+  ],
+  "screen_code": [
+    "D:/Blender/blender-mcp/Projects/Cat In Hat/Pop Corn Bucket/Scripts/bucket.py",
+    "D:/Blender/blender-mcp/Projects/Cat In Hat/Pop Corn Bucket/Scripts/render.py"
+  ],
+  "frame_scale": 1.2
+}

@@ -1,0 +1,49 @@
+{
+  "theme": "desk",
+  "screen_code": [
+    "D:/Blender/blender-mcp/Projects/Cat In Hat/Scripts/hat.py",
+    "D:/Blender/blender-mcp/Projects/Cat In Hat/Scripts/couch.py"
+  ],
+  "frame_scale": 0.95,
+  "exposure": -0.6,
+  "layer_lines": 2.0,
+  "exclude_collections": [
+    "PopcornBucket",
+    "PopcornBucket_X2D"
+  ],
+  "assign": {
+    "String_": 3,
+    "Rod_": 3
+  },
+  "extra_shots": [
+    {
+      "name": "couch_detail",
+      "az": -25,
+      "el": 22,
+      "frame_mm": 150,
+      "tz_mm": 30,
+      "center_mm": [
+        0,
+        0
+      ],
+      "fstop": 5.6,
+      "layer_lines": 1.0,
+      "exposure": -0.2
+    },
+    {
+      "name": "controls_front",
+      "az": 0,
+      "el": 14,
+      "frame_mm": 95,
+      "tz_mm": 30,
+      "center_mm": [
+        0,
+        -25
+      ],
+      "fstop": 5.6,
+      "layer_lines": 1.0,
+      "exposure": -0.2
+    }
+  ],
+  "fstop": 1.8
+}
