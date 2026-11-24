@@ -1,0 +1,1001 @@
+{
+ "blend": "D:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\Blender Files\\CanInHatCouch.blend",
+ "blend_shots": "D:\\gimp-mcp\\Projects\\CatInHat\\Work\\blend_shots.json",
+ "workflow_dir": "D:\\gimp-mcp\\Projects\\Workflow\\Renders",
+ "all_parts": [
+  "BaseCloud",
+  "Couch_Red",
+  "Knob_",
+  "Lever_",
+  "Pedal_",
+  "Rod_",
+  "Wheel_",
+  "MidCloud",
+  "TopCloud",
+  "Bracket_",
+  "String_",
+  "Brim_",
+  "Ring"
+ ],
+ "layer_lines": 1.5,
+ "exposure": 0.0,
+ "assign": {
+  "Knob_R1_Silver": 4,
+  "Knob_R3_Silver": 4,
+  "Knob_Shifter_Silver": 4
+ },
+ "shots": [
+  {
+   "name": "s1a_brim_ring5",
+   "parts": [
+    "Brim_",
+    "Ring5"
+   ],
+   "move": {
+    "Ring5": [
+     0,
+     0,
+     40
+    ]
+   },
+   "az": 160,
+   "el": 38,
+   "labels": [
+    {
+     "text": "Key block (back)",
+     "p": [
+      0,
+      45.3,
+      126
+     ],
+     "dx": -0.28,
+     "dy": 0.12
+    },
+    {
+     "text": "Gap in Ring 5 bead",
+     "p": [
+      0,
+      44,
+      125
+     ],
+     "part": "Ring5_Red",
+     "dx": 0.26,
+     "dy": -0.14
+    }
+   ],
+   "arrows": [
+    {
+     "a": [
+      0,
+      -46,
+      140
+     ],
+     "b": [
+      0,
+      -46,
+      128
+     ],
+     "part_a": "Ring5_Red"
+    }
+   ]
+  },
+  {
+   "name": "s1b_ring_stack",
+   "parts": [
+    "Brim_",
+    "Ring"
+   ],
+   "move": {
+    "Ring5": [
+     0,
+     0,
+     25
+    ],
+    "Ring4": [
+     0,
+     0,
+     50
+    ],
+    "Ring3": [
+     0,
+     0,
+     75
+    ],
+    "Ring2": [
+     0,
+     0,
+     100
+    ],
+    "Ring1": [
+     0,
+     0,
+     125
+    ]
+   },
+   "az": 150,
+   "el": 12,
+   "labels": [
+    {
+     "text": "Top Cap",
+     "p": [
+      -60,
+      0,
+      330
+     ],
+     "part": "Ring1_TopCap_Red",
+     "dx": -0.2,
+     "dy": 0
+    },
+    {
+     "text": "Ring 2",
+     "p": [
+      -60,
+      0,
+      280
+     ],
+     "part": "Ring2_White",
+     "dx": -0.2,
+     "dy": 0
+    },
+    {
+     "text": "Ring 3",
+     "p": [
+      -56,
+      0,
+      232
+     ],
+     "part": "Ring3_Red",
+     "dx": -0.2,
+     "dy": 0
+    },
+    {
+     "text": "Ring 4",
+     "p": [
+      -50,
+      0,
+      190
+     ],
+     "part": "Ring4_White",
+     "dx": -0.2,
+     "dy": 0
+    },
+    {
+     "text": "Ring 5",
+     "p": [
+      -46,
+      0,
+      148
+     ],
+     "part": "Ring5_Red",
+     "dx": -0.2,
+     "dy": 0
+    },
+    {
+     "text": "Brim",
+     "p": [
+      -62,
+      0,
+      124
+     ],
+     "dx": -0.2,
+     "dy": 0.03
+    },
+    {
+     "text": "Ring 4 nub faces BACK",
+     "p": [
+      0,
+      52.7,
+      180
+     ],
+     "part": "Ring4_White",
+     "dx": 0.24,
+     "dy": 0.04
+    }
+   ]
+  },
+  {
+   "name": "s2_couch",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red"
+   ],
+   "move": {
+    "Couch_Red": [
+     0,
+     0,
+     45
+    ]
+   },
+   "az": -30,
+   "el": 28,
+   "labels": [
+    {
+     "text": "Couch faces FRONT",
+     "p": [
+      0,
+      -20,
+      40
+     ],
+     "part": "Couch_Red",
+     "dx": -0.25,
+     "dy": -0.12
+    },
+    {
+     "text": "Pocket in base cloud",
+     "p": [
+      0,
+      0,
+      10
+     ],
+     "dx": 0.26,
+     "dy": 0.16
+    }
+   ],
+   "arrows": [
+    {
+     "a": [
+      38,
+      0,
+      30
+     ],
+     "b": [
+      38,
+      0,
+      12
+     ],
+     "part_a": "Couch_Red"
+    }
+   ]
+  },
+  {
+   "name": "s3_levers",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Lever_"
+   ],
+   "move": {
+    "Lever_": [
+     0,
+     -16,
+     0
+    ]
+   },
+   "target_mm": [
+    3,
+    -22,
+    26
+   ],
+   "frame_mm": 75,
+   "az": -18,
+   "el": 18,
+   "layer_lines": 1.0,
+   "labels": [
+    {
+     "text": "Left lever (17)",
+     "p": [
+      -9.5,
+      -21,
+      25
+     ],
+     "part": "Lever_L_Brass",
+     "dx": -0.2,
+     "dy": -0.15
+    },
+    {
+     "text": "Right lever (16)",
+     "p": [
+      14,
+      -21,
+      25
+     ],
+     "part": "Lever_R_Brass",
+     "dx": 0.2,
+     "dy": -0.15
+    },
+    {
+     "text": "Slits",
+     "p": [
+      0,
+      -16,
+      22.5
+     ],
+     "dx": 0.0,
+     "dy": 0.2
+    }
+   ],
+   "arrows": [
+    {
+     "a": [
+      -9.5,
+      -15,
+      21
+     ],
+     "b": [
+      -9.5,
+      -15,
+      21
+     ],
+     "part_a": "Lever_L_Brass"
+    },
+    {
+     "a": [
+      10,
+      -15,
+      21
+     ],
+     "b": [
+      10,
+      -15,
+      21
+     ],
+     "part_a": "Lever_R_Brass"
+    }
+   ]
+  },
+  {
+   "name": "s4a_controls",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Knob_",
+    "Lever_",
+    "Pedal_",
+    "Rod_",
+    "Wheel_"
+   ],
+   "target_mm": [
+    0,
+    -27,
+    28
+   ],
+   "frame_mm": 70,
+   "az": -22,
+   "el": 16,
+   "layer_lines": 1.0,
+   "labels": [
+    {
+     "text": "Steering wheel (15)",
+     "p": [
+      4,
+      -30,
+      46
+     ],
+     "dx": 0.2,
+     "dy": -0.14
+    },
+    {
+     "text": "Shifter knob (18)",
+     "p": [
+      -13.5,
+      -33.5,
+      41
+     ],
+     "dx": -0.18,
+     "dy": -0.14
+    },
+    {
+     "text": "R1 / R2 / R3",
+     "p": [
+      11,
+      -21.5,
+      40
+     ],
+     "dx": 0.24,
+     "dy": 0.0
+    },
+    {
+     "text": "Left lever knob",
+     "p": [
+      -9.5,
+      -21.5,
+      34
+     ],
+     "dx": -0.22,
+     "dy": 0.04
+    },
+    {
+     "text": "Square pedal",
+     "p": [
+      -5.5,
+      -31.6,
+      21
+     ],
+     "dx": -0.22,
+     "dy": 0.18
+    },
+    {
+     "text": "Round pedal",
+     "p": [
+      4.5,
+      -31.5,
+      21.5
+     ],
+     "dx": 0.22,
+     "dy": 0.18
+    }
+   ]
+  },
+  {
+   "name": "s4b_controls_exploded",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Knob_",
+    "Lever_",
+    "Pedal_",
+    "Rod_",
+    "Wheel_"
+   ],
+   "move": {
+    "Knob_": [
+     0,
+     0,
+     10
+    ],
+    "Wheel_": [
+     0,
+     0,
+     12
+    ],
+    "Pedal_": [
+     0,
+     0,
+     10
+    ]
+   },
+   "target_mm": [
+    0,
+    -27,
+    32
+   ],
+   "frame_mm": 80,
+   "az": -22,
+   "el": 14,
+   "layer_lines": 1.0,
+   "labels": [
+    {
+     "text": "Gold filament shafts",
+     "p": [
+      -13.4,
+      -33.8,
+      30
+     ],
+     "dx": -0.22,
+     "dy": 0.1
+    },
+    {
+     "text": "Knobs glue on top",
+     "p": [
+      10,
+      -21.5,
+      48
+     ],
+     "dx": 0.22,
+     "dy": -0.1
+    }
+   ]
+  },
+  {
+   "name": "s5a_clouds",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Knob_",
+    "Lever_",
+    "Pedal_",
+    "Rod_",
+    "Wheel_",
+    "MidCloud",
+    "TopCloud"
+   ],
+   "move": {
+    "MidCloud": [
+     0,
+     0,
+     28
+    ],
+    "TopCloud": [
+     0,
+     0,
+     56
+    ]
+   },
+   "az": -40,
+   "el": 14,
+   "labels": [
+    {
+     "text": "Nub on base cloud",
+     "p": [
+      12.8,
+      52.2,
+      72.8
+     ],
+     "dx": 0.24,
+     "dy": 0.05
+    },
+    {
+     "text": "Nub on mid cloud",
+     "p": [
+      -2,
+      75.5,
+      136.6
+     ],
+     "part": "MidCloud",
+     "dx": 0.24,
+     "dy": 0.02
+    },
+    {
+     "text": "Mid cloud",
+     "p": [
+      -40,
+      55,
+      95
+     ],
+     "part": "MidCloud",
+     "dx": -0.22,
+     "dy": 0
+    },
+    {
+     "text": "Top cloud",
+     "p": [
+      -35,
+      65,
+      165
+     ],
+     "part": "TopCloud",
+     "dx": -0.22,
+     "dy": 0
+    }
+   ],
+   "zoom": 0.9
+  },
+  {
+   "name": "s5b_lay_back",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Knob_",
+    "Lever_",
+    "Pedal_",
+    "Rod_",
+    "Wheel_",
+    "MidCloud",
+    "TopCloud"
+   ],
+   "rot": [
+    -90,
+    0,
+    0
+   ],
+   "az": -90,
+   "el": 14,
+   "zoom": 0.95,
+   "labels": [
+    {
+     "text": "Couch can stay on",
+     "p": [
+      0,
+      -20,
+      40
+     ],
+     "dx": -0.22,
+     "dy": -0.14
+    },
+    {
+     "text": "Let glue cure lying on its BACK",
+     "p": [
+      0,
+      85,
+      170
+     ],
+     "dx": 0.0,
+     "dy": 0.2
+    }
+   ]
+  },
+  {
+   "name": "s6_hat",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Knob_",
+    "Lever_",
+    "Pedal_",
+    "Rod_",
+    "Wheel_",
+    "MidCloud",
+    "TopCloud",
+    "Bracket_",
+    "String_",
+    "Brim_",
+    "Ring"
+   ],
+   "drop": [
+    "String_",
+    "Bracket_"
+   ],
+   "move": {
+    "Brim_": [
+     0,
+     -50,
+     0
+    ],
+    "Ring": [
+     0,
+     -50,
+     0
+    ]
+   },
+   "az": -95,
+   "el": 8,
+   "labels": [
+    {
+     "text": "Brim back edge -> mid cloud groove",
+     "p": [
+      0,
+      62,
+      124
+     ],
+     "dx": 0.05,
+     "dy": 0.2
+    },
+    {
+     "text": "Ring 4 nub -> top cloud dimple",
+     "p": [
+      0,
+      52.7,
+      180
+     ],
+     "part": "Ring4_White",
+     "dx": 0.18,
+     "dy": -0.22
+    }
+   ],
+   "arrows": [
+    {
+     "a": [
+      0,
+      62,
+      200
+     ],
+     "b": [
+      0,
+      62,
+      200
+     ],
+     "part_a": "Ring4_White"
+    }
+   ],
+   "zoom": 0.92
+  },
+  {
+   "name": "s7a_lower_strings",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Knob_",
+    "Lever_",
+    "Pedal_",
+    "Rod_",
+    "Wheel_",
+    "Bracket_",
+    "String_Lower"
+   ],
+   "target_mm": [
+    0,
+    0,
+    58
+   ],
+   "frame_mm": 105,
+   "az": -28,
+   "el": 14,
+   "layer_lines": 1.0,
+   "labels": [
+    {
+     "text": "Bracket (11)",
+     "p": [
+      17,
+      0,
+      87
+     ],
+     "dx": 0.2,
+     "dy": -0.1
+    },
+    {
+     "text": "L1",
+     "p": [
+      -19,
+      -11.5,
+      61
+     ],
+     "dx": -0.14,
+     "dy": 0
+    },
+    {
+     "text": "L2",
+     "p": [
+      -15.8,
+      10.8,
+      64
+     ],
+     "dx": -0.16,
+     "dy": -0.08
+    },
+    {
+     "text": "L3",
+     "p": [
+      19,
+      -11.5,
+      61
+     ],
+     "dx": 0.14,
+     "dy": 0.04
+    },
+    {
+     "text": "L4",
+     "p": [
+      15.8,
+      10.8,
+      64
+     ],
+     "dx": 0.16,
+     "dy": -0.06
+    }
+   ]
+  },
+  {
+   "name": "s7b_upper_tuck",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Knob_",
+    "Lever_",
+    "Pedal_",
+    "Rod_",
+    "Wheel_",
+    "MidCloud",
+    "TopCloud",
+    "Bracket_",
+    "String_",
+    "Brim_",
+    "Ring"
+   ],
+   "drop": [
+    "String_Upper"
+   ],
+   "rods": [
+    [
+     [
+      -12.3,
+      -5.0,
+      84.4
+     ],
+     [
+      -32.04186388334518,
+      -18.50186365967438,
+      130
+     ]
+    ],
+    [
+     [
+      -11.9,
+      -0.1,
+      84.4
+     ],
+     [
+      -36.99990444251895,
+      0.08409069191481579,
+      130
+     ]
+    ],
+    [
+     [
+      -12.4,
+      4.8,
+      84.4
+     ],
+     [
+      -31.984214000002645,
+      18.601345510527857,
+      130
+     ]
+    ],
+    [
+     [
+      12.4,
+      -4.8,
+      84.4
+     ],
+     [
+      32.02651104474023,
+      -18.528426546826154,
+      130
+     ]
+    ],
+    [
+     [
+      11.9,
+      0.1,
+      84.4
+     ],
+     [
+      36.99990530533272,
+      -0.08371019299849031,
+      130
+     ]
+    ],
+    [
+     [
+      12.3,
+      5.0,
+      84.4
+     ],
+     [
+      32.08367487781684,
+      18.429264942871292,
+      130
+     ]
+    ]
+   ],
+   "target_mm": [
+    -26,
+    -6,
+    112
+   ],
+   "frame_mm": 78,
+   "az": -40,
+   "el": -12,
+   "layer_lines": 1.0,
+   "labels": [
+    {
+     "text": "String ends rest inside the open center",
+     "p": [
+      -30.2,
+      -17.5,
+      128
+     ],
+     "dx": 0.05,
+     "dy": -0.3
+    }
+   ]
+  },
+  {
+   "name": "s7c_upper_holes",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Knob_",
+    "Lever_",
+    "Pedal_",
+    "Rod_",
+    "Wheel_",
+    "MidCloud",
+    "TopCloud",
+    "Bracket_",
+    "String_",
+    "Brim_",
+    "Ring"
+   ],
+   "target_mm": [
+    -26,
+    -6,
+    112
+   ],
+   "frame_mm": 78,
+   "az": -40,
+   "el": -12,
+   "layer_lines": 1.0,
+   "labels": [
+    {
+     "text": "Small holes under the brim",
+     "p": [
+      -38.1,
+      -22,
+      124.1
+     ],
+     "dx": 0.05,
+     "dy": -0.3
+    }
+   ]
+  },
+  {
+   "name": "s8_final",
+   "parts": [
+    "BaseCloud",
+    "Couch_Red",
+    "Knob_",
+    "Lever_",
+    "Pedal_",
+    "Rod_",
+    "Wheel_",
+    "MidCloud",
+    "TopCloud",
+    "Bracket_",
+    "String_",
+    "Brim_",
+    "Ring"
+   ],
+   "drop": [
+    "String_Upper"
+   ],
+   "rods": [
+    [
+     [
+      -12.3,
+      -5.0,
+      84.4
+     ],
+     [
+      -32.04186388334518,
+      -18.50186365967438,
+      130
+     ]
+    ],
+    [
+     [
+      -11.9,
+      -0.1,
+      84.4
+     ],
+     [
+      -36.99990444251895,
+      0.08409069191481579,
+      130
+     ]
+    ],
+    [
+     [
+      -12.4,
+      4.8,
+      84.4
+     ],
+     [
+      -31.984214000002645,
+      18.601345510527857,
+      130
+     ]
+    ],
+    [
+     [
+      12.4,
+      -4.8,
+      84.4
+     ],
+     [
+      32.02651104474023,
+      -18.528426546826154,
+      130
+     ]
+    ],
+    [
+     [
+      11.9,
+      0.1,
+      84.4
+     ],
+     [
+      36.99990530533272,
+      -0.08371019299849031,
+      130
+     ]
+    ],
+    [
+     [
+      12.3,
+      5.0,
+      84.4
+     ],
+     [
+      32.08367487781684,
+      18.429264942871292,
+      130
+     ]
+    ]
+   ],
+   "az": -30,
+   "el": 12,
+   "zoom": 0.9
+  }
+ ]
+}
