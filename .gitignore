@@ -1,3 +1,14 @@
 __pycache__/
+.venv/
+*.xcf
+*.blend
+*.blend[0-9]*
+*.npz
+*.npy
 
-Projects
+# Generated render stills (specific verified directories only)
+/Projects/SnoopyCandle/Olaf/Candle/Renders/**/*.png
+/Projects/Cup/Ad Images/Happy Blue Creature/Grinch/Renders/**/*.png
+
+# Generated render video (exact file)
+/Projects/SnoopyCandle/Video/SnoopyBuild_logo.mp4
