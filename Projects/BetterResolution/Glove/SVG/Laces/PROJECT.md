@@ -1,9 +1,9 @@
 # Laces
 
-Started 2026-11-04. Workflow: D:\gimp-mcp\Projects\Workflow\SVG Creation\SVG_Creation_Workflow.md
+Started 2026-11-04. Workflow: G:\gimp-mcp\Projects\Workflow\SVG Creation\SVG_Creation_Workflow.md
 
 ## Goal
-- What it's for: lace shapes per view, for building laces in Blender (D:\Blenderlender-mcp\Projects\Glove)
+- What it's for: lace shapes per view, for building laces in Blender (G:\Blenderlender-mcp\Projects\Glove)
 - Size: 101.6 mm tall canvas, loop included (Project.md). Width follows each view
 - Colors: Black (laces). Outline = glove reference only, same canvas
 - Keep / drop: keep black laces. Drop finger slots, pocket lip, web gap shadows + voids, wrist hole, floor shadow, stitching

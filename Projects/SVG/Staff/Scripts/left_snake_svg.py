@@ -9,7 +9,7 @@ import math, sys
 import pathops
 from PIL import Image, ImageDraw
 
-GUIDE = r"D:\gimp-mcp\Projects\SVG\Staff\Images\guide.png"
+GUIDE = r"G:\gimp-mcp\Projects\SVG\Staff\Images\guide.png"
 K = 44.45 / 51.5                  # mm per px
 AXIS_X = 615.0                    # dashed attach line beside the snake = dowel axis
 # assembled ball position: front view puts the ball center ~0.94 ball diameters above the head top

@@ -15,7 +15,7 @@ gi.require_version('Gegl', '0.4')
 from gi.repository import Gimp, Gegl, Gio
 from pathlib import Path
 
-ROOT = Path(r"D:\gimp-mcp\RegionMap\WPImages")
+ROOT = Path(r"G:\gimp-mcp\RegionMap\WPImages")
 SHOT = ROOT / "FullPageWPView_anon.png"
 OUT = ROOT / "PageAppBackgroundIMG.png"
 

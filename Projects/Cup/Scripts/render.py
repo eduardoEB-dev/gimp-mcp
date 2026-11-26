@@ -6,7 +6,7 @@ SHOT, OUT = args[0], args[1]
 SAMPLES = int(args[2]) if len(args) > 2 else 256
 RES = int(args[3]) if len(args) > 3 else 2000
 
-P = r"D:\Blender\blender-mcp\Projects\NewCupProject"
+P = r"G:\Blender\blender-mcp\Projects\NewCupProject"
 G = P + r"\GrinchCup"
 BLU = P + r"\BlenderFiles\New_Cup_Solid_Half_BLU.blend"
 CY = 41.91

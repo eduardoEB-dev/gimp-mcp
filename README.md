@@ -31,7 +31,7 @@ MCP client  <--stdio-->  gimp_mcp_client.py  <--TCP 127.0.0.1:9876-->  gimp_mcp_
 
    Claude Code:
    ```bash
-   claude mcp add gimp -- uv run D:/gimp-mcp/gimp_mcp_client.py
+   claude mcp add gimp -- uv run G:/gimp-mcp/gimp_mcp_client.py
    ```
 
    Claude Desktop (`claude_desktop_config.json`):
@@ -40,7 +40,7 @@ MCP client  <--stdio-->  gimp_mcp_client.py  <--TCP 127.0.0.1:9876-->  gimp_mcp_
      "mcpServers": {
        "gimp": {
          "command": "uv",
-         "args": ["run", "D:/gimp-mcp/gimp_mcp_client.py"]
+         "args": ["run", "G:/gimp-mcp/gimp_mcp_client.py"]
        }
      }
    }
@@ -58,7 +58,7 @@ MCP client  <--stdio-->  gimp_mcp_client.py  <--TCP 127.0.0.1:9876-->  gimp_mcp_
 | `call_api` | Call any `Gimp.*` function. Images as `{"__image__": id}`, layers/items as `{"__item__": id}` |
 | `exec_python` | Run Python inside GIMP (`Gimp` in scope; set `result` to return a value) |
 
-Example prompts: "list my open images", "blur image 1 with radius 8 and save it to D:/out.png".
+Example prompts: "list my open images", "blur image 1 with radius 8 and save it to G:/out.png".
 
 ## Security
 

@@ -1,5 +1,5 @@
 import zipfile, re, numpy as np, sys
-z=zipfile.ZipFile(r"D:\Blender\blender-mcp\Projects\NewCupProject\SnoopyCup\STL\SnoopyCupProject.3mf")
+z=zipfile.ZipFile(r"G:\Blender\blender-mcp\Projects\NewCupProject\SnoopyCup\STL\SnoopyCupProject.3mf")
 CODE={'4':1,'8':2,'0C':3,'1C':4,'2C':5}
 out=sys.argv[1]
 for oid in (36,39,37,27,12,10):

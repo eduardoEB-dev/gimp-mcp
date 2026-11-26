@@ -8,7 +8,7 @@
 |---|---|
 | Designer | **TryCatch Designs** |
 | Catchphrase | **From Code to 3D Models** |
-| Logo | `D:\gimp-mcp\Projects\Cup\Ad Images\TryCatch Designs_ From Code to Creation.png` |
+| Logo | `G:\gimp-mcp\Projects\Cup\Ad Images\TryCatch Designs_ From Code to Creation.png` |
 | Etsy | https://www.etsy.com/shop/TryCatchDesignsShop |
 | Cults3D | https://cults3d.com/en/users/trycatchdesigns |
 | Patreon | https://www.patreon.com/TryCatchDesigns |
@@ -19,16 +19,16 @@ If any of these change, update this table **and** `OUR_URLS` / `DESIGNER` at the
 
 ## Inputs from the user
 
-1. The `.3mf` file (any path, e.g. `M:\Custom3D\...` or `D:\Blender\blender-mcp\Projects\...`).
+1. The `.3mf` file (any path, e.g. `M:\Custom3D\...` or `G:\Blender\blender-mcp\Projects\...`).
 2. Render images (PNG/JPG, any size). **The first image is the hero.** It becomes the cover and thumbnails. If the user doesn't say which one is the hero, **ASK**.
-   - **No renders supplied?** Make them first with `D:\gimp-mcp\Projects\Workflow\Renders\Render_Workflow.md`, which needs the 3MF and an output path. Then use the `<output>\Drafts\*_logo.png` images here, with the hero first (`pair_hero` or `hero_*`).
+   - **No renders supplied?** Make them first with `G:\gimp-mcp\Projects\Workflow\Renders\Render_Workflow.md`, which needs the 3MF and an output path. Then use the `<output>\Drafts\*_logo.png` images here, with the hero first (`pair_hero` or `hero_*`).
 3. Optional: title, description notes, output folder.
 
 ## Tool
 
-`D:\gimp-mcp\Projects\Workflow\3MF_Release\clean_3mf.py`. Run it with `python -I` (Python 3.11 with Pillow).
+`G:\gimp-mcp\Projects\Workflow\3MF_Release\clean_3mf.py`. Run it with `python -I` (Python 3.11 with Pillow).
 
-Folder layout (`D:\gimp-mcp\Projects\Workflow\3MF_Release\`):
+Folder layout (`G:\gimp-mcp\Projects\Workflow\3MF_Release\`):
 - `3MF_Release_Workflow.md`: this file.
 - `clean_3mf.py`: the cleaner.
 - `descriptions\`: one `<name>.html` per release. Save each new description here.
@@ -52,7 +52,7 @@ What it does:
 3. **Title.** Use the user's title if given. Otherwise draft one from the plate and object names, and say what you picked.
 4. **Description.** Write `descriptions\<short-name>.html`, using the template below. Describe only what is actually in the file: the plates, what's printed in which color, and what the variants are. Don't claim "no supports" or "no AMS" unless the user confirms it. Show the user the text.
 5. **Run `clean_3mf.py`.** Never overwrite the source. Default output is `<source folder>\Final\<Title> - Final.3mf`, or the folder the user names.
-6. **Check against previous data.** Read `D:\Blender\blender-mcp\Projects\NewCupProject\Final\*.3mf`, the earlier releases, and compare:
+6. **Check against previous data.** Read `G:\Blender\blender-mcp\Projects\NewCupProject\Final\*.3mf`, the earlier releases, and compare:
    - Designer and links are identical to the brand table.
    - No leftover foreign names. `animuL67` came in from the base project's print settings, so look for it specifically, and for any new name you find.
    - The plate and object structure looks like a complete project, for example not missing a cap or pins plate that earlier releases had.
@@ -84,7 +84,7 @@ Past examples: `descriptions\` in this folder (grinch, snoopy, base).
 - **MakerWorld IDs** (DesignModelId and similar) are left blank on purpose. MakerWorld assigns them when the model is published, so never copy them from another file.
 - **Logo-on-bottom versions** are just another 3MF. Run them through the same process and add a line to the description if the user asks.
 - **Print settings** in the 3MF stay unchanged, including the ones that came from the base project. Only the metadata and pictures change.
-- **Ad renders:** see `D:\gimp-mcp\Projects\Workflow\Renders\Render_Workflow.md`. It's a reusable pipeline that takes a 3MF and an output path and produces `Drafts\` images with the logo.
+- **Ad renders:** see `G:\gimp-mcp\Projects\Workflow\Renders\Render_Workflow.md`. It's a reusable pipeline that takes a 3MF and an output path and produces `Drafts\` images with the logo.
 
 ## Release log
 

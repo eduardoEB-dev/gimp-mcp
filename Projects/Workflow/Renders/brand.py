@@ -3,7 +3,7 @@ usage: python -I brand.py [--pos br|tr|bl|tl] [--frac F] <out_dir> <img1> [img2 
 import sys, os
 from PIL import Image, ImageDraw, ImageFilter, ImageChops, ImageOps
 
-LOGO = r"D:\gimp-mcp\Projects\Cup\Ad Images\TryCatch Designs_ From Code to Creation.png"
+LOGO = r"G:\gimp-mcp\Projects\Cup\Ad Images\TryCatch Designs_ From Code to Creation.png"
 FRAC, MARGIN = 0.34, 0.03          # card width as fraction of image width, margin from edges
 
 args, POS = sys.argv[1:], "br"

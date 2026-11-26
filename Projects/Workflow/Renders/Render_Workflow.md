@@ -9,7 +9,7 @@ These are ads for 3D-printed models. Every render must read as a physical FDM pr
 ## Inputs from the user
 
 1. The `.3mf` file.
-2. **Output path.** If it isn't given, **ASK**. The past convention was `D:\gimp-mcp\Projects\Cup\Ad Images\<Name>\`.
+2. **Output path.** If it isn't given, **ASK**. The past convention was `G:\gimp-mcp\Projects\Cup\Ad Images\<Name>\`.
 3. Optional specifics: which cups or caps to show, which shots to skip, and whether to include a straight-back shot.
 
 ## What gets created under the output path
@@ -23,7 +23,7 @@ These are ads for 3D-printed models. Every render must read as a physical FDM pr
   Drafts\            final renders WITH the logo card (<shot>_logo.png) + contact_sheet.png
 ```
 
-## Tools (all in `D:\gimp-mcp\Projects\Workflow\Renders\`)
+## Tools (all in `G:\gimp-mcp\Projects\Workflow\Renders\`)
 
 | File | Role |
 |---|---|
@@ -126,15 +126,15 @@ python -I run_blend.py "<model.blend>" "<file.3mf>" "<output>" --spec spec.json 
   - `"fstop"`: default aperture. Tall models put the camera farther back, so the set barely blurs at f/4.5. Open up (f/1.8) to match the popcorn's blurred code.
   - `"popcorn": 0` turns off the seuss popcorn.
   - `"logo"`: `{"<shot>": ["tr", 0.26]}` sets the logo corner/size per shot (default `br`, 0.34). The default card covers the base of tall models; top corners are usually empty bokeh. Check that it clears the product.
-  - `"candle"`: render-only 3-wick jar candle (no label) on the product, e.g. a candle holder: `{"center_mm":[x,y],"z_mm":215,"d_mm":102,"h_mm":95,"jar":"#FFE11A","wax":"#FFF0A0","jar_glow":0.35,"lit":true,"flame":22,"flame_r":3.8,"light_w":0.6}`. It is added to the framed height. Example: `D:\gimp-mcp\Projects\SnoopyCandle\spec_candle.json`.
+  - `"candle"`: render-only 3-wick jar candle (no label) on the product, e.g. a candle holder: `{"center_mm":[x,y],"z_mm":215,"d_mm":102,"h_mm":95,"jar":"#FFE11A","wax":"#FFF0A0","jar_glow":0.35,"lit":true,"flame":22,"flame_r":3.8,"light_w":0.6}`. It is added to the framed height. Example: `G:\gimp-mcp\Projects\SnoopyCandle\spec_candle.json`.
   - `"light_tz"`: the height the lights aim at (default 0.45 × the model's height).
   - `"extra_filaments"`: render-only colors not in the 3MF, e.g. `["#2E9E3F"]`. Assign them in `"assign"` as the next extruder (a 3-filament 3MF's first extra is 4).
   - `"fuzzy"`: part-name prefixes printed with Bambu fuzzy skin, e.g. `["PlushDog", "PlushArm", "PlushFeet", "HatCuff"]`. They get a grainy, more matte material (`scene_env.fuzzy`). `"fuzzy_strength"` scales the bump (default 1.0; Olaf used 1.3). **ASK** which parts are fuzzy if the print notes mention fuzzy skin.
   - Name matching uses 3MF **object** names. When the blend names match the 3MF **part** (volume) names instead (e.g. `PlushDog` inside object `Body`), set `"assign"` from the part extruders.
   - `desk` + `"screen_code"` work as in `run_renders.py`. The monitor's file tree lists the folder of the first code file.
-- Same output layout as `run_renders.py`. Example: `D:\gimp-mcp\Projects\CatInHat\spec.json`.
+- Same output layout as `run_renders.py`. Example: `G:\gimp-mcp\Projects\CatInHat\spec.json`.
 - Give `<output>` as an **absolute** path. A relative one breaks the `desk` monitor image (Blender can't find `Work\code_screen.png`).
-- **3MF-only parts (SVG relief, text, paint):** the blend gives each part one color, so Bambu SVG/text parts and painted borders added in the 3MF are lost. Build a render blend first: take the 3MF object's parts (paint decoded), split them per extruder into `<Piece>_e<n>` meshes, fit each into the blend pose (known print rotation + bbox center of the base part), then map them with `"assign"`. Example: `D:\gimp-mcp\Projects\13 Chime\prep_render_blend.py` (also swaps the name text for a new name in the same font/size).
+- **3MF-only parts (SVG relief, text, paint):** the blend gives each part one color, so Bambu SVG/text parts and painted borders added in the 3MF are lost. Build a render blend first: take the 3MF object's parts (paint decoded), split them per extruder into `<Piece>_e<n>` meshes, fit each into the blend pose (known print rotation + bbox center of the base part), then map them with `"assign"`. Example: `G:\gimp-mcp\Projects\13 Chime\prep_render_blend.py` (also swaps the name text for a new name in the same font/size).
 
 ## Limits and known behavior
 
@@ -148,19 +148,19 @@ python -I run_blend.py "<model.blend>" "<file.3mf>" "<output>" --spec spec.json 
 
 | Date | 3MF | Output |
 |---|---|---|
-| 2026-10-21 | Grinch Cup | `D:\gimp-mcp\Projects\Cup\Ad Images\Drafts\` (built by hand, before this workflow existed) |
-| 2026-10-22 | Snoopy Cup Project | `D:\gimp-mcp\Projects\Cup\Ad Images\Snoopy\` (built by hand, before this workflow existed) |
+| 2026-10-21 | Grinch Cup | `G:\gimp-mcp\Projects\Cup\Ad Images\Drafts\` (built by hand, before this workflow existed) |
+| 2026-10-22 | Snoopy Cup Project | `G:\gimp-mcp\Projects\Cup\Ad Images\Snoopy\` (built by hand, before this workflow existed) |
 | 2026-10-27 | Workflow verified on Grinch, Snoopy and Coozie base (test pass) | scratch only |
-| 2026-10-27 | Cat in Hat Popcorn Bucket (`PopcornBucket_A1mini_Optimized.3mf`); added layer-line realism, auto frame scale, `top_inside` shot, `seuss` + `desk` themes (final: `desk`), full paint decoding | `D:\gimp-mcp\Projects\PopCorn\` (spec.json there) |
-| 2026-10-29 | Cat in the Hat Hot Air Balloon (`... - Final_flatbrim.3mf` + `CanInHatCouch.blend`); added `run_blend.py`/`render_blend.py`, split the set into `scene_env.py` (regression-checked: identical popcorn render) | `D:\gimp-mcp\Projects\CatInHat\` (spec.json there) |
-| 2026-10-30 | 13 Chime trophy (`13Chime_Clock_x2d.3mf` + `13Chime.blend`); 3MF SVG/text/paint parts mapped onto blend via `prep_render_blend.py`, name "David", desk theme, close-ups, `layer_lines` 0 (user rejected the ridges) | `D:\gimp-mcp\Projects\13 Chime\` (spec.json there) |
-| 2026-11-01 | Snoopy Candle Holder (`SnoopyCandleHolder_A1Mini_optimized.3mf` + `SnoopyCandle_V3.blend`); christmas theme, `bowl_top` + `face_detail` close-ups; fixed `render_blend.py` stale `matrix_world` on appended parts (bowl rendered at z=0) | `D:\gimp-mcp\Projects\SnoopyCandle\` (spec.json there) |
-| 2026-11-01 | Snoopy Candle Holder, candle version (`spec_candle.json`, `candle` prop: lit 3-wick jar in bowl pocket, `candle_top` + `upper_detail` close-ups) | `D:\gimp-mcp\Projects\SnoopyCandle\Candle\` |
-| 2026-11-03 | Snoopy Candle Holder, grass base mockup (`prep_grass_blend.py` builds render-only base + render blend, `extra_filaments`, `base_detail` close-up) | `D:\gimp-mcp\Projects\SnoopyCandle\GrassBase\` |
-| 2026-11-03 | Snoopy Candle Holder, printable grass base (`SnoopyCandleHolder_A1Mini_optimized.3mf` + `SnoopyCandle_V3.blend`, `GrassBase` from the user's blend, plate 6 green) | `D:\gimp-mcp\Projects\SnoopyCandle\GrassBlades\` (spec_blades.json there) |
-| 2026-11-10 | Snoopy Candle, snowy base: real photos cut out (birefnet onnx in `~\.rembg\models`) + regraded onto christmas `hero_bg.png`, via `SnoopyCandle\Snowy\photo_comp.py` | `D:\gimp-mcp\Projects\SnoopyCandle\Drafts\snowy_*_logo.png` |
-| 2026-11-10 | Snoopy Candle, snow base renders (`SnoopyCandle_V4.blend` + original `SnoopyCandleHolder_A1Mini_optimized.3mf`; SnowBase 3MF only holds the base). V4 parts assigned: `EyeL_p/EyeR_p/Mouth_bent_preview`=3, `SnowBase`=1, exclude `Mouth_p` (flat print copy) | `D:\gimp-mcp\Projects\SnoopyCandle\SnowBase\` (spec_snow.json there) |
-| 2026-11-10 | Happy Blue Creature Cup + Grinch variant (two separate sets, same 2 caps), christmas theme, `layer_lines` 0 | `D:\gimp-mcp\Projects\Cup\Ad Images\Happy Blue Creature\Standard\` + `\Grinch\` (spec.json in parent) |
-| 2026-11-15 | Olaf candle holder (`OlafCandleHolder_X2D_optimized.3mf` + `SnoopyCandle_V4.blend`); christmas theme, `fuzzy` option added (body/arms/feet/hat cuff), `extract_3mf.py` now reads inline meshes (no `p:path`); hat = `_SC_Rest`, brim = `_SC_Piece`, ref collections excluded. Candle version: pocket center found by circle-fitting raycast hits on the pocket wall (r 53 mm at (234.3, 2.7)); a bbox/floor-span guess was 9 mm off and the jar poked through the hat front | `D:\gimp-mcp\Projects\SnoopyCandle\Olaf\` (spec_olaf.json) + `\Olaf\Candle\` (spec_olaf_candle.json) |
+| 2026-10-27 | Cat in Hat Popcorn Bucket (`PopcornBucket_A1mini_Optimized.3mf`); added layer-line realism, auto frame scale, `top_inside` shot, `seuss` + `desk` themes (final: `desk`), full paint decoding | `G:\gimp-mcp\Projects\PopCorn\` (spec.json there) |
+| 2026-10-29 | Cat in the Hat Hot Air Balloon (`... - Final_flatbrim.3mf` + `CanInHatCouch.blend`); added `run_blend.py`/`render_blend.py`, split the set into `scene_env.py` (regression-checked: identical popcorn render) | `G:\gimp-mcp\Projects\CatInHat\` (spec.json there) |
+| 2026-10-30 | 13 Chime trophy (`13Chime_Clock_x2d.3mf` + `13Chime.blend`); 3MF SVG/text/paint parts mapped onto blend via `prep_render_blend.py`, name "David", desk theme, close-ups, `layer_lines` 0 (user rejected the ridges) | `G:\gimp-mcp\Projects\13 Chime\` (spec.json there) |
+| 2026-11-01 | Snoopy Candle Holder (`SnoopyCandleHolder_A1Mini_optimized.3mf` + `SnoopyCandle_V3.blend`); christmas theme, `bowl_top` + `face_detail` close-ups; fixed `render_blend.py` stale `matrix_world` on appended parts (bowl rendered at z=0) | `G:\gimp-mcp\Projects\SnoopyCandle\` (spec.json there) |
+| 2026-11-01 | Snoopy Candle Holder, candle version (`spec_candle.json`, `candle` prop: lit 3-wick jar in bowl pocket, `candle_top` + `upper_detail` close-ups) | `G:\gimp-mcp\Projects\SnoopyCandle\Candle\` |
+| 2026-11-03 | Snoopy Candle Holder, grass base mockup (`prep_grass_blend.py` builds render-only base + render blend, `extra_filaments`, `base_detail` close-up) | `G:\gimp-mcp\Projects\SnoopyCandle\GrassBase\` |
+| 2026-11-03 | Snoopy Candle Holder, printable grass base (`SnoopyCandleHolder_A1Mini_optimized.3mf` + `SnoopyCandle_V3.blend`, `GrassBase` from the user's blend, plate 6 green) | `G:\gimp-mcp\Projects\SnoopyCandle\GrassBlades\` (spec_blades.json there) |
+| 2026-11-10 | Snoopy Candle, snowy base: real photos cut out (birefnet onnx in `~\.rembg\models`) + regraded onto christmas `hero_bg.png`, via `SnoopyCandle\Snowy\photo_comp.py` | `G:\gimp-mcp\Projects\SnoopyCandle\Drafts\snowy_*_logo.png` |
+| 2026-11-10 | Snoopy Candle, snow base renders (`SnoopyCandle_V4.blend` + original `SnoopyCandleHolder_A1Mini_optimized.3mf`; SnowBase 3MF only holds the base). V4 parts assigned: `EyeL_p/EyeR_p/Mouth_bent_preview`=3, `SnowBase`=1, exclude `Mouth_p` (flat print copy) | `G:\gimp-mcp\Projects\SnoopyCandle\SnowBase\` (spec_snow.json there) |
+| 2026-11-10 | Happy Blue Creature Cup + Grinch variant (two separate sets, same 2 caps), christmas theme, `layer_lines` 0 | `G:\gimp-mcp\Projects\Cup\Ad Images\Happy Blue Creature\Standard\` + `\Grinch\` (spec.json in parent) |
+| 2026-11-15 | Olaf candle holder (`OlafCandleHolder_X2D_optimized.3mf` + `SnoopyCandle_V4.blend`); christmas theme, `fuzzy` option added (body/arms/feet/hat cuff), `extract_3mf.py` now reads inline meshes (no `p:path`); hat = `_SC_Rest`, brim = `_SC_Piece`, ref collections excluded. Candle version: pocket center found by circle-fitting raycast hits on the pocket wall (r 53 mm at (234.3, 2.7)); a bbox/floor-span guess was 9 mm off and the jar poked through the hat front | `G:\gimp-mcp\Projects\SnoopyCandle\Olaf\` (spec_olaf.json) + `\Olaf\Candle\` (spec_olaf_candle.json) |
 
 Add a row after each run.

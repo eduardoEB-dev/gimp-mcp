@@ -241,7 +241,7 @@ def overlay(path, S=7):
     im.save(path)
 
 
-GUIDE = r"D:\gimp-mcp\Projects\SVG\Staff\Images\guide.png"
+GUIDE = r"G:\gimp-mcp\Projects\SVG\Staff\Images\guide.png"
 
 if __name__ == "__main__":
     open(sys.argv[1], "w").write(build())

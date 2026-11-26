@@ -2,7 +2,7 @@
 import numpy as np, os, matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
 from scipy import ndimage as nd
 from feat import feature_mask
-OUT=r"D:\gimp-mcp\Projects\SVG\SnoopyHeadSVGs"; PX=0.05
+OUT=r"G:\gimp-mcp\Projects\SVG\SnoopyHeadSVGs"; PX=0.05
 
 def chart(P, right, up):
     """arc-length chart of a ray grid: X along columns, Y along rows, signed by right/up, 0 at grid centre"""

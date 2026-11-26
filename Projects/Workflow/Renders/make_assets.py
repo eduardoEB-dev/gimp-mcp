@@ -5,7 +5,7 @@ Run: blender -b --python make_assets.py
 """
 import bpy, bmesh, json, os, numpy as np
 from mathutils import Matrix, Vector
-BLU = r"D:\Blender\blender-mcp\Projects\NewCupProject\BlenderFiles\New_Cup_Solid_Half_BLU.blend"
+BLU = r"G:\Blender\blender-mcp\Projects\NewCupProject\BlenderFiles\New_Cup_Solid_Half_BLU.blend"
 OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), "assets")
 CY = 41.91
 bpy.ops.wm.read_factory_settings(use_empty=True)

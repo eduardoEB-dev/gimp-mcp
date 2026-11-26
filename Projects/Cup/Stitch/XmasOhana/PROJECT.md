@@ -1,6 +1,6 @@
 # XmasOhana
 
-Started 2026-11-09. Workflow: D:\gimp-mcp\Projects\Workflow\SVG Creation\SVG_Creation_Workflow.md
+Started 2026-11-09. Workflow: G:\gimp-mcp\Projects\Workflow\SVG Creation\SVG_Creation_Workflow.md
 
 ## Goal
 - What it's for: cup art (X-mas Ohana lettering)

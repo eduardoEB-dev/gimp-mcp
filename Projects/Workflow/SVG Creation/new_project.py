@@ -61,7 +61,7 @@ if not os.path.exists(md):
     today = datetime.date.today().isoformat()
     open(md, "w", encoding="utf-8").write(f"""# {os.path.basename(P)}
 
-Started {today}. Workflow: D:\\gimp-mcp\\Projects\\Workflow\\SVG Creation\\SVG_Creation_Workflow.md
+Started {today}. Workflow: G:\\gimp-mcp\\Projects\\Workflow\\SVG Creation\\SVG_Creation_Workflow.md
 
 ## Goal
 - What it's for:

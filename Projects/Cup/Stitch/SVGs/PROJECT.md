@@ -1,6 +1,6 @@
 # Stitch Santa Onesie
 
-Started 2026-11-08. Workflow: D:\gimp-mcp\Projects\Workflow\SVG Creation\SVG_Creation_Workflow.md
+Started 2026-11-08. Workflow: G:\gimp-mcp\Projects\Workflow\SVG Creation\SVG_Creation_Workflow.md
 
 ## Goal
 - What it's for: cup art (to be appended to a cup 3MF next, SVG Cup Append workflow)
@@ -18,4 +18,4 @@ Started 2026-11-08. Workflow: D:\gimp-mcp\Projects\Workflow\SVG Creation\SVG_Cre
 ## Final
 
 
-Cup: v1 appended 2026-11-08 -> `D:\Blender\blender-mcp\Projects\NewCupProject\Happy Blue Creature\Happy Blue Creature Cup.3mf`
+Cup: v1 appended 2026-11-08 -> `G:\Blender\blender-mcp\Projects\NewCupProject\Happy Blue Creature\Happy Blue Creature Cup.3mf`

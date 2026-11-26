@@ -3,8 +3,8 @@
 import numpy as np, os, sys, matplotlib; matplotlib.use('Agg'); import matplotlib.pyplot as plt
 from PIL import Image
 from scipy import ndimage as nd
-SRC=r"D:\Blender\blender-mcp\Projects\SnoopyDrDoom\Images\Snoopy Dr Doom.jpg"
-OUT=r"D:\gimp-mcp\Projects\SVG\SnoopyHeadDoomSVGs"
+SRC=r"G:\Blender\blender-mcp\Projects\SnoopyDrDoom\Images\Snoopy Dr Doom.jpg"
+OUT=r"G:\gimp-mcp\Projects\SVG\SnoopyHeadDoomSVGs"
 X0,Y0,X1,Y1=495,125,580,185      # crop: near eye + brow (orig px)
 UP=8                              # upsample
 MMPX=float(sys.argv[1]) if len(sys.argv)>1 else 0.30   # mm per orig px (head ~half candle scale)

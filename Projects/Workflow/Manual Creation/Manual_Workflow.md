@@ -9,7 +9,7 @@
 | 1 | Assembled `.blend` | Yes | Parts positioned as built, in mm. Each part its own mesh object with a clear name. |
 | 2 | `.3mf` | Yes | Part colors and the print plates come from here. |
 | 3 | Assembly notes | Yes | A `.txt`, an old manual or rough bullets: build order, how parts fit, cut lengths, hole depths, glue or no glue, and anything learned while building. Missing? **ASK**. Don't invent steps. |
-| 4 | Output path | Yes | Convention: `D:\gimp-mcp\Projects\<Model>\Manual\`. Not given? **ASK**. |
+| 4 | Output path | Yes | Convention: `G:\gimp-mcp\Projects\<Model>\Manual\`. Not given? **ASK**. |
 | 5 | Which side is the front | If unclear | Used for left/right and the view angles. Our models face -Y. |
 | 6 | Cover image | Optional | A real print photo is best, with the logo already on it (`Render_Workflow.md` → `brand.py`). No cover? Use a `Drafts\hero_logo.png` from the Renders workflow, or a shot from this workflow. |
 | 7 | Print details | Optional | Plates that need a different nozzle, filament or hardware the buyer supplies. Otherwise take the plate list from the 3MF and **ASK** about anything unusual. |
@@ -19,7 +19,7 @@ Ad renders aren't needed. The step images are rendered here from the `.blend`.
 
 ## Tools
 
-Everything is in `D:\gimp-mcp\Projects\Workflow\Manual Creation\`. Run the Python scripts with `python -I` (3.11 with Pillow). Blender 5.1 at `C:\Program Files\Blender Foundation\Blender 5.1\blender.exe`, Microsoft Word, PowerShell 7 (`pwsh`) and Node are also needed.
+Everything is in `G:\gimp-mcp\Projects\Workflow\Manual Creation\`. Run the Python scripts with `python -I` (3.11 with Pillow). Blender 5.1 at `C:\Program Files\Blender Foundation\Blender 5.1\blender.exe`, Microsoft Word, PowerShell 7 (`pwsh`) and Node are also needed.
 
 | File | Role |
 |---|---|
@@ -99,8 +99,8 @@ python -m venv .venv
 ```json
 {
   "name": "Model Name",
-  "blend": "D:\\...\\model.blend",
-  "3mf": "D:\\...\\model.3mf",
+  "blend": "G:\\...\\model.blend",
+  "3mf": "G:\\...\\model.3mf",
   "exclude_collections": ["OtherProject"],
   "exclude": ["SomePart"],
   "assign": {"String_": 3},
@@ -111,8 +111,8 @@ python -m venv .venv
   },
   "doc": {
     "accent": "C12E1F",
-    "source_notes": "D:\\...\\notes.txt",
-    "cover": {"image": "D:\\...\\cover.png", "title": "MODEL NAME", "subtitle": "Second line", "kicker": "optional, replaces Assembly Instructions"},
+    "source_notes": "G:\\...\\notes.txt",
+    "cover": {"image": "G:\\...\\cover.png", "title": "MODEL NAME", "subtitle": "Second line", "kicker": "optional, replaces Assembly Instructions"},
     "blocks": []
   }
 }
@@ -180,10 +180,10 @@ Standard order: `Before You Start` (what it is, left/right definition, dry-fit w
 
 | Date | Model | Output | Result |
 |---|---|---|---|
-| 2026-10-29 | Cat in the Hat Hot Air Balloon | `D:\gimp-mcp\Projects\CatInHat\Instructions\` | Built by hand before this workflow. 11 pages, 13 images. PNG build was 24.8 MB, so images are now always JPEG (2.2 MB) |
-| 2026-11-03 | Cat in the Hat, rebuilt through this workflow as its test (`examples\CatInHat_manual.json`) | `D:\gimp-mcp\Projects\CatInHat\ManualTest\` | 11 pages, 1.3 MB, no layer lines. Text identical to the 2026-10-29 Etsy manual (202 of 202 paragraphs), no numbers missing from the notes |
-| 2026-11-03 | Beagle Dog Bowl Candle Holder | `D:\gimp-mcp\Projects\SnoopyCandle\Instructions\` | 13 pages, 13 images. `render_steps.py` fixed: objects positioned by location (Bowl, keys) landed wrong, hidden parts didn't render. Dowel + GlueKey1-4 added to `Worklend_shots.json` by hand after `prep` (hidden in blend), redo after re-running `prep` |
-| 2026-11-04 | Beagle Dog Bowl Candle Holder, V4 update (separate eyes + smile) | `D:\gimp-mcp\Projects\SnoopyCandle\Instructions\` (V3 in `Archive_V3\`) | 15 pages, 17 images, 1.1 MB. Added shot key `peel` to show a strip half glued. Same hidden-part fix after `prep`: Dowel + GlueKey1-4 |
+| 2026-10-29 | Cat in the Hat Hot Air Balloon | `G:\gimp-mcp\Projects\CatInHat\Instructions\` | Built by hand before this workflow. 11 pages, 13 images. PNG build was 24.8 MB, so images are now always JPEG (2.2 MB) |
+| 2026-11-03 | Cat in the Hat, rebuilt through this workflow as its test (`examples\CatInHat_manual.json`) | `G:\gimp-mcp\Projects\CatInHat\ManualTest\` | 11 pages, 1.3 MB, no layer lines. Text identical to the 2026-10-29 Etsy manual (202 of 202 paragraphs), no numbers missing from the notes |
+| 2026-11-03 | Beagle Dog Bowl Candle Holder | `G:\gimp-mcp\Projects\SnoopyCandle\Instructions\` | 13 pages, 13 images. `render_steps.py` fixed: objects positioned by location (Bowl, keys) landed wrong, hidden parts didn't render. Dowel + GlueKey1-4 added to `Worklend_shots.json` by hand after `prep` (hidden in blend), redo after re-running `prep` |
+| 2026-11-04 | Beagle Dog Bowl Candle Holder, V4 update (separate eyes + smile) | `G:\gimp-mcp\Projects\SnoopyCandle\Instructions\` (V3 in `Archive_V3\`) | 15 pages, 17 images, 1.1 MB. Added shot key `peel` to show a strip half glued. Same hidden-part fix after `prep`: Dowel + GlueKey1-4 |
 
 Add a row per manual.
-| 2026-11-08 | Blender Modeling Field Guide (learning manual, no model: procedural demo renders from `Work\demos.py`, Eevee) | `D:\gimp-mcp\Projects\Blender Manual\Manual Doc\` | 30 pages, 40 images, 2.3 MB. Built with `Work\build_doc.py` → this folder's `build_manual.js` + `check_doc.py`. Added cover `kicker` |
+| 2026-11-08 | Blender Modeling Field Guide (learning manual, no model: procedural demo renders from `Work\demos.py`, Eevee) | `G:\gimp-mcp\Projects\Blender Manual\Manual Doc\` | 30 pages, 40 images, 2.3 MB. Built with `Work\build_doc.py` → this folder's `build_manual.js` + `check_doc.py`. Added cover `kicker` |

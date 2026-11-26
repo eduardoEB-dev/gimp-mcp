@@ -1,6 +1,6 @@
 # Providence
 
-Started 2026-11-01. Workflow: D:\gimp-mcp\Projects\Workflow\SVG Creation\SVG_Creation_Workflow.md
+Started 2026-11-01. Workflow: G:\gimp-mcp\Projects\Workflow\SVG Creation\SVG_Creation_Workflow.md
 
 ## Goal
 - What it's for: Providence "P" logo, multi-color Bambu print

@@ -9,10 +9,10 @@ import os, sys
 import numpy as np
 from PIL import Image, ImageDraw, ImageFilter
 from scipy import ndimage as ni
-sys.path.insert(0, r"D:\gimp-mcp\Projects\Workflow\SVG Creation")
+sys.path.insert(0, r"G:\gimp-mcp\Projects\Workflow\SVG Creation")
 import layers_common as L
 
-P = r"D:\gimp-mcp\Projects\BetterResolution\Glove\SVG\Laces"
+P = r"G:\gimp-mcp\Projects\BetterResolution\Glove\SVG\Laces"
 HEIGHT_MM = 101.6      # 4 in, loop included (Blender Project.md)
 L_MAX, CH_MAX = 36, 15 # lace = dark + neutral; brown shadow fails chroma
 L_SOFT, CH_SOFT = 52, 12  # lace highlights, only kept touching core

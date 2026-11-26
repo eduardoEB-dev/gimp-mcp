@@ -1,8 +1,8 @@
 {
   "theme": "desk",
   "screen_code": [
-    "D:/Blender/blender-mcp/Projects/13Chime/Scripts/build_clock.py",
-    "D:/Blender/blender-mcp/Projects/13Chime/Scripts/build_nameplate.py"
+    "G:/Blender/blender-mcp/Projects/13Chime/Scripts/build_clock.py",
+    "G:/Blender/blender-mcp/Projects/13Chime/Scripts/build_nameplate.py"
   ],
   "fstop": 1.8,
   "layer_lines": 0,

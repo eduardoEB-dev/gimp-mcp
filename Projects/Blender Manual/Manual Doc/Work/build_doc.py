@@ -2,8 +2,8 @@
 usage: python -I build_doc.py"""
 import json, os, subprocess
 
-OUT = r"D:\gimp-mcp\Projects\Blender Manual\Manual Doc"
-MC = r"D:\gimp-mcp\Projects\Workflow\Manual Creation"
+OUT = r"G:\gimp-mcp\Projects\Blender Manual\Manual Doc"
+MC = r"G:\gimp-mcp\Projects\Workflow\Manual Creation"
 JPG = os.path.join(OUT, "Renders", "jpg")
 NAME = "Blender Modeling Field Guide"
 B = []

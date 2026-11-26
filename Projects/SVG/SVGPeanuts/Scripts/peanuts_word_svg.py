@@ -6,7 +6,7 @@ import sys, os, argparse
 import numpy as np
 from PIL import Image, ImageOps, ImageFilter
 from scipy import ndimage as ndi
-sys.path.insert(0, r"D:\gimp-mcp\Projects\Workflow\SVG Creation")
+sys.path.insert(0, r"G:\gimp-mcp\Projects\Workflow\SVG Creation")
 from layers_common import trace_mask, write_layer_set
 
 ap = argparse.ArgumentParser()

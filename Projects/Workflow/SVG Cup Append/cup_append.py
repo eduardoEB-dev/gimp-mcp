@@ -52,7 +52,7 @@ ap.add_argument("--lid-height-mm", type=float, help="lid art height (default: la
 ap.add_argument("--lid-shift", default="0,0", help='lid: nudge "right,up" mm (hole = up)')
 ap.add_argument("--object", default="cup", help="name (substring) of the cup object in the 3MF")
 ap.add_argument("--lid-object", default="cap", help="name (substring) or object id of the lid in the 3MF")
-ap.add_argument("--work", help=r"work folder (default: D:\Blender\blender-mcp\Projects\NewCupProject\<Name>Cup)")
+ap.add_argument("--work", help=r"work folder (default: G:\Blender\blender-mcp\Projects\NewCupProject\<Name>Cup)")
 ap.add_argument("--blender", help="blender.exe (default: newest under Program Files\\Blender Foundation)")
 ap.add_argument("--dry-run", action="store_true", help="layout + previews only, no 3MF written")
 ap.add_argument("--force", action="store_true", help="allow overwriting out, or adding to a cup/lid that already has art")
@@ -71,7 +71,7 @@ if OUTLINE and OUTLINE not in COLORS: die(f"--outline {OUTLINE} not in layers {C
 H = {c: (0.8 if c == OUTLINE else 0.6) for c in COLORS}
 for kv in filter(None, a.heights.split(",")):
     k, v = kv.split("="); H[k.strip()] = float(v)
-WORK = a.work or rf"D:\Blender\blender-mcp\Projects\NewCupProject\{NAME}Cup"
+WORK = a.work or rf"G:\Blender\blender-mcp\Projects\NewCupProject\{NAME}Cup"
 if os.path.abspath(a.out) == os.path.abspath(a.src) and not a.force and not a.dry_run:
     die("out == src: pass --force to overwrite the src in place")
 if os.path.exists(a.out) and not a.force and not a.dry_run: die(f"{a.out} exists (--force to overwrite)")

@@ -1,7 +1,7 @@
 {
- "blend": "D:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\Blender Files\\CanInHatCouch.blend",
- "blend_shots": "D:\\gimp-mcp\\Projects\\CatInHat\\Work\\blend_shots.json",
- "workflow_dir": "D:\\gimp-mcp\\Projects\\Workflow\\Renders",
+ "blend": "G:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\Blender Files\\CanInHatCouch.blend",
+ "blend_shots": "G:\\gimp-mcp\\Projects\\CatInHat\\Work\\blend_shots.json",
+ "workflow_dir": "G:\\gimp-mcp\\Projects\\Workflow\\Renders",
  "all_parts": [
   "BaseCloud",
   "Couch_Red",

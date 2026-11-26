@@ -5,7 +5,7 @@ import sys, os
 import numpy as np, cv2
 from PIL import Image, ImageDraw, ImageFilter, ImageChops, ImageOps
 
-LOGO = r"D:\gimp-mcp\Projects\Cup\Ad Images\TryCatch Designs_ From Code to Creation.png"
+LOGO = r"G:\gimp-mcp\Projects\Cup\Ad Images\TryCatch Designs_ From Code to Creation.png"
 BOXES = {
     "868220974_1437294624524276_8684537879893658309_n.jpg": (715, 14, 1068, 152),
     "869218399_2338707393624661_5479986963673536984_n.jpg": (650, 1256, 1062, 1402),

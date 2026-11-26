@@ -1,7 +1,7 @@
 {
  "name": "Cat in the Hat Hot Air Balloon",
- "blend": "D:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\Blender Files\\CanInHatCouch.blend",
- "3mf": "D:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\STL\\FinalSTL\\Cat in the Hat Hot Air Balloon A1 mini Final.3mf",
+ "blend": "G:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\Blender Files\\CanInHatCouch.blend",
+ "3mf": "G:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\STL\\FinalSTL\\Cat in the Hat Hot Air Balloon A1 mini Final.3mf",
  "exclude_collections": [
   "PopcornBucket",
   "PopcornBucket_X2D"
@@ -1000,9 +1000,9 @@
   ]
  },
  "doc": {
-  "source_notes": "D:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\STL\\FinalSTL\\Cat in the Hat Hot Air Balloon - Assembly Instructions.txt",
+  "source_notes": "G:\\Blender\\blender-mcp\\Projects\\Cat In Hat\\STL\\FinalSTL\\Cat in the Hat Hot Air Balloon - Assembly Instructions.txt",
   "cover": {
-   "image": "D:\\gimp-mcp\\Projects\\CatInHat\\Drafts\\RealImages\\Better Pictures\\20261029_105731_logo.png",
+   "image": "G:\\gimp-mcp\\Projects\\CatInHat\\Drafts\\RealImages\\Better Pictures\\20261029_105731_logo.png",
    "title": "CAT IN THE HAT",
    "subtitle": "Hot Air Balloon"
   },

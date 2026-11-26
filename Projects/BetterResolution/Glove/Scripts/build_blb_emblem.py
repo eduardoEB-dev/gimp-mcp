@@ -11,7 +11,7 @@ import numpy as np
 from shapely.geometry import Polygon
 from shapely.ops import unary_union
 
-sys.path.insert(0, r"D:\gimp-mcp\Projects\Workflow\SVG Creation")
+sys.path.insert(0, r"G:\gimp-mcp\Projects\Workflow\SVG Creation")
 import layers_common as L  # noqa: E402
 
 W, H = 33.0, 38.0          # pocket size, mm

@@ -1,7 +1,7 @@
 {
  "name": "Beagle Dog Bowl Candle Holder",
- "blend": "D:/Blender/blender-mcp/Projects/SnoopyCandle/Blender/SnoopyCandle_V3.blend",
- "3mf": "D:/Blender/blender-mcp/Projects/SnoopyCandle/STL/Final/Beagle Dog Bowl Candle Holder (A1 mini) - Final.3mf",
+ "blend": "G:/Blender/blender-mcp/Projects/SnoopyCandle/Blender/SnoopyCandle_V3.blend",
+ "3mf": "G:/Blender/blender-mcp/Projects/SnoopyCandle/STL/Final/Beagle Dog Bowl Candle Holder (A1 mini) - Final.3mf",
  "exclude": [],
  "assign": {
   "RemixHead": 1,
@@ -1169,11 +1169,11 @@
    }
   ],
   "cover": {
-   "image": "D:/gimp-mcp/Projects/SnoopyCandle/Candle/Drafts/hero_logo.png",
+   "image": "G:/gimp-mcp/Projects/SnoopyCandle/Candle/Drafts/hero_logo.png",
    "title": "BEAGLE DOG BOWL CANDLE HOLDER",
    "subtitle": "Jar candle holder with optional grass base"
   },
   "accent": "D62B1F",
-  "source_notes": "D:/gimp-mcp/Projects/SnoopyCandle/Instructions/notes.txt"
+  "source_notes": "G:/gimp-mcp/Projects/SnoopyCandle/Instructions/notes.txt"
  }
 }

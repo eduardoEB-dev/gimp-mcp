@@ -14,7 +14,7 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 
 
-MAX_COLORS = 5   # user's AMS slots; more layers -> warn and suggest merges
+MAX_COLORS = 9   # default SVG layer-set limit
 
 # basic names for auto-detected colors (layer/file names only; Bambu ignores
 # SVG colors, the user assigns a filament per part)

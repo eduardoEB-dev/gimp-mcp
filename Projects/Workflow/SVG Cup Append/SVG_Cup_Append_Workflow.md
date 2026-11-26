@@ -4,7 +4,7 @@
 
 ## Tools
 
-Everything is in `D:\gimp-mcp\Projects\Workflow\SVG Cup Append\`. Run with `python -I` (3.11; needs `shapely>=2 numpy`). Blender 5.x is found automatically under `C:\Program Files\Blender Foundation\`.
+Everything is in `G:\gimp-mcp\Projects\Workflow\SVG Cup Append\`. Run with `python -I` (3.11; needs `shapely>=2 numpy`). Blender 5.x is found automatically under `C:\Program Files\Blender Foundation\`.
 
 | Tool | Use |
 |---|---|
@@ -18,9 +18,9 @@ python -I cup_append.py "<layer set>" "<src.3mf>" "<out.3mf>" [--target cup|lid|
 
 ## Inputs from the user
 
-1. **Layer set**: a folder from the SVG Creation workflow (`D:\gimp-mcp\Projects\Workflow\SVG Creation\`) holding `<Name>_<Color>.svg` + `layers.json`. Prefer `<project>\Final\<Name>\`; a `Drafts\<Name>_vN\` is fine if the user points at it. No layer set yet → make one first with the SVG Creation workflow.
-2. **Cup 3MF**: normally `D:\Blender\blender-mcp\Projects\NewCupProject\Final\Cooler Coozie Cup Base - Final.3mf` (plain cup, all plates and settings). If the user names a copy of the base (e.g. `<Name> Coozie Cup - Final.3mf`) that is byte-identical to it, use the base as src and the copy as out.
-3. **Output**: default `D:\Blender\blender-mcp\Projects\NewCupProject\Final\<Name> Coozie Cup - Final.3mf`. If the user names a cup's own 3MF (e.g. `NewCupProject\<Name>\<Name> Cup.3mf`, plain cup), overwrite it in place: src = out + `--force`, no backup (user, 2026-11-09). Otherwise don't overwrite the base. If the user gives a folder (e.g. `NewCupProject\<Name>\`), lay it out flat like `GrinchCup`: `<Name> Cup.3mf`, `<Name> Cup - <Art>_<Color>.stl`, `preview.png` + `preview angle.png` at the top, `work\` for the rest. The script doesn't do this, so move and rename the files after the write.
+1. **Layer set**: a folder from the SVG Creation workflow (`G:\gimp-mcp\Projects\Workflow\SVG Creation\`) holding `<Name>_<Color>.svg` + `layers.json`. Prefer `<project>\Final\<Name>\`; a `Drafts\<Name>_vN\` is fine if the user points at it. No layer set yet → make one first with the SVG Creation workflow.
+2. **Cup 3MF**: normally `G:\Blender\blender-mcp\Projects\NewCupProject\Final\Cooler Coozie Cup Base - Final.3mf` (plain cup, all plates and settings). If the user names a copy of the base (e.g. `<Name> Coozie Cup - Final.3mf`) that is byte-identical to it, use the base as src and the copy as out.
+3. **Output**: default `G:\Blender\blender-mcp\Projects\NewCupProject\Final\<Name> Coozie Cup - Final.3mf`. If the user names a cup's own 3MF (e.g. `NewCupProject\<Name>\<Name> Cup.3mf`, plain cup), overwrite it in place: src = out + `--force`, no backup (user, 2026-11-09). Otherwise don't overwrite the base. If the user gives a folder (e.g. `NewCupProject\<Name>\`), lay it out flat like `GrinchCup`: `<Name> Cup.3mf`, `<Name> Cup - <Art>_<Color>.stl`, `preview.png` + `preview angle.png` at the top, `work\` for the rest. The script doesn't do this, so move and rename the files after the write.
 
 ## What it does (cup, `--target cup`, default)
 
@@ -44,7 +44,7 @@ The lid prints **face-down** on the bed, so the art is **inlaid flush**, not rai
 
 ## Shared
 
-- **Work folder** (default `D:\Blender\blender-mcp\Projects\NewCupProject\<Name>Cup\`, `--work` to change):
+- **Work folder** (default `G:\Blender\blender-mcp\Projects\NewCupProject\<Name>Cup\`, `--work` to change):
   - `STL\<Name> - <Color>.stl` per color + `<Name> - Logo.stl` (all colors), in 3MF local coords: for users who want separate parts instead of painting
   - `Images\preview.png` (front, ortho) + `preview_angle.png`; lid: `preview_lid.png` (face from outside, hole up)
   - `STL\<Name> Lid - <Color>.stl` + `<Name> Lid.stl` (lid with inlay joined)
