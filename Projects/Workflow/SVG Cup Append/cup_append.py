@@ -11,6 +11,7 @@ Separate shells -> Bambu's paint bucket stops at each color. Other objects, plat
 Run: python -I cup_append.py <layer_set_dir> <src.3mf> <out.3mf> [options]   (see SVG_Cup_Append_Workflow.md)
 """
 import argparse, glob, json, math, os, re, subprocess, sys, zipfile
+from tempfile import NamedTemporaryFile
 import numpy as np
 import shapely
 from shapely import make_valid
@@ -45,6 +46,8 @@ ap.add_argument("--z-shift", type=float, default=0.0, help="cup: move art up (+)
 ap.add_argument("--u-shift", type=float, default=0.0, help="cup: move art around the cup (+ = right, arc mm)")
 ap.add_argument("--outline", help="color that wins overlaps, fills hairline gaps, stands taller on the cup (default: Black/White if present)")
 ap.add_argument("--heights", default="", help='cup raise per color, e.g. "White=0.8,Pink=0.6" (default outline 0.8, others 0.6)')
+ap.add_argument("--clean-px", type=float, default=1.5, help="cleanup opening radius, svg px (smaller keeps finer detail)")
+ap.add_argument("--min-area-px", type=float, default=200, help="drop color pieces smaller than this, svg px^2")
 ap.add_argument("--fill-holes", action="store_true", help="fill holes inside the art with the outline color (default: keep open, e.g. P counter)")
 ap.add_argument("--lid-place", choices=("below", "miss", "through"), default="below",
                 help="lid: below the straw hole (default), biggest spot that misses it, or centered with the hole cut through the art")
@@ -107,9 +110,10 @@ def load_svg(path):  # M/C/L/Z paths (layer-set output), evenodd -> shapely
         g = p if g is None else g.symmetric_difference(p)
     return g.buffer(0)
 
-def clean(g, r=1.5):  # drop slivers / specks (svg px)
-    g = g.buffer(-r).buffer(r)
-    return unary_union([p for p in getattr(g, "geoms", [g]) if p.area > 200])
+def clean(g, r=None):  # drop slivers / specks (svg px)
+    r = a.clean_px if r is None else min(r, a.clean_px)
+    if r > 0: g = g.buffer(-r).buffer(r)
+    return unary_union([p for p in getattr(g, "geoms", [g]) if p.area > a.min_area_px])
 
 def filled(g): return unary_union([Polygon(p.exterior) for p in getattr(g, "geoms", [g])])
 
@@ -160,17 +164,18 @@ STL_DT = np.dtype([("n", "<f4", 3), ("v", "<f4", (3, 3)), ("x", "<u2")])
 def write_stl(path, V, T):
     rec = np.zeros(len(T), dtype=STL_DT); rec["v"] = V[T].astype("<f4")
     with open(path, "wb") as f: f.write(b"\0" * 80 + np.uint32(len(T)).tobytes() + rec.tobytes())
-def read_stl(path):
-    b = open(path, "rb").read(); n = int.from_bytes(b[80:84], "little")
-    v, idx = np.unique(np.frombuffer(b, dtype=STL_DT, count=n, offset=84)["v"].reshape(-1, 3), axis=0, return_inverse=True)
-    return v.astype(np.float64), idx.reshape(-1, 3)
-def vxml(V): return "".join(f'     <vertex x="{p:.6g}" y="{q:.6g}" z="{t:.6g}"/>\n' for p, q, t in V)
+def read_indexed_mesh(path):
+    with open(path, encoding="utf-8") as stream:
+        mesh = json.load(stream)
+    return np.asarray(mesh["vertices"], dtype=float), np.asarray(mesh["triangles"], dtype=int)
+
+def vxml(V): return "".join(f'     <vertex x="{p:.17g}" y="{q:.17g}" z="{t:.17g}"/>\n' for p, q, t in V)
 def txml(T): return "".join(f'     <triangle v1="{p}" v2="{q}" v3="{t}"/>\n' for p, q, t in T)
 
 blender = a.blender or (sorted(glob.glob(r"C:\Program Files\Blender Foundation\Blender*\blender.exe")) or [None])[-1]
 if not blender: die("blender.exe not found (--blender)")
 def run_blender(script, *args):
-    r = subprocess.run([blender, "-b", "--factory-startup", "--python", os.path.join(HERE, script), "--", *args], capture_output=True, text=True)
+    r = subprocess.run([blender, "-b", "--factory-startup", "--python-exit-code", "1", "--python", os.path.join(HERE, script), "--", *args], capture_output=True, text=True)
     for ln in r.stdout.splitlines():
         if ln.startswith(("  ", "Saved")) or "Error" in ln: print(ln)
     if r.returncode: die("blender failed:\n" + r.stdout[-3000:] + r.stderr[-3000:])
@@ -196,9 +201,14 @@ if DO_CUP:
     w, h = (X1 - X0) * s, (Y1 - Y0) * s
     if h > zmax - zmin:
         print(f"WARNING: {h:.1f} mm tall > free band {zmax - zmin:.1f} mm -> scaled down"); s *= (zmax - zmin) / h; w, h = (X1 - X0) * s, (Y1 - Y0) * s
-    if w > W_MAX: print(f"WARNING: {w:.1f} mm wide > {W_MAX} mm: art runs onto the grip panels")
+    # Art must stay on the smooth front between the grip ribs (W_MAX keeps ~6 mm padding each side). Never wider.
+    if w > W_MAX + 1e-6:
+        print(f"NOTE: {w:.2f} mm wide > {W_MAX} mm between the grips -> scaled down to fit"); s *= W_MAX / w; w, h = (X1 - X0) * s, (Y1 - Y0) * s
+    if abs(a.u_shift) + w / 2 > W_MAX / 2 + 1e-6:
+        die(f"--u-shift {a.u_shift} puts the art edge {abs(a.u_shift) + w / 2:.1f} mm from center: past the {W_MAX / 2:.0f} mm grip limit. Use a smaller shift or size")
     ztop = ((zmin + zmax + h) / 2 if a.align == "center" else zmax) + a.z_shift
-    if ztop > zmax + 1e-6 or ztop - h < zmin - 1e-6: print(f"WARNING: art z {ztop - h:.2f}..{ztop:.2f} leaves free band {zmin:.2f}..{zmax:.2f}")
+    if ztop > zmax + 1e-6 or ztop - h < zmin - 1e-6:
+        die(f"art z {ztop - h:.2f}..{ztop:.2f} leaves the free band {zmin:.2f}..{zmax:.2f} (rim / spigot). Use a smaller --z-shift or size")
     tf = [s, 0, 0, -s, -CX * s + a.u_shift, ztop + Y0 * s]
     print(f"cup art: {w:.2f} x {h:.2f} mm, z {ztop - h:.2f}..{ztop:.2f} (local), {ztop - h - z0:.2f}..{ztop - z0:.2f} from cup bottom")
     tris = {}
@@ -209,7 +219,7 @@ if DO_CUP:
     json.dump({"name": NAME, "R": R, "embed": EMBED, "heights": H, "hex": HEX, "tris": tris}, open(jt, "w"))
     cup_stl = os.path.join(WORK, "Work", "cup_preview.stl"); write_stl(cup_stl, V, T)
     run_blender("cup_decal_blender.py", jt, WORK, cup_stl)
-    lv, lt = read_stl(os.path.join(WORK, "STL", f"{NAME} - Logo.stl"))
+    lv, lt = read_indexed_mesh(os.path.join(WORK, "Work", f"{NAME}_cup_mesh.json"))
     lr = np.hypot(lv[:, 0], lv[:, 1])
     print(f"cup relief r {lr.min():.3f}..{lr.max():.3f} (wall {R:.3f})")
     i = m.rindex("\n", 0, m.index("</vertices>")) + 1; m = m[:i] + vxml(lv) + m[i:]
@@ -290,7 +300,7 @@ if DO_LID:
                "center": [float(oc[0]), float(oc[1])]}, open(jt, "w"))
     cap_stl = os.path.join(WORK, "Work", "lid_src.stl"); write_stl(cap_stl, V, T)
     run_blender("lid_inlay_blender.py", jt, WORK, cap_stl)
-    nv, nt = read_stl(os.path.join(WORK, "STL", f"{NAME} Lid.stl"))
+    nv, nt = read_indexed_mesh(os.path.join(WORK, "Work", f"{NAME}_lid_mesh.json"))
     i = m.index("<vertices>") + len("<vertices>\n"); j = m.rindex("\n", 0, m.index("</vertices>")) + 1; m = m[:i] + vxml(nv) + m[j:]
     i = m.index("<triangles>") + len("<triangles>\n"); j = m.rindex("\n", 0, m.index("</triangles>")) + 1; m = m[:i] + txml(nt) + m[j:]
     edits[LMODEL] = m; faces[LID] = len(nt)
@@ -304,11 +314,20 @@ for oid, n in faces.items():
     cfg = cfg[:i] + re.sub(r'face_count="\d+"', f'face_count="{n}"', cfg[i:j]) + cfg[j:]
 edits["Metadata/model_settings.config"] = cfg
 os.makedirs(os.path.dirname(os.path.abspath(a.out)), exist_ok=True)
-tmp = a.out + ".tmp"  # write beside, then replace: out may be the src (in-place)
-with zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zo:
-    for it in zin.infolist():
-        data = edits[it.filename].encode() if it.filename in edits else zin.read(it)
-        zo.writestr(it, data, compress_type=zipfile.ZIP_DEFLATED)
-zin.close()
-os.replace(tmp, a.out)
+# Stage beside the destination so publication is atomic, including in-place runs.
+with NamedTemporaryFile(dir=os.path.dirname(os.path.abspath(a.out)), suffix=".3mf", delete=False) as staged:
+    tmp = staged.name
+try:
+    with zin, zipfile.ZipFile(tmp, "w", zipfile.ZIP_DEFLATED) as zo:
+        for it in zin.infolist():
+            data = edits[it.filename].encode() if it.filename in edits else zin.read(it)
+            zo.writestr(it, data, compress_type=zipfile.ZIP_DEFLATED)
+    sys.stdout.flush()
+    result = subprocess.run([sys.executable, "-I", os.path.join(HERE, "validate_3mf.py"), tmp])
+    if result.returncode:
+        die("staged 3MF did not pass validation. Destination kept as-is. Check the meshes listed above.")
+    os.replace(tmp, a.out)
+finally:
+    if os.path.exists(tmp):
+        os.unlink(tmp)
 print(f"wrote {a.out}")

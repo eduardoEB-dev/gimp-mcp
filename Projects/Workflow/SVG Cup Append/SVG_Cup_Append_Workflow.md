@@ -1,14 +1,19 @@
 # TryCatch Designs: SVG Cup Append Workflow (art on the cooler cup and lid)
 
-**For Claude:** the user will give you this file (or its folder), an **SVG layer set** and a **cup 3MF**. Add the art to the **cup front** (raised relief) and/or the **lid** (flush inlay), one shell per color, merged into the part the way the Grinch and Snoopy finals were done. Cup only unless the user asks for the lid. The user paints it in Bambu afterwards. Do every step below without being asked. Stop and ask only where a step says **ASK**.
+**For Qwen and other agents:** the user will give you this file (or its folder), an **SVG layer set** and a **cup 3MF**. Add the art to the **cup front** (raised relief) and/or the **lid** (flush inlay), one shell per color, merged into the part the way the Grinch and Snoopy finals were done. Cup only unless the user asks for the lid. The user paints it in Bambu afterwards. Do every step below without being asked. Stop and ask only where a step says **ASK**.
+
+**Never create, edit, move or delete anything in a workflow folder** (`G:\gimp-mcp\Projects\Workflow\` or `G:\Blender\blender-mcp\Projects\Workflows\`), including the scripts and this doc. Only run the scripts. If a script errors or validation fails, report the output and stop; don't patch code to make it pass. Put the Log row for this run in your report instead of writing it here.
 
 ## Tools
+
+Run `python -I cup_append.py` directly from the shell. The script launches Blender headlessly. Blender MCP is optional, so continue with the shell command if the add-on is unavailable.
 
 Everything is in `G:\gimp-mcp\Projects\Workflow\SVG Cup Append\`. Run with `python -I` (3.11; needs `shapely>=2 numpy`). Blender 5.x is found automatically under `C:\Program Files\Blender Foundation\`.
 
 | Tool | Use |
 |---|---|
-| `cup_append.py` | The whole job: lays out the layer set on the cup and/or lid, calls Blender, merges the result into the 3MF parts, writes a new 3MF |
+| `cup_append.py` | Lays out the art, calls Blender, merges the meshes, and publishes the 3MF after validation passes |
+| `validate_3mf.py` | Checks the stored 3MF meshes directly using Python and NumPy. Use it again on any later Bambu save |
 | `cup_decal_blender.py` | Blender half for the cup (called by `cup_append.py`, not run by hand): wrap + extrude, STLs, previews |
 | `lid_inlay_blender.py` | Blender half for the lid (called by `cup_append.py`): flush inlay pocketed into the lid, STLs, preview |
 
@@ -25,9 +30,9 @@ python -I cup_append.py "<layer set>" "<src.3mf>" "<out.3mf>" [--target cup|lid|
 ## What it does (cup, `--target cup`, default)
 
 - **Colors tile.** The outline color (`--outline`, default Black, else White) wins overlaps; every other color is cut by the ones before it; hairline gaps go to the outline. Holes inside the art stay open (cup wall shows, e.g. the P counter) unless `--fill-holes`.
-- **Placement.** Cup front (-Y, above the spigot). Size = `layers.json` size unless `--height-mm` / `--width-mm`. Centered in the free band between the spigot recess (+1 mm) and 3.592 mm below the rim (`--align top` puts it at the rim gap instead, like Grinch/Snoopy, which had text below). Too tall → scaled down with a warning. Wider than 60 mm arc → warning (runs onto the grip panels).
+- **Placement.** Cup front (-Y, above the spigot). Size = `layers.json` size unless `--height-mm` / `--width-mm`. Centered in the free band between the spigot recess (+1 mm) and 3.592 mm below the rim (`--align top` puts it at the rim gap instead, like Grinch/Snoopy, which had text below). **The art always stays on the smooth front between the grip ribs, with padding: never wider than 60 mm of arc.** Too tall → scaled down to the band. Wider than 60 mm (layer-set size or `--width-mm`/`--height-mm`) → scaled down to 60 mm with a `NOTE`. A `--u-shift` or `--z-shift` that would push it into the ribs, rim or spigot stops with an `ERROR`.
 - **Relief.** Each color is its own closed shell, sunk 0.2 mm into the wall. Outline stands 0.8 mm, others 0.6 mm (`--heights "White=0.8,Pink=0.6"`). The step edges stop Bambu's paint bucket from bleeding between colors.
-- **3MF.** Appends the shells to the cup part's mesh (one part, overlapping shells, same as Grinch final) and updates its face count. Other objects, plates, paint, settings and pictures are copied unchanged. Cup geometry (wall radius, rim, recess) is read from the 3MF itself.
+- **3MF.** Appends the shells to the cup part's mesh (one part, overlapping shells, same as Grinch final) and updates its face count. The cup and lid exports carry Blender's vertex indices directly into the 3MF so touching colors keep separate vertices. Other objects, plates, paint, settings and pictures are copied unchanged. Cup geometry (wall radius, rim, recess) is read from the 3MF itself.
 - **Guards.** Stops if the cup front wall isn't the plain 41.91 mm radius (already has relief, or a different cup) or if out exists. `--force` overrides both.
 ## What it does (lid, `--target lid` or `both`)
 
@@ -48,18 +53,19 @@ The lid prints **face-down** on the bed, so the art is **inlaid flush**, not rai
   - `STL\<Name> - <Color>.stl` per color + `<Name> - Logo.stl` (all colors), in 3MF local coords: for users who want separate parts instead of painting
   - `Images\preview.png` (front, ortho) + `preview_angle.png`; lid: `preview_lid.png` (face from outside, hole up)
   - `STL\<Name> Lid - <Color>.stl` + `<Name> Lid.stl` (lid with inlay joined)
-  - `Work\` tris json + cup preview STL
+  - `Work\` triangulation JSON, indexed mesh JSON, and preview source STL
 
 ## Steps
 
 1. **Check the inputs.** Read `layers.json` (name, colors, size). Look at the layer set's `_check.png`. Confirm the src 3MF is the plain base (or identical to it: `cmp`).
 2. **Target.** Cup only, unless the user asks for the lid (`--target lid` / `both`). For the lid, use `--lid-place below` unless they ask otherwise; `through` only if they say the hole can go through the art.
 3. **Pick the outline color.** The color that separates the others (black linework, a white keyline). If it isn't obvious, **ASK**.
-4. **Dry run.** `python -I cup_append.py "<layers>" "<src>" "<out>" --dry-run`. Read the printed size and z range, then **look at the previews**: cup art between the grips, clear of the spigot recess and rim; lid art reading upright with the hole on top, clear of the hole (unless `through`); colors right, nothing missing.
-5. **Adjust** with `--height-mm`, `--width-mm`, `--align`, `--z-shift`, `--u-shift`, `--heights`, `--lid-place`, `--lid-height-mm`, `--lid-shift`, and dry-run again. If the user gave no size, use the layer-set size and say so.
-6. **Write it.** Same command without `--dry-run` (add `--force` only when replacing an earlier output of the same art).
-7. **Report back.** Output path; cup: art size and position (mm from cup bottom), heights per color, the `relief r` line (should be wall −0.2 to wall +max height); lid: mode, size, position; nonmanifold counts (must be 0); the previews. Note: plate thumbnails still show the plain cup until the file is re-saved in Bambu.
-8. **Log** a row below.
+4. **Dry run.** `python -I cup_append.py "<layers>" "<src>" "<out>" --dry-run`. Read the printed size and z range, then **look at the previews** (in *this* run's `<work>\Images\`): cup art on the smooth front with a visible gap to the ribs on both sides, clear of the spigot recess and rim. Art touching or covering the ribs is wrong: stop and **ASK**, never write it; lid art reading upright with the hole on top, clear of the hole (unless `through`); colors right, nothing missing.
+5. **Adjust** with `--height-mm`, `--width-mm`, `--align`, `--z-shift`, `--u-shift`, `--heights`, `--lid-place`, `--lid-height-mm`, `--lid-shift`, and dry-run again. If the user gave no size, use the layer-set size (the script caps it at 60 mm wide) and say so.
+6. **Write and validate.** Run the same command without `--dry-run` (use `--force` for an authorized replacement). The command checks the staged 3MF before publishing it. Require both `3MF validation PASS` and `wrote <path>`. On failure, read the model member and defect counts above the verdict. The command exits nonzero and preserves any existing destination, including in-place runs. Report the validator lines and stop.
+7. **Report back.** Include the validated output path, validation verdict, and previews. For a cup, include art size, position in mm from the cup bottom, heights per color, and the `relief r` line. For a lid, include mode, size, and position. Plate thumbnails still show the plain cup until the file is re-saved in Bambu.
+8. **Verify in Bambu Studio.** Open the export and check the cup or lid for geometry warnings. Run `python -I validate_3mf.py "<file.3mf>"` on the actual file after painting or re-saving, since Bambu can weld touching color shells during save. Record which file was checked. If Bambu Studio or the painted file is unavailable, report that check as pending.
+9. **Log row.** Write the row for the Log table below in your report (same columns). Don't edit this file; the user adds it.
 
 ## Options
 
@@ -70,6 +76,7 @@ The lid prints **face-down** on the bed, so the art is **inlaid flush**, not rai
 | `--z-shift 5` / `--u-shift -3` | Nudge up/down, or around the cup (arc mm, + = right when facing the front) |
 | `--outline White` | Color that wins overlaps, fills gaps, stands taller |
 | `--heights "White=0.8,Navy=0.6"` | Raise per color, mm above the wall |
+| `--clean-px 0.5` / `--min-area-px 10` | Gentler cleanup (defaults 1.5 / 200 svg px). Use when fine details, counters or small accents get dropped |
 | `--fill-holes` | Fill holes in the art with the outline color |
 | `--target cup\|lid\|both` | Where the art goes (default cup) |
 | `--lid-place below\|miss\|through` | Lid placement (default below; through only on request) |
@@ -86,14 +93,13 @@ The lid prints **face-down** on the bed, so the art is **inlaid flush**, not rai
 | Problem | Fix |
 |---|---|
 | "front wall R ... != 41.91" | src already has art (use the base 3MF), or it's a different cup (`--force` only if you're sure; the wrap uses the measured radius) |
-| Art runs onto the grip panels | `--width-mm 55` or smaller `--height-mm` |
+| Art runs onto the grip panels | Can't happen at default shift (capped at 60 mm). If a preview shows it anyway, stop and **ASK**; for more padding use `--width-mm 55` |
 | Art too close to the spigot / rim | Smaller size, or `--z-shift` |
-| A color piece missing or speck-sized | It was under 200 svg px² or thinner than ~3 svg px and got cleaned out. Fix the layer set (SVG Creation `--grow`) |
+| A color piece missing or speck-sized | It was under 200 svg px² or thinner than ~3 svg px and got cleaned out. Try `--clean-px 0.5 --min-area-px 10`, else fix the layer set (SVG Creation `--grow`) |
 | Paint bucket bleeds between two colors | Give them different `--heights` (only matters where they touch) |
 | "lid face already has inlaid art" | src lid already has art: use the base 3MF |
 | Lid art too small below the hole | `--lid-place miss`, or ask the user if the hole may go through the art (`through`) |
 | Lid boolean leaves an empty lid | Cutter must be one clean outline (the tool unions all colors); check the art has no zero-width slivers |
-| Bambu: "N non-manifold edges" + "reversed faces" on the cup (after painting) | Bambu welds the coincident vertices where two same-height color shells touch, so those edges get 4 faces. Fix without losing paint: `python -I <work>\split_nm.py "<painted>.3mf" "<out>.3mf" 3D/Objects/object_21.model "<folder with per-color STLs>"`. It gives each shell its own copy of those vertices; triangles, order and paint stay the same. Bambu re-centers the mesh on save, so set the STL y offset in the script (base vs painted first vertex; Stitch: +0.4001). Check with `mesh_check.py`. Example in `NewCupProject\Happy Blue Creature\work\` |
 | Shell renders black / inside-out in Bambu | Shouldn't happen (the Blender step flips negative-volume shells). Check the nonmanifold counts and re-run |
 
 ## Lessons learned
@@ -112,5 +118,11 @@ The lid prints **face-down** on the bed, so the art is **inlaid flush**, not rai
 | 2026-11-08 | `Projects\Cup\Stitch\SVGs\Drafts\Stitch_v1` | `NewCupProject\Happy Blue Creature\Happy Blue Creature Cup.3mf` | 55.1×70 mm, centered (37.9–107.9 mm from bottom), Black 0.8 / 8 others 0.6, nonmanifold 0. Folder laid out flat like `GrinchCup` (user request) |
 | 2026-11-09 | `Projects\Cup\Stitch\SVGs\Drafts\Stitch_v2` (Santa hat) | `NewCupProject\Happy Blue Creature\Happy Blue Creature Cup.3mf` (overwritten in place) | 59.5×59.15 mm (70.4 wide too wide for grips), centered (43.3–102.5 mm from bottom), outline DarkBlue 0.8 / 6 others 0.6, nonmanifold 0. v1 STLs/previews → `work\v1\`, run files `work\v2\` |
 | 2026-11-10 | `Stitch_v2` (re-done SVGs, black outline) | `NewCupProject\Happy Blue Creature\Happy Blue Creature Cup.3mf` (overwritten; src = that 3MF, plain cup + painted cap; run files `work\v2b\`) | 59.5×59.15 mm, 43.3–102.45 mm from bottom, Black 0.8 / 6 others 0.6, nonmanifold 0, cap paint kept |
+| 2026-11-26 | `Projects\Capibara\Final` | `NewCupProject\Final\Capibara Coozie Cup - Final.3mf` | 60.74×70.0 mm, centered (37.87–107.87 mm from bottom), Brown2 0.8 / Tan, Belly, Brown, Skin 0.6, nonmanifold 0. Made before the 60 mm cap; today it would be scaled to 60 mm |
+| 2026-11-26 | `Projects\Spurs\Final\Spurs_BW` | `NewCupProject\Final\Spurs BW Coozie Cup - Final.3mf` | 60.0×32.13 mm, centered (56.81–88.94 mm from bottom), White 0.8 / Black 0.6, nonmanifold 0, previews `NewCupProject\Spurs_BWCup\Images` (front + angle) |
+| 2026-11-26 | `Projects\Spurs\Final\Spurs` (Spurs_v3, 6 colors) | `NewCupProject\Final\Spurs Color Coozie Cup - Final.3mf` + `- Repaired.3mf` (use Repaired) | 60.0×30.43 mm, centered (57.66–88.09 mm from bottom), White 0.8 / Teal, Pink, Orange, Black, Grey 0.6, relief r 41.71–42.71. Default cleanup dropped spur rowel, pink counters, thin black edges, grey shaft → rerun with `--clean-px 0.5 --min-area-px 10` (all restored; only ~1 px grey hairlines on letter edges lost). Final had 55 welded 4-face seam edges → `split_nm.py` (pattern `Spurs_v3 - *.stl`, offset 0) → Repaired: 0 bad edges, 0 flipped, 0 neg-vol. Bambu GUI check pending. Previews `NewCupProject\Spurs_v3Cup\Images` |
+
+| 2026-11-26 | `Projects\Spurs\Final\SpursV2` | `Projects\Spurs\Final\Spurs V2 Coozie Cup - Final.3mf` | 56.49×70.00 mm, centered (37.87–107.87 mm from bottom), Black 0.8 / White 0.6, relief radii 41.710–42.710 mm. Split welded color-seam vertices in the exported cup. Verified zero non-manifold edges, same-direction duplicate edges, and negative-volume components in the repaired 3MF. Visual Bambu Studio check pending. |
+| 2026-11-27 | `Projects\Spurs\Drafts\Spurs_v4` (6 colors) | `NewCupProject\Final\Spurs Color Coozie Cup - Final.3mf` (old v3 Final + Repaired deleted first) | 60.00×30.30 mm, 57.72–88.02 mm from bottom, White 0.8 / Teal, Pink, Orange, Black, Grey 0.6, relief r 41.710–42.710, nonmanifold 0 per decal. `--outline White` (white keylines in v4), `--clean-px 0.5 --min-area-px 10` (v3 lesson). 60.0 mm is exactly the grip limit (allowed). Previews `NewCupProject\Spurs_v4Cup\Images`. Post-Bambu: expect welded seam edges → re-check + `split_nm.py` if needed |
 
 Add a row per cup.

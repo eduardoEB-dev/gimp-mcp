@@ -9,6 +9,9 @@ Run: blender -b --factory-startup --python lid_inlay_blender.py -- <tris.json> <
 """
 import bpy, bmesh, json, math, sys, os
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from indexed_mesh_blender import write_indexed_mesh
+
 TRIS, WORK, LID = map(os.path.abspath, sys.argv[sys.argv.index("--") + 1:][:3])
 d = json.load(open(TRIS))
 NAME, Z0, DEPTH = d["name"], d["z0"], d["depth"]
@@ -53,6 +56,7 @@ bpy.context.view_layer.objects.active = lid; bpy.ops.object.modifier_apply(modif
 bpy.data.objects.remove(cut)
 objs = [lid] + parts
 for o in objs: report(o)
+write_indexed_mesh(os.path.join(WORK, "Work", f"{NAME}_lid_mesh.json"), objs)
 stl = os.path.join(WORK, "STL")
 for o in parts:
     sel([o]); bpy.ops.wm.stl_export(filepath=os.path.join(stl, f"{NAME} Lid - {o.name}.stl"), export_selected_objects=True)

@@ -1,0 +1,33 @@
+=== 1. START: paste this into Claude (fill in the <...>) ===
+
+Repair workflow: G:\gimp-mcp\Projects\Workflow\SVG Cup Repair\SVG_Cup_Repair_Workflow.md
+
+Target 3MF: <full path to the 3MF Bambu warns about>
+Bambu warning: <paste the exact warning text, e.g. "12 non-manifold edges, reversed faces detected, may affect rendering">
+Painted in Bambu: <yes / no>
+Layer set / work folder (if known): <path or "unknown">
+
+How we work (keep it cheap):
+- You (Claude) run the read-only diagnosis yourself and tell me the case in a few lines.
+- Then give me Qwen prompts, ONE AT A TIME, numbered. Each prompt must be:
+    - one exact command (full paths), run from the folder you name
+    - "Don't read or edit any files. Report only the last 3 lines of output, then stop."
+    - the expected result, and "anything else: report it and stop"
+- If the fix needs a script that doesn't exist yet, you write and test it first; Qwen only runs commands.
+- Never overwrite the target: candidates go next to it as "<name> - Repaired.3mf".
+- I paste back only Qwen's verdict lines. Give me the next prompt or a correction.
+- When it passes, give me the Log row for SVG_Cup_Append_Workflow.md and what to check in Bambu.
+
+
+=== 2. EACH ROUND: paste Qwen's result back to Claude like this ===
+
+Round <n> result:
+<paste only the last lines Qwen reported, e.g. "3MF validation PASS: 6 mesh(es)" / "wrote <path>" / the ERROR line>
+
+
+=== 3. QWEN PROMPT SHAPE (what Claude should hand you) ===
+
+Run exactly this, from <folder>:
+  python -I <script> "<in>" "<out>"
+Don't read or edit any files. Report only the last 3 lines of output, then stop.
+Expected: <e.g. "3MF validation PASS">. Anything else: report it and stop.

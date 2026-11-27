@@ -8,6 +8,9 @@ Run: blender -b --factory-startup --python cup_decal_blender.py -- <tris.json> <
 import bpy, bmesh, json, math, sys, os
 from mathutils import Vector
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from indexed_mesh_blender import write_indexed_mesh
+
 TRIS, WORK, CUP = map(os.path.abspath, sys.argv[sys.argv.index("--") + 1:][:3])
 STEP = 0.6           # bisect spacing for smooth bend
 d = json.load(open(TRIS))
@@ -54,7 +57,14 @@ for name, tris in d["tris"].items():
             for e in f.edges:
                 for g in e.link_faces:
                     if g not in seen: seen.add(g); st.append(g)
-        if sum(f.verts[0].co.dot(f.verts[1].co.cross(f.verts[2].co)) for f in isl) < 0:
+        # Signed volume over every face (fan-triangulated: extrusion adds quad side walls, so
+        # using only verts[0..2] skipped half of each wall and got tiny shells' sign wrong).
+        o = isl[0].verts[0].co.copy()  # local origin keeps small shells precise
+        vol = 0.0
+        for f in isl:
+            p = [v.co - o for v in f.verts]
+            vol += sum(p[0].dot(p[i].cross(p[i + 1])) for i in range(1, len(p) - 1))
+        if vol < 0:
             for f in isl: f.normal_flip()
     nm = sum(not e.is_manifold for e in bm.edges)
     me = bpy.data.meshes.new(f"{NAME}_{name}"); bm.to_mesh(me)
@@ -72,6 +82,7 @@ stl = os.path.join(WORK, "STL")
 for o in objs:
     sel([o]); bpy.ops.wm.stl_export(filepath=os.path.join(stl, f"{NAME} - {o.name.split('_', 1)[1]}.stl"), export_selected_objects=True)
 sel(objs); bpy.ops.wm.stl_export(filepath=os.path.join(stl, f"{NAME} - Logo.stl"), export_selected_objects=True)
+write_indexed_mesh(os.path.join(WORK, "Work", f"{NAME}_cup_mesh.json"), objs)
 
 bpy.ops.wm.stl_import(filepath=CUP)
 cup = bpy.context.selected_objects[0]; cup.data.materials.append(mat("Cup", "#E6E6E6"))
