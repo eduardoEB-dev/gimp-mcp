@@ -27,7 +27,9 @@ for p in D.values(): os.makedirs(p, exist_ok=True)
 
 # 1. extract
 subprocess.run([sys.executable, "-I", os.path.join(HERE, "extract_3mf.py"), a.src, D["Work"]], check=True)
-man = json.load(open(os.path.join(D["Work"], "manifest.json")))
+if spec.get("post_extract"):  # render-only recolor/decal script: python -I <script> <Work dir>, edits manifest + npz
+    subprocess.run([sys.executable, "-I", spec["post_extract"], D["Work"]], check=True)
+man =json.load(open(os.path.join(D["Work"], "manifest.json")))
 objs = man["objects"]
 
 # 2. choose cups / caps
