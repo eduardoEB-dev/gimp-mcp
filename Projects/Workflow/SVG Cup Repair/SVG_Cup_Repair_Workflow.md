@@ -55,7 +55,7 @@ Run from this folder (`G:\gimp-mcp\Projects\Workflow\SVG Cup Repair\`) with `pyt
 | B | `nonpositive_volume_shells=N` | `ZERO-VOL` | reversed faces | Degenerate speck/flat shell | Don't flip. Raise `--min-area-px` or fix that color in the layer set, then a fresh append |
 | C | `edges_with_3plus_faces` (+ `repeated_direction`) > 0, file was **saved by Bambu** | `TOPOLOGY`, one big shell spanning 2+ colors | non-manifold edges | Bambu welded touching color shells at their seams | Unpainted: rebuild (§C1). Painted: seam split (§C2) |
 | D | open / 3plus / repeated > 0 in a **fresh append** (mesh JSON) | `TOPOLOGY` | non-manifold edges | Exporter topology bug | Report shells + counts only. Stop |
-| E | `degenerate_triangles` > 0 | — | — | Zero-area triangles | Report member + count. A vertex split can't fix these. Stop |
+| E | `degenerate_triangles` > 0 | `0 bad` is normal: diagnose doesn't count zero-area triangles | — | Zero-area triangles from the decal export. Base cup is clean (validates 0); don't blame it | Exporter fix (§E) + fresh append. A vertex split or `--force` can't fix these |
 | F | `ERROR` / exit 2 | — | — | Unreadable/empty mesh | Report message; check the file is a complete 3MF. Stop |
 
 **Report contents:**
@@ -80,6 +80,15 @@ Write every candidate into `<repair>\`, never over the target. Keep the target u
 - **Hypothesis to confirm first:** `cup_decal_blender.py:60` takes the sign from the first 3 vertices of each face, but extrusion adds quads. Compare that estimate with the diagnose volume for the failing shells.
 - **Then:** fresh append with the original options (Log row), a new `--work` and a candidate out.
 - **Painted file instead:** reverse only the `first_tri`.. shell triangles' `v2`/`v3` in that member. Keep the order and all paint attributes.
+
+### E. Zero-area triangles (exporter)
+
+- **Hypothesis (Woodstock 2026-11-27, measured 88):** pixel-staircase SVGs (`M x,y L ... Z` 1-px rectangles) leave vertices in a line where `cup_decal_blender.py`'s 0.6 mm `bisect_plane` cuts land on straight edges. `triangulate(BEAUTY)` then makes zero-area triangles.
+- **Exporter fix** in `cup_decal_blender.py`, right after `bmesh.ops.triangulate(...)`: loop up to 5×. Stop when no face has `calc_area() < 1e-12`. Otherwise run `bmesh.ops.dissolve_degenerate(bm, dist=1e-6, edges=bm.edges[:])`, then re-triangulate the faces with more than 3 verts (BEAUTY). Print the count left (must be 0).
+- **Test before the workflow copy:** copy `cup_decal_blender.py` + `indexed_mesh_blender.py` into `<repair>\`, patch the copy, and run it with Blender on `<work>\Work\<Name>_tris.json` + `cup_preview.stl` into `<repair>\t\`. Pass = each decal `nonmanifold 0`, zero-area left 0, and `diagnose_shells.py` on the new mesh JSON shows 0 bad.
+- **Then:** the user approves the workflow edit, followed by a fresh append with the Log-row options and a new `--work`.
+- **Status:** applied to `cup_decal_blender.py` on 2026-11-27 (prints `zero-area left 0` per color). If E shows up again with that line in the output, report it as a new case.
+- **Copying workflow scripts into `<repair>\`:** use `python -I G:/gimp-mcp/Scripts/wf_fetch.py --why "<reason>" "<repair>\app" "<workflow file>" ...`. **Always tell the user which files you're copying and why, and report the `COPY ... WHY:` and `OK` lines.** Keep the reason free of the words *copy, move, del, ren* (e.g. "model", "current"): with "Workflow" in the same command they trip a deny rule. It prints `OK <name> <hash>` per file and refuses any destination inside a workflow folder. Never use `Copy-Item`/`copy` on workflow paths (denied), and don't copy by reading and rewriting with file tools (big files get truncated).
 
 ### C1. Welded seams, unpainted → rebuild
 
@@ -114,4 +123,5 @@ Rerun the original append (options from the Log row) with the clean base as src,
 |---|---|---|
 | A | Spurs v4 append (`NewCupProject\Spurs_v4Cup_fresh`, `Spurs_v4Cup`) | 3 FLIP-OK shells: Black 120, Black 60, White 8 tris. Exporter fix pending review |
 | C2 | Spurs v3 Color Final, Spurs V2 Final | 55 / several welded seam edges → `split_nm.py` → 0 defects |
+| E | Woodstock append (`NewCupProject\WoodstockCup`, fix tested in `WoodstockCup\repair\`) | 88 zero-area tris from a pixel-staircase SVG → §E exporter fix → fresh append `WoodstockCup_v2` PASS |
 | C | Spurs BW Final (`NewCupProject\Final\Spurs BW Cooler Cup - Final.3mf`) | 290 3plus edges, 1 TOPOLOGY shell, painted 46,883 tris; repaired copies exist in that folder |

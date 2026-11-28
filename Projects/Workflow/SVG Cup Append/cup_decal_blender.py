@@ -42,6 +42,12 @@ for name, tris in d["tris"].items():
             bmesh.ops.bisect_plane(bm, geom=bm.verts[:] + bm.edges[:] + bm.faces[:], plane_co=no * (k * STEP), plane_no=no)
             k += 1
     bmesh.ops.triangulate(bm, faces=bm.faces, quad_method='BEAUTY', ngon_method='BEAUTY')
+    for _ in range(5):  # collinear bisect verts -> zero-area tris (pixel-staircase SVGs)
+        bad = [f for f in bm.faces if f.calc_area() < 1e-12]
+        if not bad: break
+        bmesh.ops.dissolve_degenerate(bm, dist=1e-6, edges=bm.edges[:])
+        bmesh.ops.triangulate(bm, faces=[f for f in bm.faces if len(f.verts) > 3], quad_method='BEAUTY', ngon_method='BEAUTY')
+    print('  zero-area left', sum(f.calc_area() < 1e-12 for f in bm.faces))
     for f in bm.faces:
         if f.normal.z < 0: f.normal_flip()
     ext = bmesh.ops.extrude_face_region(bm, geom=bm.faces[:])
