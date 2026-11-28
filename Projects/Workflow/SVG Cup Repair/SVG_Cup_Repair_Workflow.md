@@ -16,6 +16,8 @@ One of:
 
 ## Small-context rules
 
+- **Never change an input file** (target 3MF, SVGs, layer sets, work-folder JSON). If a step must change one, write the result as a new file next to it (`<name>_fixed.<ext>`, or into `<repair>\`) and leave the original untouched. Don't write helper scripts or use heredocs / `python -c`. If a command is blocked or crashes, report the last lines and stop.
+
 - **Checkpoint.** Keep `<repair>\CHECKPOINT.md`, where `<repair>` = `<work>\repair\` (or `<3MF folder>\repair_<file stem>\` when there's no work folder). Update it after every step. After a compaction, read it first and continue from **Next command**. Don't re-read files to rebuild your state.
 - **Use the tools, don't write analysis scripts.** `validate_3mf.py` says *which mesh* is bad. `diagnose_shells.py` says *which shells* and *what kind*. Don't analyze STLs or SVGs.
 - **Read verdict lines,** not full output. Keep each command's output short.

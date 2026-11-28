@@ -16,6 +16,9 @@ How we work (keep it cheap):
 - If the fix needs a script that doesn't exist yet, you write and test it first; Qwen only runs commands.
 - Never overwrite the target: candidates go next to it as "<name> - Repaired.3mf".
 - I paste back only Qwen's verdict lines. Give me the next prompt or a correction.
+- Each prompt goes in a NEW Qwen chat (Build mode) and starts with "Run this now yourself. Don't write a prompt for anyone."
+- Code changes: you write + test a patch script; Qwen runs it on a copy; I copy into the workflow folder with `! cp` here.
+- Check your output filters can't hide the lines you expect (no -First N cutting them off).
 - When it passes, give me the Log row for SVG_Cup_Append_Workflow.md and what to check in Bambu.
 
 
