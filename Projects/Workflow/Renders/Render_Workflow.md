@@ -99,6 +99,8 @@ Pass any of these keys with `--spec`:
 ```
 
 - `theme`: scene set. `christmas` (default: green wall, dark wood, gold/red bokeh, red ornaments) or `seuss` (sky-blue wall, light wood, candy-colored bokeh, book stack, popcorn spilled on the table), or `desk` (maker's desk modeled on the user's setup: clean grey desk, curved ultrawide monitor showing real syntax-colored code, sage wall; fits "From Code to 3D Models"; used for the popcorn bucket). For `desk`, `"screen_code": ["a.py", "b.py"]` picks the files shown on the monitor (one per editor pane; default `render_3mf.py`), rendered by `make_screen.py`. Use `"frame_scale"` about 1.2 for desk shots so the product is big in frame and the blurred code still shows. No keyboard or mouse: the user rejected simple box/blob versions as fake-looking. Keep the product big in every shot. Match it to the product, and **ASK** if unsure. Never use Christmas for non-holiday items.
+- `basketball` theme: maple boards, painted court markings, a hoop and arena seating.
+- `tabletop` theme: warm wood table, muted green wall, and soft window lighting.
 - `layer_lines`: layer-line strength multiplier (realism).
 - `frame_scale`: camera distance multiplier. Default is automatic: item height / 130 mm (cooler cup), never below 1.
 - `extra_shots` are not scaled; give `dist`/`tz` in meters. Example (popcorn bucket, looking inside):

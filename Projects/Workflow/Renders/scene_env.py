@@ -102,13 +102,127 @@ def wall_and_table(wall_rgb, wood_dark, wood_light, world_rgb):
     w.node_tree.nodes["Background"].inputs[0].default_value = (*world_rgb, 1)
 
 
+def basketball_court(hoop=True):
+    maple = wood_mat((0.15, 0.068, 0.026), (0.53, 0.30, 0.125))
+    wood_nodes = maple.node_tree
+    surface = next(n for n in wood_nodes.nodes if n.type == 'BSDF_PRINCIPLED')
+    grain = surface.inputs["Base Color"].links[0].from_socket
+    position = wood_nodes.nodes.new("ShaderNodeNewGeometry")
+    planks = wood_nodes.nodes.new("ShaderNodeTexBrick")
+    planks.inputs["Scale"].default_value = 1
+    planks.inputs["Brick Width"].default_value = 0.26
+    planks.inputs["Row Height"].default_value = 0.042
+    planks.inputs["Mortar Size"].default_value = 0.00045
+    planks.inputs["Color1"].default_value = (0.64, 0.56, 0.48, 1)
+    planks.inputs["Color2"].default_value = (0.97, 0.94, 0.91, 1)
+    planks.inputs["Mortar"].default_value = (0.24, 0.20, 0.16, 1)
+    combine = wood_nodes.nodes.new("ShaderNodeMixRGB")
+    combine.blend_type = 'MULTIPLY'
+    combine.inputs[0].default_value = 0.72
+    wood_nodes.links.new(position.outputs["Position"], planks.inputs["Vector"])
+    wood_nodes.links.new(grain, combine.inputs[1])
+    wood_nodes.links.new(planks.outputs["Color"], combine.inputs[2])
+    wood_nodes.links.new(combine.outputs[0], surface.inputs["Base Color"])
+    graphite = plain("Graphite court paint", (0.027, 0.039, 0.049), 0.52)
+    white = plain("Court markings", (0.74, 0.73, 0.66), 0.56)
+    black = plain("Backboard padding", (0.014, 0.019, 0.024))
+    board = plain("Backboard", (0.36, 0.43, 0.46), 0.24)
+    orange = plain("Rim enamel", (0.69, 0.13, 0.031), 0.32)
+
+    def box(name, xyz, size, material):
+        bpy.ops.mesh.primitive_cube_add(size=1, location=xyz)
+        obj = bpy.context.object
+        obj.name = name
+        obj.dimensions = size
+        obj.data.materials.append(material)
+
+    def stroke(name, points, radius, material, closed=False):
+        curve = bpy.data.curves.new(name, 'CURVE')
+        curve.dimensions = '3D'
+        curve.bevel_depth = radius
+        curve.bevel_resolution = 3
+        spline = curve.splines.new('POLY')
+        spline.points.add(len(points) - 1)
+        for point, xyz in zip(spline.points, points):
+            point.co = (*xyz, 1)
+        spline.use_cyclic_u = closed
+        obj = bpy.data.objects.new(name, curve)
+        sc.collection.objects.link(obj)
+        obj.data.materials.append(material)
+
+    def circle(x, y, z, radius, start=0, sweep=math.tau, steps=64):
+        angles = [start + sweep * i / steps for i in range(steps + 1)]
+        return [(x + radius * math.cos(a), y + radius * math.sin(a), z) for a in angles]
+
+    box("Maple courtside platform", (0, -0.18, -0.015), (1.60, 0.79, 0.03), maple)
+    arc = circle(-0.185, 0.105, 0.0002, 0.12, -1.25, 2.27)
+    inside = circle(-0.185, 0.105, 0.0002, 0.113, -1.25, 2.27)
+    paint = bpy.data.meshes.new("Court arc paint")
+    paint.from_pydata(inside + arc, [], [(i, i + len(inside), i + len(inside) + 1, i + 1)
+                                         for i in range(len(inside) - 1)])
+    paint.materials.append(graphite)
+    sc.collection.objects.link(bpy.data.objects.new("Court arc paint", paint))
+    box("Maple court", (0, 0.73, -0.561), (3.0, 2.35, 0.02), maple)
+    box("Painted key", (0.32, 0.91, -0.550), (0.85, 0.97, 0.002), graphite)
+    stroke("Key outline", [(-0.105, 1.395, -0.547), (-0.105, 0.425, -0.547),
+                           (0.745, 0.425, -0.547), (0.745, 1.395, -0.547)], 0.005, white)
+    stroke("Free-throw arc", circle(0.32, 0.425, -0.547, 0.31, math.pi, math.pi), 0.005, white)
+    stroke("Center-circle arc", circle(-0.45, -0.09, -0.547, 0.34, 0, math.pi), 0.005, white)
+    box("Arena wall", (0, 1.54, -0.05), (4, 0.05, 1), black)
+    for row in range(4):
+        box("Bleacher row", (0, 1.48 - row * 0.035, -0.09 - row * 0.065),
+            (4, 0.06, 0.03), graphite)
+
+    if hoop:
+        x, y, z = 0.195, 0.86, 0.023
+        box("Hoop support", (x, y + 0.20, -0.234), (0.034, 0.034, 0.63), black)
+        box("Hoop bracket", (x, y + 0.09, z + 0.027), (0.035, 0.22, 0.024), black)
+        box("Backboard surround", (x, y, z + 0.066), (0.232, 0.018, 0.140), black)
+        box("Backboard panel", (x, y - 0.011, z + 0.069), (0.219, 0.009, 0.126), board)
+        stroke("Backboard target", [(x - 0.047, y - 0.017, z + 0.023),
+                                    (x + 0.047, y - 0.017, z + 0.023),
+                                    (x + 0.047, y - 0.017, z + 0.091),
+                                    (x - 0.047, y - 0.017, z + 0.091)], 0.003, white, True)
+        cy = y - 0.063
+        stroke("Basketball rim", circle(x, cy, z, 0.043)[:-1], 0.0035, orange, True)
+        rings = [circle(x, cy, z - depth, radius, start, steps=12)[:-1]
+                 for depth, radius, start in [(0.003, 0.042, 0), (0.032, 0.033, math.pi / 12), (0.067, 0.024, 0)]]
+        for i in range(12):
+            j = (i + 1) % 12
+            stroke("Basket net", [rings[0][i], rings[1][i], rings[2][i]], 0.00075, white)
+            stroke("Basket net", [rings[0][j], rings[1][i], rings[2][j]], 0.00075, white)
+
+    world = bpy.data.worlds.new("Arena ambient")
+    sc.world = world
+    world.use_nodes = True
+    world.node_tree.nodes["Background"].inputs[0].default_value = (0.12, 0.14, 0.19, 1)
+    area("Key softbox", (-0.31, -0.32, 0.42), 0.28, 12, (1, 0.95, 0.88))
+    area("Fill softbox", (0.45, -0.24, 0.18), 0.38, 5, (0.87, 0.94, 1))
+    area("Grazing rim light", (-0.25, 0.24, 0.20), 0.19, 8, (0.80, 0.89, 1))
+    area("Top softbox", (0.09, 0.11, 0.47), 0.23, 5)
+    area("Arena lights", (0.22, 0.52, 0.67), 0.75, 63, (1, 0.94, 0.82), (0.25, 0.92, -0.37))
+    return 7.1
+
+
 def build(cfg):
-    """Build the THEME set (christmas | seuss | desk, see Render_Workflow.md). Returns the f-stop."""
+    """Build the requested set and return the camera f-stop."""
     global cfg_light_tz, cfg_exposure
     cfg_light_tz = cfg.get("light_tz", 0.07); cfg_exposure = cfg.get("exposure", 0.1)
     THEME = cfg.get("theme", "christmas")
     random.seed(7)
     FSTOP = 3.2
+    if THEME == "basketball":
+        return basketball_court(cfg.get("court_hoop", True))
+    if THEME == "tabletop":
+        wall_and_table((0.145, 0.198, 0.174), (0.17, 0.080, 0.031),
+                       (0.37, 0.210, 0.102), (0.15, 0.17, 0.19))
+        sc.cycles.use_auto_tile = True
+        sc.cycles.tile_size = 512
+        area("Window key", (-0.55, -0.20, 0.57), 0.58, 28, (1, 0.97, 0.91))
+        area("Bounce fill", (0.45, -0.30, 0.33), 0.65, 12, (0.89, 0.95, 1))
+        area("Edge light", (0.32, 0.33, 0.46), 0.34, 16, (1, 0.95, 0.88))
+        area("Wall wash", (-0.43, 0.56, 0.44), 0.58, 19, (0.88, 0.97, 1), (0.0, 1.1, 0.22))
+        return 5.0
     if THEME == "desk":
         # maker's desk: clean grey desk, curved monitor with code behind, sage wall (keyboard/mouse removed: looked fake)
         wall_and_table((0.045, 0.06, 0.045), (0.09, 0.085, 0.08), (0.13, 0.125, 0.115), (0.02, 0.022, 0.025))
@@ -197,10 +311,11 @@ def shoot(shot, prod, layer, out, samples, res, fstop):
     W.rotation_euler = (0, 0, -a)                       # spin product; camera + backdrop stay fixed
     t = Vector((0, 0, shot["tz"])); loc = t + Vector((0, -shot["dist"] * math.cos(e), shot["dist"] * math.sin(e)))
     cam.location = loc; cam.rotation_euler = (t - loc).to_track_quat('-Z', 'Y').to_euler(); cam.data.dof.focus_distance = (t - loc).length
-    env = [o for o in sc.objects if o.type == 'MESH' and o not in prod]
+    env = [o for o in sc.objects if o.type in {'MESH', 'CURVE'} and o not in prod]
     if layer == "fg":
         for o in env: o.is_holdout = True
         sc.render.film_transparent = True; cam.data.dof.use_dof = False
+        sc.render.image_settings.color_mode = 'RGBA'
     elif layer == "bg":
         for o in prod: o.visible_camera = False
     sc.render.engine = 'CYCLES'
