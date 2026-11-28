@@ -60,15 +60,24 @@ def cup_matrix(rec):  # 3MF object frame -> cup frame: axis from top ring, base 
     v = np.load(os.path.join(WORK, f"obj{rec['id']}.npz"))["v"]
     top = v[np.abs(v[:, 2] - (v[:, 2].max() - 1.3)) < 0.4]
     cx, cy = (top[:, 0].min() + top[:, 0].max()) / 2, (top[:, 1].min() + top[:, 1].max()) / 2
-    return Matrix.Translation((-cx, -cy, -v[:, 2].min()))
+    return Matrix.Rotation(math.radians(cfg.get("cup_rot_deg", 0)), 4, 'Z') @ Matrix.Translation((-cx, -cy, -v[:, 2].min()))
 
 def cap_matrix(rec, rot_deg):  # printed face-down -> on cup, face up
     v = np.load(os.path.join(WORK, f"obj{rec['id']}.npz"))["v"]
     c = (v.min(0) + v.max(0)) / 2
+    flip = 0 if cfg.get("cap_face_up") else math.pi
+    reference_z = v[:, 2].max() if cfg.get("cap_face_up") else v[:, 2].min()
     return (Matrix.Translation((0, 0, CAP_TOP)) @ Matrix.Rotation(math.radians(rot_deg), 4, 'Z') @
-            Matrix.Rotation(math.pi, 4, 'X') @ Matrix.Translation((-c[0], -c[1], -v[:, 2].min())))
+            Matrix.Scale(cfg.get("cap_scale", 1.0), 4) @ Matrix.Rotation(flip, 4, 'X') @
+            Matrix.Translation((-c[0], -c[1], -reference_z)))
 
 def hw(name, key, role, parent):
+    if name in cfg.get("source_hardware", {}):
+        part = cfg["source_hardware"][name]
+        transform = (Matrix.Translation(part["offset"]) @
+                     Matrix.Rotation(math.radians(part.get("rot", 0)), 4, 'Z') @
+                     Matrix.Scale(part.get("scale", 1.0), 4))
+        return from_3mf(OBJ[part["object"]], transform, parent)
     rec = ROLE.get(role)
     return mesh_obj(name, asset[key + "_v"], asset[key + "_f"], [fil(rec["extruder"] if rec else 1)], None, parent)
 
@@ -76,14 +85,18 @@ def make_rig(r):
     rig = bpy.data.objects.new("Rig", None); sc.collection.objects.link(rig)
     rig.parent = W; rig.scale = (S, S, S); rig.location = (r.get("x", 0), 0, 0); rig.rotation_euler = (0, 0, math.radians(r.get("rot", 0)))
     if r.get("cup"):
-        rec = OBJ[r["cup"]]; from_3mf(rec, cup_matrix(rec), rig)
-        if "spigot" in ROLE: hw("Spigot", "Spigot", "spigot", rig)
+        rec = OBJ[r["cup"]]; cup_o = from_3mf(rec, cup_matrix(rec), rig)
+        if "spigot" in ROLE or "Spigot" in cfg.get("source_hardware", {}):
+            hw("Spigot", "Spigot", "spigot", rig)
         if "pin" in ROLE:
-            hw("Pin", "HandlePin", "pin", rig); p2 = hw("Pin2", "HandlePin", "pin", rig); p2.scale = (-1, 1, 1)
+            hw("Pin", "HandlePin", "pin", rig)
+            p2 = hw("Pin2", "HandlePin", "pin", rig)
+            if "Pin2" not in cfg.get("source_hardware", {}):
+                p2.scale = (-1, 1, 1)
         if "handle" in ROLE:
             hp = bpy.data.objects.new("HandlePivot", None); sc.collection.objects.link(hp)
             hp.parent = rig; hp.location = PIVOT; hp.rotation_euler = (math.radians(-r.get("handle", 0)), 0, 0)
-            hw("Handle", "Handle", "handle", hp)
+            handle_o = hw("Handle", "Handle", "handle", hp)
     if r.get("cap"):
         rec = OBJ[r["cap"]]; M = cap_matrix(rec, cfg.get("cap_rot_deg", 180))
         if not r.get("cup"): M = Matrix.Translation((0, 0, -(CAP_TOP - 23.0))) @ M  # loose cap: sit on table

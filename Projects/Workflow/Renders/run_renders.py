@@ -84,6 +84,8 @@ if spec.get("theme") == "desk":  # monitor shows real code: spec "screen_code" =
     code = spec.get("screen_code") or [os.path.join(HERE, "render_3mf.py")]
     subprocess.run([sys.executable, "-I", os.path.join(HERE, "make_screen.py"), ",".join(code), screen], check=True)
 json.dump({"shots": shots, "cap_rot_deg": spec.get("cap_rot_deg", 180), "layer_lines": spec.get("layer_lines", 1.0),
+           "cup_rot_deg": spec.get("cup_rot_deg", 0), "cap_face_up": spec.get("cap_face_up", False),
+           "cap_scale": spec.get("cap_scale", 1.0), "source_hardware": spec.get("source_hardware", {}),
            "theme": spec.get("theme", "christmas"), "screen": screen}, open(os.path.join(D["Work"], "shots.json"), "w"), indent=1)
 names = [s["name"] for s in shots if not a.only or s["name"] in a.only.split(",")]
 print("cups:", cups, "| caps:", caps); print("shots:", names)

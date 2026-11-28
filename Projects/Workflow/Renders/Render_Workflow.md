@@ -108,6 +108,9 @@ Pass any of these keys with `--spec`:
 
 Labels come from `Work\manifest.json`, which the test pass prints. Cups are named after the object, caps after their plate (or just `cap` when there's only one). Use `--only shot1,shot2` to re-render particular shots.
 
+- `cup_rot_deg` aligns a cup's front with the rig. For lids stored upright in the 3MF, use `cap_face_up: true`. `cap_rot_deg` controls the artwork direction and `cap_scale` applies a uniform scale.
+- `source_hardware` can use the model's own meshes for `Handle`, `Pin`, `Pin2`, and `Spigot`. Each entry specifies an `object` label from the manifest, `offset` in millimeters, optional Z `rot` in degrees, and optional uniform `scale`. Handle offsets are relative to its pivot. The other offsets are in the cup rig frame.
+
 ## Assembled models from a .blend
 
 A multi-part model is laid out in the 3MF as plates, not as the assembled model. When the user has a `.blend` with the parts assembled (in mm), render from that instead:
