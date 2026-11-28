@@ -118,6 +118,13 @@ for n in names:
     blender(n, fg, samples, res, "fg"); blender(n, bg, samples, res, "bg")
     out = os.path.join(D["Renders/no_logo"], f"{n}.png")
     subprocess.run([sys.executable, "-I", os.path.join(HERE, "comp.py"), fg, bg, out], check=True); finals.append(out); print("RENDERED", n)
-subprocess.run([sys.executable, "-I", os.path.join(HERE, "brand.py"), D["Drafts"], *finals], check=True)
+logo_args = []
+if "logo_pos" in spec:
+    logo_args.extend(["--pos", spec["logo_pos"]])
+if "logo_frac" in spec:
+    logo_args.extend(["--frac", str(spec["logo_frac"])])
+if "watermark" in spec:  # opacity of the tiled text watermark (brand.py default 0.14; 0 = off)
+    logo_args.extend(["--wm", str(spec["watermark"])])
+subprocess.run([sys.executable, "-I", os.path.join(HERE, "brand.py"), *logo_args, D["Drafts"], *finals], check=True)
 sheet([os.path.join(D["Drafts"], os.path.splitext(os.path.basename(f))[0] + "_logo.png") for f in finals],
       os.path.join(D["Drafts"], "contact_sheet.png"))

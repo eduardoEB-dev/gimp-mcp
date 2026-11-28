@@ -103,6 +103,7 @@ Pass any of these keys with `--spec`:
 - `tabletop` theme: warm wood table, muted green wall, and soft window lighting.
 - `layer_lines`: layer-line strength multiplier (realism).
 - `post_extract`: path of a render-only recolor/decal script, run as `python -I <script> <Work>` right after extraction. It may rewrite `manifest.json` filaments/extruders and the `obj<id>.npz` meshes (`v`, `f`, per-tri `p`). Use it when the 3MF isn't colored yet. Example: `G:\gimp-mcp\Projects\Spurs\Render\recolor_spurs.py`, which fits an SVG's colors onto the cup relief and subdivides the region so color edges stay smooth.
+- `logo_pos` and `logo_frac`: optional logo card corner (`br`, `bl`, `tr`, `tl`) and width fraction for the full 3MF render set.
 - `frame_scale`: camera distance multiplier. Default is automatic: item height / 130 mm (cooler cup), never below 1.
 - `extra_shots` are not scaled; give `dist`/`tz` in meters. Example (popcorn bucket, looking inside):
   `{"name":"top_inside","rigs":[{"cup":"<label>","cap":null}],"az":-20,"el":48,"dist":0.85,"tz":0.08}`
