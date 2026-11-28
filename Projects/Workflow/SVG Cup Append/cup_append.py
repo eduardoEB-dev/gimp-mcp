@@ -15,7 +15,7 @@ from tempfile import NamedTemporaryFile
 import numpy as np
 import shapely
 from shapely import make_valid
-from shapely.affinity import affine_transform
+from shapely.affinity import affine_transform, rotate
 from shapely.geometry import Point, Polygon
 from shapely.ops import unary_union
 from shapely.prepared import prep
@@ -31,6 +31,7 @@ R_PLAIN = 41.91           # plain cup front wall radius
 # lid (cap.stl): flat top face prints on the bed
 LID_DEPTH = 0.6           # inlay depth (3 layers @ 0.2)
 LID_EDGE = 1.0            # art stays this far inside the flat face edge
+LID_MAX_TILT = 45.0       # lid art may tilt this much either way, never lie on its side or upside down
 LID_HOLE_GAP = 1.0        # art stays this far from the straw hole (through mode: 0.5 rim kept)
 
 ap = argparse.ArgumentParser()
@@ -49,9 +50,11 @@ ap.add_argument("--heights", default="", help='cup raise per color, e.g. "White=
 ap.add_argument("--clean-px", type=float, default=1.5, help="cleanup opening radius, svg px (smaller keeps finer detail)")
 ap.add_argument("--min-area-px", type=float, default=200, help="drop color pieces smaller than this, svg px^2")
 ap.add_argument("--fill-holes", action="store_true", help="fill holes inside the art with the outline color (default: keep open, e.g. P counter)")
-ap.add_argument("--lid-place", choices=("below", "miss", "through"), default="below",
-                help="lid: below the straw hole (default), biggest spot that misses it, or centered with the hole cut through the art")
+ap.add_argument("--lid-place", choices=("best", "below", "miss", "gap", "through"), default="best",
+                help="lid: best = largest of below/miss/gap (default); below the straw hole; anywhere that misses it; "
+                     "hole inside a gap of the art; or centered with the hole cut through the art (only on request)")
 ap.add_argument("--lid-height-mm", type=float, help="lid art height (default: largest that fits)")
+ap.add_argument("--lid-rotate", type=float, help="lid: turn the art this many degrees, counterclockwise as read from outside (default: 0; best tries 0, +-15, +-30, +-45; at most +-45: the art's top always points to the straw hole)")
 ap.add_argument("--lid-shift", default="0,0", help='lid: nudge "right,up" mm (hole = up)')
 ap.add_argument("--object", default="cup", help="name (substring) of the cup object in the 3MF")
 ap.add_argument("--lid-object", default="cap", help="name (substring) or object id of the lid in the 3MF")
@@ -83,27 +86,34 @@ def bez(p0, p1, p2, p3, n=8):
     t = np.linspace(0, 1, n + 1)[1:, None]
     return (1 - t) ** 3 * p0 + 3 * (1 - t) ** 2 * t * p1 + 3 * (1 - t) * t ** 2 * p2 + t ** 3 * p3
 
-def load_svg(path):  # M/C/L/Z paths (layer-set output), evenodd -> shapely
+def load_svg(path):  # M/C/L/H/V/Z paths, absolute or relative; potrace <g transform="translate() scale()">; evenodd -> shapely
+    txt = open(path).read()
     rings = []
-    for d in re.findall(r'\sd="([^"]+)"', open(path).read()):
-        toks = re.findall(r'[MCLZ]|-?[\d.]+(?:e-?\d+)?', d)
-        i = 0; cur = None; ring = []
+    for d in re.findall(r'\sd="([^"]+)"', txt):
+        toks = re.findall(r'[MmCcLlHhVvZz]|-?(?:\d+\.?\d*|\.\d+)(?:[eE][-+]?\d+)?', d)
+        i = 0; cmd = None; cur = start = np.zeros(2); ring = []
         while i < len(toks):
-            c = toks[i]; i += 1
-            if c == "M":
+            if toks[i].isalpha(): cmd = toks[i]; i += 1
+            if cmd in "Zz":
                 if len(ring) > 2: rings.append(np.array(ring))
-                cur = np.array([float(toks[i]), float(toks[i + 1])]); i += 2; ring = [cur]
-            elif c == "C":
-                while i < len(toks) and toks[i] not in "MCLZ":
-                    p = [np.array([float(toks[i + 2 * k]), float(toks[i + 2 * k + 1])]) for k in range(3)]; i += 6
-                    ring.extend(bez(cur, *p)); cur = p[2]
-            elif c == "L":
-                while i < len(toks) and toks[i] not in "MCLZ":
-                    cur = np.array([float(toks[i]), float(toks[i + 1])]); i += 2; ring.append(cur)
-            elif c == "Z":
+                ring = []; cur = start; continue
+            rel = cmd.islower(); k = cmd.upper(); base = cur if rel else np.zeros(2)
+            if k in "HV":
+                v = float(toks[i]); i += 1
+                cur = np.array([v + (cur[0] if rel else 0), cur[1]]) if k == "H" else np.array([cur[0], v + (cur[1] if rel else 0)])
+                ring.append(cur); continue
+            n = 3 if k == "C" else 1
+            p = [base + np.array([float(toks[i + 2 * j]), float(toks[i + 2 * j + 1])]) for j in range(n)]; i += 2 * n
+            if k == "M":
                 if len(ring) > 2: rings.append(np.array(ring))
-                ring = []
+                ring = [p[0]]; start = p[0]; cmd = "l" if rel else "L"
+            elif k == "C": ring.extend(bez(cur, *p))
+            else: ring.append(p[0])
+            cur = p[-1]
         if len(ring) > 2: rings.append(np.array(ring))
+    gt = re.search(r'<g[^>]*transform="translate\(([-\d.eE]+)[ ,]+([-\d.eE]+)\)\s*scale\(([-\d.eE]+)[ ,]+([-\d.eE]+)\)"', txt)
+    if gt:
+        tx, ty, sx, sy = map(float, gt.groups()); rings = [r * [sx, sy] + [tx, ty] for r in rings]
     g = None
     for r in rings:
         p = make_valid(Polygon(r))
@@ -252,43 +262,71 @@ if DO_LID:
     allowed = Point(0, 0).buffer(Rf - LID_EDGE, 256)
     if a.lid_place != "through": allowed = allowed.difference(Point(0, dh).buffer(rh + LID_HOLE_GAP, 128))
     pa = prep(allowed)
-    shp = filled(sil).simplify(2)   # holes filled: art never straddles the straw hole
-    def place(g, s, ta, tb): return affine_transform(g, [s, 0, 0, -s, ta - CX * s, tb + CY * s])
     sx, sy = a.lid_shift.split(",")
     ta0, tb0 = float(sx), float(sy)
     top = dh - rh - LID_HOLE_GAP
-    def fits(s):  # -> (ta, tb) or None
-        h = (Y1 - Y0) * s
-        if a.lid_place == "below":
+
+    def oriented(r):  # art turned r degrees (counterclockwise as read from outside)
+        fr = rotate(filled(sil), -r, origin=(CX, CY)); gr = rotate(sil, -r, origin=(CX, CY))
+        bx0, by0, bx1, by1 = fr.bounds
+        return {"r": r, "fill": fr.simplify(2),   # holes filled: art never straddles the straw hole
+                "gap": gr.simplify(0.5),          # holes kept: the hole may sit inside a gap of the art (never on it)
+                "cx": (bx0 + bx1) / 2, "cy": (by0 + by1) / 2, "w": bx1 - bx0, "h": by1 - by0}
+
+    def place(g, s, ta, tb, o): return affine_transform(g, [s, 0, 0, -s, ta - o["cx"] * s, tb + o["cy"] * s])
+
+    def fits(s, mode, o):  # -> (ta, tb) or None
+        if mode == "below":
             tb = (top - (Rf - LID_EDGE)) / 2 + tb0   # centered in the span below the hole
-            return (ta0, tb) if pa.contains(place(shp, s, ta0, tb)) else None
-        if a.lid_place == "through":
-            return (ta0, tb0) if pa.contains(place(shp, s, ta0, tb0)) else None
+            return (ta0, tb) if pa.contains(place(o["fill"], s, ta0, tb, o)) else None
+        if mode == "through":
+            return (ta0, tb0) if pa.contains(place(o["fill"], s, ta0, tb0, o)) else None
+        shp = o["gap"] if mode == "gap" else o["fill"]
         st = 0.5; grid = np.arange(-Rf, Rf + st, st)
-        ok = [(x, y) for x in grid for y in grid if pa.contains(place(shp, s, x, y))]
+        ok = [(x, y) for x in grid for y in grid if pa.contains(place(shp, s, x, y, o))]
+        if mode == "gap":   # only spots where the hole is inside the art's outline (in a gap), not beside it
+            ok = [(x, y) for x, y in ok if place(o["fill"], s, x, y, o).contains(Point(0, dh))]
         if not ok: return None
-        c = np.mean(ok, axis=0); best = min(ok, key=lambda p: np.hypot(p[0] - c[0], p[1] - c[1]))
+        c = np.mean(ok, axis=0); best = min(ok, key=lambda q: np.hypot(q[0] - c[0], q[1] - c[1]))
         return (best[0] + ta0, best[1] + tb0)
-    if a.lid_height_mm:
-        s = a.lid_height_mm / (Y1 - Y0); pos = fits(s)
-        if pos is None: die(f"--lid-height-mm {a.lid_height_mm} does not fit with --lid-place {a.lid_place}")
-    else:
-        lo, hi = 0.0, 2 * Rf / max(X1 - X0, Y1 - Y0)
-        if a.lid_place == "miss": hi = min(hi, 2 * Rf / (Y1 - Y0))
-        for _ in range(16 if a.lid_place != "miss" else 9):
+
+    def biggest(mode, o):  # -> (scale, pos) or (0, None)
+        if a.lid_height_mm:
+            s = a.lid_height_mm / (Y1 - Y0); return (s, fits(s, mode, o))
+        lo, hi = 0.0, 2 * Rf / max(o["w"], o["h"])
+        if mode in ("miss", "gap"): hi = min(hi, 2 * Rf / o["h"])
+        for _ in range(16 if mode in ("below", "through") else 9):
             mid = (lo + hi) / 2
-            lo, hi = (mid, hi) if fits(mid) else (lo, mid)
-        s = lo; pos = fits(s)
-        if pos is None or s <= 0: die("art does not fit on the lid")
+            lo, hi = (mid, hi) if fits(mid, mode, o) else (lo, mid)
+        return (lo, fits(lo, mode, o) if lo > 0 else None)
+
+    if a.lid_rotate is not None and abs(a.lid_rotate) > LID_MAX_TILT:
+        die(f"--lid-rotate {a.lid_rotate:g}: the art must stay upright (top toward the straw hole), at most {LID_MAX_TILT:g} degrees either way")
+    modes = ("below", "miss", "gap") if a.lid_place == "best" else (a.lid_place,)
+    rots = [a.lid_rotate] if a.lid_rotate is not None else ([0, 15, -15, 30, -30, 45, -45] if a.lid_place == "best" else [0])
+    options = []
+    for r in rots:
+        o = oriented(r)
+        for md in modes:
+            sm, pm = biggest(md, o)
+            options.append((sm if pm else 0, md, r, o, pm))
+    if len(options) > 1:
+        print("  lid options (logo size, placement, rotation):")
+        for sm, md, r, o, pm in sorted(options, key=lambda t: -t[0]):
+            print(f"    {(X1 - X0) * sm:5.1f} x {(Y1 - Y0) * sm:5.1f} mm  --lid-place {md} --lid-rotate {r:g}" if pm
+                  else f"      does not fit  --lid-place {md} --lid-rotate {r:g}")
+    s, mode, r, o, pos = max(options, key=lambda t: t[0])
+    if pos is None or s <= 0:
+        die(f"art does not fit on the lid" + (f" at --lid-height-mm {a.lid_height_mm}" if a.lid_height_mm else "") + f" with --lid-place {a.lid_place}")
     ta, tb = pos
     lw, lh = (X1 - X0) * s, (Y1 - Y0) * s
-    print(f"lid art ({a.lid_place}): {lw:.2f} x {lh:.2f} mm, center {ta:.2f},{tb:.2f} mm (right,up from lid center; hole up)")
+    print(f"lid art ({mode}, rotate {r:g}): {lw:.2f} x {lh:.2f} mm, center {ta:.2f},{tb:.2f} mm (right,up from lid center; hole up)")
     # frame -> local: p_local = oc + a*al + b*bl
     M = [al[0], bl[0], al[1], bl[1], oc[0], oc[1]]
     keep = face.buffer(-(0.5 if a.lid_place == "through" else 0.05))    # through: hole cuts the art, 0.5 rim stays
     ltris, lg = {}, []
     for c, g in art.items():
-        gl = affine_transform(place(g, s, ta, tb), M).intersection(keep)
+        gl = affine_transform(place(rotate(g, -r, origin=(CX, CY)), s, ta, tb, o), M).intersection(keep)
         gl = unary_union([p for p in getattr(gl, "geoms", [gl]) if p.geom_type == "Polygon" and p.area > 0.05])
         if gl.is_empty: print(f"  {c}: nothing left on the lid"); continue
         ltris[c] = triangulate(gl, 0.5); lg.append(gl)

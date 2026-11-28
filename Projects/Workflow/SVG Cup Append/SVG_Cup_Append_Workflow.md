@@ -4,6 +4,8 @@
 
 **Never create, edit, move or delete anything in a workflow folder** (`G:\gimp-mcp\Projects\Workflow\` or `G:\Blender\blender-mcp\Projects\Workflows\`), including the scripts and this doc. Only run the scripts. If a script errors or validation fails, report the output and stop; don't patch code to make it pass. Put the Log row for this run in your report instead of writing it here.
 
+**Agent rules.** Only run the commands this doc names. Don't write helper scripts (not in Temp either), don't use heredocs or `python -c`, and don't edit the user's SVGs or hand-write a `layers.json`. If a command is blocked by a permission rule or crashes with a traceback, report the last lines and stop. Don't work around it. **Never change an input file** (SVG, `layers.json`, src 3MF). If a step must change one, write the result as a new file next to it (`<name>_fixed.<ext>`) and leave the original untouched. **Copying out of a workflow folder:** only with `python -I G:/gimp-mcp/Scripts/wf_fetch.py --why "<reason>" "<dest>" "<file>" ...`, and always tell the user which files you're copying and why, then report the `COPY ... WHY:` and `OK` lines. Keep the reason short and leave out the words *copy, move, del, ren* (e.g. "model", "current"): with "Workflow" in the same command they trip a deny rule.
+
 ## Tools
 
 Run `python -I cup_append.py` directly from the shell. The script launches Blender headlessly. Blender MCP is optional, so continue with the shell command if the add-on is unavailable.
@@ -40,10 +42,13 @@ The lid prints **face-down** on the bed, so the art is **inlaid flush**, not rai
 
 - **Orientation.** Art reads upright from outside with the **straw hole at 12 o'clock** (as on the Grinch "Merry Grinchmas" cap). The tool finds the hole from the lid's flat face (Ø79.2 face, Ø9.5 hole 13 mm off center on the base lid).
 - **Placement** (`--lid-place`). **Never put art over the straw hole unless the user explicitly says the hole may go through the art.**
-  - `below` (default): centered left-right, in the space below the hole, as big as fits. Providence P: 28×41 mm.
-  - `miss`: the biggest spot anywhere that misses the hole (can sit beside it). Providence P: 33×48 mm, right of the hole.
+  - `best` (default): tries `below`, `miss` and `gap`, each tilted 0, ±15, ±30 and ±45°, and prints a `lid options` list (logo size + the exact flags), biggest first. The dry run previews the biggest. About 80 s.
+  - `--lid-rotate DEG`: tilt the art (counterclockwise as read from outside, hole up), **at most ±45°**. The art's top always points to the top of the cap (the straw hole side); it never lies on its side or upside down. With an explicit `--lid-place` and `--lid-rotate` the run is fast.
+  - `below`: centered left-right, in the space below the hole, as big as fits. Providence P: 28×41 mm; Spurs V2 spur: 35.6×44.1 mm.
+  - `miss`: the biggest spot anywhere that misses the hole (can sit beside it). Providence P: 33×48 mm, right of the hole; Spurs V2 spur: 45.4×56.3 mm, right of the hole.
+  - `gap`: the straw hole sits inside an open gap of the art (a counter, a ring), never on the art. `does not fit` when the art has no gap big enough (e.g. Spurs V2 spur).
   - `through`: **only when the user asks.** Centered on the lid; the hole cuts the art (0.5 mm lid rim kept around the hole). Providence P: 44×63 mm.
-  - Clearance: 1 mm to the face edge and to the hole. Holes inside the art are filled when checking, so the hole never sits inside a letter counter unless `through`.
+  - Clearance: 1 mm to the face edge and to the hole. `below`/`miss` treat the art as solid; only `gap` lets the hole sit inside the art's own gap; only `through` cuts the art.
   - `--lid-height-mm` fixes the size (stops if it doesn't fit); `--lid-shift "right,up"` nudges (mm, hole = up).
 - **Guard.** Stops if the lid face is already made of several shells (has inlay). `--force` overrides.
 
@@ -58,11 +63,13 @@ The lid prints **face-down** on the bed, so the art is **inlaid flush**, not rai
 ## Steps
 
 1. **Check the inputs.** Read `layers.json` (name, colors, size). Look at the layer set's `_check.png`. Confirm the src 3MF is the plain base (or identical to it: `cmp`).
-2. **Target.** Cup only, unless the user asks for the lid (`--target lid` / `both`). For the lid, use `--lid-place below` unless they ask otherwise; `through` only if they say the hole can go through the art.
+2. **Target.** Cup only, unless the user asks for the lid (`--target lid` / `both`). `--target both` puts the same layer set on both. Different art on cup and lid = **one final file, two runs**: cup run with out = `<cup work>\Work\cup_only.3mf`, then `--target lid` with src = that file and out = the Final path. Never make a separate cap 3MF.
+   - **"Like on <reference>.3mf":** the reference only guides which `lid options` row to pick (size, below/miss/gap). To find the lid in it: `Metadata/model_settings.config` object named `Cap*` → its id → that id's `p:path` in `3D/3dmodel.model`. The object ids are not the `object_N.model` numbers. The tool's inlay depth is always 0.6 mm, even if the reference is deeper. For the lid, keep the default `--lid-place best` unless they ask otherwise; `through` only if they say the hole can go through the art.
 3. **Pick the outline color.** The color that separates the others (black linework, a white keyline). If it isn't obvious, **ASK**.
-4. **Dry run.** `python -I cup_append.py "<layers>" "<src>" "<out>" --dry-run`. Read the printed size and z range, then **look at the previews** (in *this* run's `<work>\Images\`): cup art on the smooth front with a visible gap to the ribs on both sides, clear of the spigot recess and rim. Art touching or covering the ribs is wrong: stop and **ASK**, never write it; lid art reading upright with the hole on top, clear of the hole (unless `through`); colors right, nothing missing.
+4. **Dry run.** For a lid: after a `best` dry run, **ASK** the user which option to use. Show them the `lid options` list (top 5 that fit, sizes and flags), the preview (`preview_lid.png`, biggest option), and a suggestion (e.g. biggest, or `below --lid-rotate 0` if they want it centered and upright). Then dry-run their choice with its `--lid-place` and `--lid-rotate`, show that preview, and write only after they agree.
+   Cup: `python -I cup_append.py "<layers>" "<src>" "<out>" --dry-run`. Read the printed size and z range, then **look at the previews** (in *this* run's `<work>\Images\`): cup art on the smooth front with a visible gap to the ribs on both sides, clear of the spigot recess and rim. Art touching or covering the ribs is wrong: stop and **ASK**, never write it; lid art reading upright with the hole on top, clear of the hole (unless `through`); colors right, nothing missing.
 5. **Adjust** with `--height-mm`, `--width-mm`, `--align`, `--z-shift`, `--u-shift`, `--heights`, `--lid-place`, `--lid-height-mm`, `--lid-shift`, and dry-run again. If the user gave no size, use the layer-set size (the script caps it at 60 mm wide) and say so.
-6. **Write and validate.** Run the same command without `--dry-run` (use `--force` for an authorized replacement). The command checks the staged 3MF before publishing it. Require both `3MF validation PASS` and `wrote <path>`. On failure, read the model member and defect counts above the verdict. The command exits nonzero and preserves any existing destination, including in-place runs. Report the validator lines and stop.
+6. **Write and validate.** Run the same command without `--dry-run` (use `--force` for an authorized replacement). The command checks the staged 3MF before publishing it. Require both `3MF validation PASS` and `wrote <path>`. On failure, read the model member and defect counts above the verdict. The command exits nonzero and preserves any existing destination, including in-place runs. Report the validator lines and stop. `--force` does **not** skip validation. Next: the user starts the **SVG Cup Repair** workflow (`..\SVG Cup Repair\SVG_Cup_Repair_Workflow.md`) with this run's work folder. Don't diagnose or guess causes here.
 7. **Report back.** Include the validated output path, validation verdict, and previews. For a cup, include art size, position in mm from the cup bottom, heights per color, and the `relief r` line. For a lid, include mode, size, and position. Plate thumbnails still show the plain cup until the file is re-saved in Bambu.
 8. **Verify in Bambu Studio.** Open the export and check the cup or lid for geometry warnings. Run `python -I validate_3mf.py "<file.3mf>"` on the actual file after painting or re-saving, since Bambu can weld touching color shells during save. Record which file was checked. If Bambu Studio or the painted file is unavailable, report that check as pending.
 9. **Log row.** Write the row for the Log table below in your report (same columns). Don't edit this file; the user adds it.
@@ -79,13 +86,14 @@ The lid prints **face-down** on the bed, so the art is **inlaid flush**, not rai
 | `--clean-px 0.5` / `--min-area-px 10` | Gentler cleanup (defaults 1.5 / 200 svg px). Use when fine details, counters or small accents get dropped |
 | `--fill-holes` | Fill holes in the art with the outline color |
 | `--target cup\|lid\|both` | Where the art goes (default cup) |
-| `--lid-place below\|miss\|through` | Lid placement (default below; through only on request) |
+| `--lid-place best\|below\|miss\|gap\|through` | Lid placement (default best = largest of below/miss/gap; through only on request) |
 | `--lid-height-mm 35` | Lid art height (default: largest that fits) |
+| `--lid-rotate -30` | Tilt lid art (degrees, counterclockwise as read from outside, ±45 max: top stays toward the hole) |
 | `--lid-shift "2,-3"` | Nudge lid art right/up (mm, hole = up) |
 | `--lid-object cap` | Name substring or object id of the lid (largest single-part match wins) |
 | `--object cup` | Name substring of the cup object in the 3MF (largest single-part match wins) |
 | `--work DIR` / `--blender EXE` | Work folder, Blender path |
-| `--dry-run` | Layout, STLs, previews only |
+| `--dry-run` | Layout, STLs, previews only. Always exits 1 (ends with `dry run: previews in ...`): that's normal, not a failure |
 | `--force` | Overwrite out / add to a cup or lid that already has art |
 
 ## Fixing problems
@@ -98,8 +106,10 @@ The lid prints **face-down** on the bed, so the art is **inlaid flush**, not rai
 | A color piece missing or speck-sized | It was under 200 svg px² or thinner than ~3 svg px and got cleaned out. Try `--clean-px 0.5 --min-area-px 10`, else fix the layer set (SVG Creation `--grow`) |
 | Paint bucket bleeds between two colors | Give them different `--heights` (only matters where they touch) |
 | "lid face already has inlaid art" | src lid already has art: use the base 3MF |
-| Lid art too small below the hole | `--lid-place miss`, or ask the user if the hole may go through the art (`through`) |
+| Lid art too small | `best` already picks the largest safe spot; ask the user if the hole may go through the art (`through`) |
 | Lid boolean leaves an empty lid | Cutter must be one clean outline (the tool unions all colors); check the art has no zero-width slivers |
+| `AttributeError: 'NoneType' ... 'buffer'` in `load_svg` | The SVG has no paths the loader reads (M/C/L/H/V/Z, absolute or relative; `S`/`Q`/`A` arcs aren't supported). Stop and **ASK**. Don't rewrite the SVG |
+| `3MF validation FAIL` (any count, e.g. `degenerate_triangles=88`) | Stop and report. Repair is its own task: SVG Cup Repair workflow |
 | Shell renders black / inside-out in Bambu | Shouldn't happen (the Blender step flips negative-volume shells). Check the nonmanifold counts and re-run |
 
 ## Lessons learned
