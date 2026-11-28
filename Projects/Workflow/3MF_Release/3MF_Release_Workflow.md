@@ -49,9 +49,9 @@ What it does:
 
 1. **Inspect the source.** List its metadata, `Auxiliaries/` contents, plates and objects (the cleaner prints these too). Note any author name, URL or ID that isn't ours.
 2. **Inspect the renders.** Look at every image. Check that they match the model in the 3MF: same design, text and colors as the plates. Flag any mismatch (wrong text, missing parts, colors not in the 3MF's filaments) and **ASK** before continuing.
-3. **Title.** Use the user's title if given. Otherwise draft one from the plate and object names, and say what you picked.
+3. **Title.** Use the user's title if given. Otherwise draft one from the plate and object names, and say what you picked. Titles, file names and descriptions are **always generic**: no character, team or brand names (copyright), e.g. "Happy Blue Creature Cooler Cup", "Texas Basketball Team Cooler Cup". Plate names that carry such names don't go in the description either. The cup product is "Cooler Cup", never "Coozie". If no title is given, **ASK** with 3 generic options.
 4. **Description.** Write `descriptions\<short-name>.html`, using the template below. Describe only what is actually in the file: the plates, what's printed in which color, and what the variants are. Don't claim "no supports" or "no AMS" unless the user confirms it. Show the user the text.
-5. **Run `clean_3mf.py`.** Never overwrite the source. Default output is `<source folder>\Final\<Title> - Final.3mf`, or the folder the user names.
+5. **Run `clean_3mf.py`.** Never overwrite the source or any existing file (the cleaner refuses an existing output). Default output for printer-optimized sources (`*_a1mini_optimized.3mf`, `*_x2d_optimized.3mf`) is `<source folder>\Etsy <Name>\<Title> A1 mini - Etsy.3mf` / `<Title> X2D - Etsy.3mf` (like `Etsy Snoopy\`); otherwise `<source folder>\Etsy <Name>\<Title> - Etsy.3mf`. `<source folder>\Final\<Title> - Final.3mf` collides with the existing finals, so don't use it. The user may name another folder.
 6. **Check against previous data.** Read `G:\Blender\blender-mcp\Projects\NewCupProject\Final\*.3mf`, the earlier releases, and compare:
    - Designer and links are identical to the brand table.
    - No leftover foreign names. `animuL67` came in from the base project's print settings, so look for it specifically, and for any new name you find.
@@ -102,8 +102,9 @@ Past examples: `descriptions\` in this folder (grinch, snoopy, base).
 | 2026-11-03 | `SnoopyCandle\STL\Final\Beagle Dog Bowl Candle Holder (X2D) - Final.3mf` (rebuilt: optional grass base on plate 6) | 8 ad renders from `GrassBlades\Drafts` (hero: hero_logo) |
 | 2026-11-10 | `SnoopyCandle\STL\Final -Etsy\SnoopyCandleHolderSnowBase_A1Mini.3mf` (snow base only) | 2 ad renders from `SnowBase\Drafts` (hero: hero_logo) |
 | 2026-11-10 | `SnoopyCandle\STL\Final -Etsy\SnoopyCandleHolderSnowBase_X2D.3mf` (snow base only) | 2 ad renders from `SnowBase\Drafts` (hero: hero_logo) |
-
 | 2026-11-10 | `NewCupProject\Final\EtsyStitch\Happy Blue Creature Cooler Cup X2D - Etsy.3mf` | 1 ad render (hero: Standard front_logo) |
 | 2026-11-10 | `NewCupProject\Final\EtsyStitch\Happy Blue Creature Grinch Cooler Cup X2D - Etsy.3mf` | 1 ad render (hero: Grinch front_logo) |
+| 2026-11-28 | `NewCupProject\Final\Etsy Woodstock\Little Yellow Bird Cooler Cup A1 mini - Etsy.3mf` (from `Woodstock Cooler Cup - Final - Painted_a1mini_optimized.3mf`) | 6 ad renders from `Cup\Ad Images\Woodstock\Drafts` (hero: hero_cup_logo) |
+| 2026-11-28 | `NewCupProject\Final\Etsy Woodstock\Little Yellow Bird Cooler Cup X2D - Etsy.3mf` (from `Woodstock Cooler Cup - Final - Painted_x2d_optimized.3mf`) | 6 ad renders from `Cup\Ad Images\Woodstock\Drafts` (hero: hero_cup_logo) |
 
-Add a row after each release.
+Add a row after each release, directly under the last row (a blank line splits the table).

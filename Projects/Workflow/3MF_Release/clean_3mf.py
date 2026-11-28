@@ -30,6 +30,8 @@ THUMB_META = {"Thumbnail_Middle": "middle", "Thumbnail_Small": "small"}
 
 src, dst, title, desc_file, imgs = sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4], sys.argv[5:]
 if not imgs: sys.exit("need at least one render")
+import os
+if os.path.exists(dst): sys.exit(f"REFUSED: {dst} exists; never overwrite (pick a new name)")
 
 def esc(s): return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
 html = " ".join(open(desc_file, encoding="utf8").read().split())
