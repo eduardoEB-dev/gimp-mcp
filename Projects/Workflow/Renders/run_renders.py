@@ -29,6 +29,8 @@ for p in D.values(): os.makedirs(p, exist_ok=True)
 subprocess.run([sys.executable, "-I", os.path.join(HERE, "extract_3mf.py"), a.src, D["Work"]], check=True)
 if spec.get("post_extract"):  # render-only recolor/decal script: python -I <script> <Work dir>, edits manifest + npz
     subprocess.run([sys.executable, "-I", spec["post_extract"], D["Work"]], check=True)
+if spec.get("prop_3mf"):  # render-only accessory (e.g. keychain opener) -> Work/prop, placed per rig via "prop"
+    subprocess.run([sys.executable, "-I", os.path.join(HERE, "prop_3mf.py"), spec["prop_3mf"], os.path.join(D["Work"], "prop")], check=True)
 man =json.load(open(os.path.join(D["Work"], "manifest.json")))
 objs = man["objects"]
 
@@ -88,7 +90,7 @@ if spec.get("theme") == "desk":  # monitor shows real code: spec "screen_code" =
 json.dump({"shots": shots, "cap_rot_deg": spec.get("cap_rot_deg", 180), "layer_lines": spec.get("layer_lines", 1.0),
            "cup_rot_deg": spec.get("cup_rot_deg", 0), "cap_face_up": spec.get("cap_face_up", False),
            "cap_scale": spec.get("cap_scale", 1.0), "source_hardware": spec.get("source_hardware", {}),
-           "theme": spec.get("theme", "christmas"), "screen": screen}, open(os.path.join(D["Work"], "shots.json"), "w"), indent=1)
+           "theme": spec.get("theme", "christmas"), "court_hoop": spec.get("court_hoop", True),"screen": screen}, open(os.path.join(D["Work"], "shots.json"), "w"), indent=1)
 names = [s["name"] for s in shots if not a.only or s["name"] in a.only.split(",")]
 print("cups:", cups, "| caps:", caps); print("shots:", names)
 

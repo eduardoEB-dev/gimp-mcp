@@ -93,7 +93,8 @@ for oid, info in objs.items():
         v = np.vstack([v, np.array(nv).reshape(-1, 3)])
         V.append(v); F.append(np.array(ff) + off); P.append(np.array(pp, np.int8)); off += len(v)
     v, f, p = np.vstack(V), np.vstack(F), np.concatenate(P)
-    h = hashlib.md5(v.tobytes() + p.tobytes()).hexdigest()[:10]
+    # object extruder is part of identity: same mesh in two filaments (e.g. pink + navy cup) = two objects
+    h = hashlib.md5(v.tobytes() + p.tobytes() + str(info["extruder"]).encode()).hexdigest()[:10]
     plate = next((pl["name"] for pl in plates if oid in pl["objects"]), "")
     if h in seen:  # exact duplicate instance (e.g. two pins) -> just count it
         seen[h]["count"] += 1; continue

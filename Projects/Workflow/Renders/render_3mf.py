@@ -101,6 +101,10 @@ def make_rig(r):
         rec = OBJ[r["cap"]]; M = cap_matrix(rec, cfg.get("cap_rot_deg", 180))
         if not r.get("cup"): M = Matrix.Translation((0, 0, -(CAP_TOP - 23.0))) @ M  # loose cap: sit on table
         from_3mf(rec, M, rig, flat_paint=True)
+    if r.get("prop"):  # render-only accessory (prop_3mf.py -> Work/prop), see props.py
+        import props
+        props.add(rig, r["prop"], WORK, env, mesh_obj, pla, lin, CAP_TOP, PIVOT,
+                  locals().get("handle_o"), locals().get("cup_o"))
     return rig
 
 FSTOP = env.build(cfg)
