@@ -92,7 +92,7 @@ Past examples: `descriptions\` in this folder (grinch, snoopy, base).
 |---|---|---|
 | 2026-10-27 | `NewCupProject\Final\Grinch Cooler Cup - Final.3mf` | 8 ad renders |
 | 2026-10-27 | `NewCupProject\Final\Snoopy Cooler Cup - Final.3mf` | 8 ad renders |
-| 2026-10-27 | `NewCupProject\Final\Cooler Coozie Cup Base - Final.3mf` | Bambu plate preview (needs real renders) |
+| 2026-10-27 | `NewCupProject\Final\Cooler Cup Base - Final.3mf` | Bambu plate preview (needs real renders) |
 | 2026-10-27 | `Cat In Hat\Pop Corn Bucket\STL\FinalSTL\Cat in the Hat Popcorn Bucket (A1 mini) - Final.3mf` | 4 ad renders (hero: top_inside) |
 | 2026-10-27 | `Cat In Hat\Pop Corn Bucket\STL\FinalSTL\Cat in the Hat Popcorn Bucket (X2D) - Final.3mf` | 4 ad renders (hero: top_inside) |
 | 2026-10-29 | `Cat In Hat\STL\FinalSTL\Final\Cat in the Hat Hot Air Balloon (A1 mini) - Final.3mf` (from `_flatbrim`) | 5 real photos (hero: 105739) |

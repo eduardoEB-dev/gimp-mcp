@@ -114,4 +114,4 @@ Rerun the original append (options from the Log row) with the clean base as src,
 |---|---|---|
 | A | Spurs v4 append (`NewCupProject\Spurs_v4Cup_fresh`, `Spurs_v4Cup`) | 3 FLIP-OK shells: Black 120, Black 60, White 8 tris. Exporter fix pending review |
 | C2 | Spurs v3 Color Final, Spurs V2 Final | 55 / several welded seam edges → `split_nm.py` → 0 defects |
-| C | Spurs BW Final (`NewCupProject\Final\Spurs BW Coozie Cup - Final.3mf`) | 290 3plus edges, 1 TOPOLOGY shell, painted 46,883 tris; repaired copies exist in that folder |
+| C | Spurs BW Final (`NewCupProject\Final\Spurs BW Cooler Cup - Final.3mf`) | 290 3plus edges, 1 TOPOLOGY shell, painted 46,883 tris; repaired copies exist in that folder |

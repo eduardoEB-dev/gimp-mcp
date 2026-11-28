@@ -150,7 +150,7 @@ python -I run_blend.py "<model.blend>" "<file.3mf>" "<output>" --spec spec.json 
 |---|---|---|
 | 2026-10-21 | Grinch Cup | `G:\gimp-mcp\Projects\Cup\Ad Images\Drafts\` (built by hand, before this workflow existed) |
 | 2026-10-22 | Snoopy Cup Project | `G:\gimp-mcp\Projects\Cup\Ad Images\Snoopy\` (built by hand, before this workflow existed) |
-| 2026-10-27 | Workflow verified on Grinch, Snoopy and Coozie base (test pass) | scratch only |
+| 2026-10-27 | Workflow verified on Grinch, Snoopy and Cooler Cup base (test pass) | scratch only |
 | 2026-10-27 | Cat in Hat Popcorn Bucket (`PopcornBucket_A1mini_Optimized.3mf`); added layer-line realism, auto frame scale, `top_inside` shot, `seuss` + `desk` themes (final: `desk`), full paint decoding | `G:\gimp-mcp\Projects\PopCorn\` (spec.json there) |
 | 2026-10-29 | Cat in the Hat Hot Air Balloon (`... - Final_flatbrim.3mf` + `CanInHatCouch.blend`); added `run_blend.py`/`render_blend.py`, split the set into `scene_env.py` (regression-checked: identical popcorn render) | `G:\gimp-mcp\Projects\CatInHat\` (spec.json there) |
 | 2026-10-30 | 13 Chime trophy (`13Chime_Clock_x2d.3mf` + `13Chime.blend`); 3MF SVG/text/paint parts mapped onto blend via `prep_render_blend.py`, name "David", desk theme, close-ups, `layer_lines` 0 (user rejected the ridges) | `G:\gimp-mcp\Projects\13 Chime\` (spec.json there) |
