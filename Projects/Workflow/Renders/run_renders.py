@@ -118,6 +118,14 @@ for n in names:
     blender(n, fg, samples, res, "fg"); blender(n, bg, samples, res, "bg")
     out = os.path.join(D["Renders/no_logo"], f"{n}.png")
     subprocess.run([sys.executable, "-I", os.path.join(HERE, "comp.py"), fg, bg, out], check=True); finals.append(out); print("RENDERED", n)
+if not a.only:  # full run: drafts from older runs whose shot is no longer planned -> Drafts/stale (never deleted)
+    keep = {s["name"] + "_logo.png" for s in shots}
+    for f in sorted(os.listdir(D["Drafts"])):
+        if f.endswith("_logo.png") and f not in keep:
+            st = os.path.join(D["Drafts"], "stale"); os.makedirs(st, exist_ok=True)
+            base, ext = os.path.splitext(f); dst = os.path.join(st, f); k = 2
+            while os.path.exists(dst): dst = os.path.join(st, f"{base}_{k}{ext}"); k += 1
+            os.rename(os.path.join(D["Drafts"], f), dst); print("STALE", f)
 logo_args = []
 if "logo_pos" in spec:
     logo_args.extend(["--pos", spec["logo_pos"]])

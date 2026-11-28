@@ -21,6 +21,7 @@ These are ads for 3D-printed models. Every render must read as a physical FDM pr
   Renders\layers\    <shot>_fg.png (sharp product) + <shot>_bg.png (blurred set)
   Renders\no_logo\   final renders without the logo
   Drafts\            final renders WITH the logo card (<shot>_logo.png) + contact_sheet.png
+  Drafts\stale\      drafts from older runs whose shot is no longer planned (moved, never deleted)
 ```
 
 ## Tools (all in `G:\gimp-mcp\Projects\Workflow\Renders\`)
@@ -52,7 +53,7 @@ Requirements: Blender 5.1 at `C:\Program Files\Blender Foundation\Blender 5.1\bl
    - Nothing is cropped, and the right cups and caps are in each shot.
 
    Show the user the contact sheet and the shot list. If anything looks wrong, or the cup/cap choice is ambiguous, **ASK**.
-2. **Final pass** (about 2–3 minutes per shot, so run it in the background):
+2. **Final pass** (about 30–45 s per shot at 64–96 samples: 6 shots ≈ 3 min, 8 shots with pairs ≈ 5.5 min; give the command a 600000 ms timeout or run it in the background):
    ```
    python -I run_renders.py "<file.3mf>" "<output>" [--spec spec.json]
    ```
@@ -72,6 +73,7 @@ Requirements: Blender 5.1 at `C:\Program Files\Blender Foundation\Blender 5.1\bl
 
 How it decides:
 - **Duplicate cups:** objects with the same name, such as the standard and 5-color plates, count as one cup. The variant with the most colors wins.
+  - **Pitfall:** two cups with the same mesh name but different body filaments (Spurs Color Painted: `cup` pink + `cup_2` navy, both `cup.stl`) also merge, so `cups:` shows one cup and there are no `pair_*` shots. If the extract lists `cup` and `cup_2` but `cups:` shows one, set `"cups": ["cup", "cup_2"]` in the spec.
 - **Cap per cup:** cup *i* gets cap *i* in rotation.
 
 The framing (camera distance and angles) was tuned on the Grinch and Snoopy releases.
@@ -109,6 +111,12 @@ Pass any of these keys with `--spec`:
   `{"name":"top_inside","rigs":[{"cup":"<label>","cap":null}],"az":-20,"el":48,"dist":0.85,"tz":0.08}`
 
 Labels come from `Work\manifest.json`, which the test pass prints. Cups are named after the object, caps after their plate (or just `cap` when there's only one). Use `--only shot1,shot2` to re-render particular shots.
+
+**Re-running a product from a new 3MF** (e.g. `... - Final - Painted.3mf`):
+- The old `spec.json` in the output folder was made for the old 3MF. Its labels (`woodstock_cup`, `pin1`, `spout`), `source_hardware`, `cup_rot_deg`/`cap_face_up` and `post_extract` may not fit. Never overwrite it: write a new spec next to it (e.g. `spec_painted.json`) with only the keys that still apply, and check every label against the extract's printed object list.
+- A painted 3MF already holds its colors: drop `post_extract` (a recolor script would paint over the real paint).
+- `cap_rot_deg` can change between 3MFs of the same product (Woodstock: old lid -90, Painted lid 0). Check the lid art in the test pass every time.
+- Re-running into the same output folder replaces drafts with the same shot names. A full final run (no `--only`) moves drafts whose shot is no longer planned (e.g. `hero_woodstock_cup_logo.png` after the shot became `hero_cup`) into `Drafts\stale\` and prints `STALE <file>` for each, so expect those lines in the final-pass output. `--only` moves nothing. For a folder rendered before this change, run `python -I G:\gimp-mcp\Scripts\move_stale_drafts.py "<output>"`. Hand off only `Drafts\*_logo.png`, never `stale\`.
 
 - `cup_rot_deg` aligns a cup's front with the rig. For lids stored upright in the 3MF, use `cap_face_up: true`. `cap_rot_deg` controls the artwork direction and `cap_scale` applies a uniform scale.
 - `source_hardware` can use the model's own meshes for `Handle`, `Pin`, `Pin2`, and `Spigot`. Each entry specifies an `object` label from the manifest, `offset` in millimeters, optional Z `rot` in degrees, and optional uniform `scale`. Handle offsets are relative to its pivot. The other offsets are in the cup rig frame.
