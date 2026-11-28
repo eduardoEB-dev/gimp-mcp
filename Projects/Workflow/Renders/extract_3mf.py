@@ -28,16 +28,22 @@ def decode_paint(s, cache={}):
         n = nib[i]; i += 1; split = n & 3; hi = n >> 2
         if split == 0:
             st = hi
-            if st == 3: st = nib[i] + 3; i += 1
+            if st == 3:
+                while nib[i] == 15:
+                    st += 15
+                    i += 1
+                st += nib[i]
+                i += 1
             out.append((b, st)); return
         r = [b[(j + hi) % 3] for j in range(3)]  # rotate so the special side comes first
         if split == 1:
             m = (r[1] + r[2]) / 2; ch = [(r[0], r[1], m), (m, r[2], r[0])]
         elif split == 2:
-            m1, m2 = (r[0] + r[1]) / 2, (r[0] + r[2]) / 2; ch = [(r[0], m1, m2), (m1, r[1], r[2]), (r[2], m2, m1)]
+            m1, m2 = (r[0] + r[1]) / 2, (r[0] + r[2]) / 2
+            ch = [(r[0], m1, m2), (m1, r[1], m2), (r[1], r[2], m2)]
         else:
             a, c, d = (r[0] + r[1]) / 2, (r[1] + r[2]) / 2, (r[2] + r[0]) / 2
-            ch = [(r[0], a, d), (a, r[1], c), (d, c, r[2]), (a, c, d)]
+            ch = [(r[0], a, d), (a, r[1], c), (c, r[2], d), (a, c, d)]
         for k in (range(len(ch) - 1, -1, -1) if REV else range(len(ch))): rec(np.array(ch[k]))
     try:
         rec(np.eye(3))
@@ -79,7 +85,10 @@ for oid, info in objs.items():
             ids = [int(a_), int(b_), int(c_)]
             if not s: ff.append(ids); pp.append(0); continue
             P3 = v[ids]
-            for bc, st in decode_paint(s):
+            paint = decode_paint(s)
+            if len(paint) == 1:
+                ff.append(ids); pp.append(paint[0][1]); continue
+            for bc, st in paint:
                 ff.append([ids[int(np.argmax(w))] if w.max() == 1 else vid(w @ P3) for w in bc]); pp.append(st)
         v = np.vstack([v, np.array(nv).reshape(-1, 3)])
         V.append(v); F.append(np.array(ff) + off); P.append(np.array(pp, np.int8)); off += len(v)
